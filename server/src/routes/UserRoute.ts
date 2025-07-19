@@ -1,4 +1,3 @@
-import { resetPassword } from './../controllers/appController';
 import { Router } from "express";
 import verifyToken from "../middleware/verifyToken";
 import verifyUser from "../middleware/verifyUser";
@@ -20,7 +19,7 @@ router.post("/verify-otp", controller.verifyOTP);
 router.post("/reset-password", controller.resetPassword);
 router.post("/authenticate", (req, res) => res.end());
 
-// // PUT Methods
+// PUT Methods
 router.put("/updateUser", verifyToken, verifyUser, controller.updateUser);
 
 export default router;
