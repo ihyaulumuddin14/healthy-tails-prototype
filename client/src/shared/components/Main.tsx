@@ -1,9 +1,10 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollSmoother } from 'gsap/ScrollSmoother'
+import { SplitText } from 'gsap/SplitText'
 import { useLayoutEffect } from "react"
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText)
 
 const Main = ({ children }: { children: React.ReactNode }) => {
       
@@ -22,8 +23,8 @@ const Main = ({ children }: { children: React.ReactNode }) => {
       
 
    return (
-      <main id="smooth-wrapper" className="w-full h-screen bg-[var(--primary-color)] flex flex-col items-center relative">
-         <div id="smooth-content" className="w-full min-h-[1000vh] flex flex-col items-center">
+      <main id="smooth-wrapper" className="w-full h-screen gradient-background flex flex-col items-center relative">
+         <div id="smooth-content" className="w-full h-fit flex flex-col items-center">
             {children}
          </div>
       </main>

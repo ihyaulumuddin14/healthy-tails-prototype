@@ -7,7 +7,7 @@ type AuthState = {
    isLoading: boolean,
    error: string | null,
    setIsLoading: (arg: boolean) => void,
-   setUser: (arg: User | null) => void
+   setUser: (arg: User | null) => void,
 }
 
 const useStore = create<AuthState>((set) => ({
@@ -15,7 +15,7 @@ const useStore = create<AuthState>((set) => ({
    isLoading: false,
    error: null,
    setIsLoading: (arg: boolean) => set({ isLoading: arg }),
-   setUser: (arg: User | null) => set({ user: arg }),
+   setUser: (arg: User | null) => set({ user: arg })
 }))
 
 export default useStore;

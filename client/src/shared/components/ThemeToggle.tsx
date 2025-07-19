@@ -1,10 +1,24 @@
 import styled from 'styled-components';
+import useTheme from '../hooks/useTheme';
+import { useShallow } from 'zustand/react/shallow'
+import { useEffect } from 'react';
 
 const ThemeToggle = () => {
+   const { theme, setTheme } = useTheme(
+      useShallow((state) => ({theme: state.theme, setTheme: state.setTheme}))
+   )
+   useEffect(() => {
+      if (theme === 'dark') {
+         document.documentElement.classList.add("dark");
+      } else {
+         document.documentElement.classList.remove("dark");
+      }
+   }, [theme])
+
   return (
     <StyledWrapper>
       <label className="switch">
-        <input type="checkbox" />
+        <input type="checkbox" checked={theme === 'dark'} onChange={setTheme}/>
         <span className="slider" />
       </label>
     </StyledWrapper>
@@ -33,7 +47,7 @@ const StyledWrapper = styled.div`
     position: absolute;
     cursor: pointer;
     inset: 0;
-    border: 2px solid #414141;
+    border: 2px solid #fff;
     border-radius: 50px;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }

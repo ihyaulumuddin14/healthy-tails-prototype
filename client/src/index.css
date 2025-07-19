@@ -24,3 +24,71 @@
       --text-color: #F6F6F6;
    }
 }
+
+@layer utilities {
+   .custom-scrollbar::-webkit-scrollbar {
+      height: .5em;
+   }
+
+   .custom-scrollbar::-webkit-scrollbar-track {
+      @apply rounded-2xl bg-[var(--primary-color)] outline-1 outline-[var(--tertiary-color)];
+   }
+
+   .custom-scrollbar::-webkit-scrollbar-thumb {
+      @apply rounded-2xl bg-[var(--tertiary-color)] cursor-pointer;
+   }
+
+   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      @apply bg-[var(--accent-color)];
+   }
+
+   .animate-slide-left {
+      animation: slide-left 30s linear infinite;
+   }
+
+   .animate-slide-right {
+      animation: slide-right 30s linear infinite;
+   }
+
+   .dark .gradient-background {
+      background: linear-gradient(300deg,#000000,#30423e,#000000,#30423e);
+      background-size: 120% 120%;
+      animation: gradient-animation 10s ease infinite;
+   }
+
+   .gradient-background {
+      background: linear-gradient(153deg,#f6f6f6,#cfffe252,#f6f6f6, #f6f6f6, #cfffe252, #f6f6f6,#cfffe252,#f6f6f6, #f6f6f6, #cfffe252);
+      background-size: 240% 240%;
+      animation: gradient-animation 10s ease infinite;
+   }
+
+   @keyframes gradient-animation {
+      0% {
+         background-position: 0% 50%;
+      }
+      50% {
+         background-position: 100% 50%;
+      }
+      100% {
+         background-position: 0% 50%;
+      }
+   }
+
+   @keyframes slide-left {
+      from {
+         transform: translateX(0);
+      }
+      to {
+         transform: translateX(calc(-50% - 10px));
+      }
+   }
+
+   @keyframes slide-right {
+      from {
+         transform: translateX(0);
+      }
+      to {
+         transform: translateX(calc(50% + 10px));
+      }
+   }
+}
