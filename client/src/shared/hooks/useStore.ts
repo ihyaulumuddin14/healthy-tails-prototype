@@ -8,6 +8,10 @@ type AuthState = {
    error: string | null,
    setIsLoading: (arg: boolean) => void,
    setUser: (arg: User | null) => void,
+   isMobile: undefined | boolean,
+   setIsMobile: (arg: boolean) => void,
+   fixedHeight: undefined | number,
+   setFixedHeight: (arg: number) => void
 }
 
 const useStore = create<AuthState>((set) => ({
@@ -15,7 +19,11 @@ const useStore = create<AuthState>((set) => ({
    isLoading: false,
    error: null,
    setIsLoading: (arg: boolean) => set({ isLoading: arg }),
-   setUser: (arg: User | null) => set({ user: arg })
+   setUser: (arg: User | null) => set({ user: arg }),
+   isMobile: undefined,
+   setIsMobile: (arg: boolean) => set({ isMobile: arg }),
+   fixedHeight: window.innerHeight,
+   setFixedHeight: (arg: number) => set({ fixedHeight: arg })
 }))
 
 export default useStore;

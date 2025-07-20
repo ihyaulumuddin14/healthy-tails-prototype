@@ -1,13 +1,16 @@
 import { serviceLists } from '../../../shared/constants/constant'
 import MainButton from '../components/MainButton'
 import { useState, useEffect } from 'react'
-import { useGSAP } from '@gsap/react'
 import { SplitText } from 'gsap/SplitText'
 import gsap from 'gsap'
+import useStore from '../../../shared/hooks/useStore'
 
 
 const Hero = () => {
    const [indexOfService, setIndexOfService] = useState(0);
+   const isMobile = useStore((state) => state.isMobile);
+   const fixedHeight = useStore(state => state.fixedHeight);
+
 
    useEffect(() =>{
       const interval = setInterval(() => {
@@ -17,23 +20,10 @@ const Hero = () => {
       return () => clearInterval(interval)
    }, [indexOfService])
 
-   useGSAP(() => {
+
+   useEffect(() => {
       document.fonts.ready.then(() => {
          const paragraph = new SplitText('.paragraph', { type: 'lines' });
-         const timeline = gsap.timeline({
-            scrollTrigger: {
-               trigger: '.hero-wrapper',
-               start: 'top center',
-               end: 'bottom top',
-               scrub: true
-            }
-         })
-      
-         timeline.to('.hero', {
-            scale: 1.5,
-            duration: 1,
-            ease: 'power3.inOut'
-         })
       
          gsap.from(paragraph.lines, {
             y: 100,
@@ -47,16 +37,25 @@ const Hero = () => {
    }, [])
 
    return (
-      <section id='home' className='hero-wrapper w-full min-h-[100dvh] flex justify-center relative bg-slate-950 overflow-hidden'>
-         <div className='bg-container w-[100vw] h-dvh absolute z-0 top-0 left-0'>
+      <section id='home' className='hero-wrapper w-full h-fit flex justify-center relative bg-slate-950 overflow-hidden'>
+         <div className='bg-container w-[100vw] h-full absolute z-0 top-0 left-0'>
             <img src="/images/bg-hero.webp" alt="Hero" className='hero test-white w-full h-full object-cover mask-t-from-80% mask-b-from-50% brightness-50'/>
          </div>
 
-         <div className='w-full max-w-[1536px] h-dvh grid grid-cols-1 sm:grid-cols-2 relative z-1'>
+         <div style={{ height: `${fixedHeight}px` }} className={`w-full max-w-[1536px] grid grid-cols-1 sm:grid-cols-2 relative z-1`}>
             <div
                className={`
                w-full h-full flex flex-col justify-between items-start 
-               p-[min(10vw,60px)] lg:pt-65 sm:pt-60 pt-55`}>
+                p-[min(10vw,60px)] lg:pt-65 sm:pt-60 pt-55`}>
+               {isMobile && (
+                  <h1 className={`
+                     paragraph text-xl text-slate-100 w-[max-content]
+                     font-inter font-bold tracking-tighter absolute -translate-y-1/2
+                     top-44 left-5 sm:left-13 scale-200 sm:scale-300 lg:scale-500 origin-left
+                  `}>
+                     Healthy Tails
+                  </h1>
+               )}
                   <h2 className='paragraph text-[clamp(20px,5vw,60px)] font-inter text-white'>
                      Animal Clinic
                   </h2>

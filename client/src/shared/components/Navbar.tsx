@@ -6,6 +6,7 @@ import Hamburger from "./Hamburger";
 import { useGSAP } from "@gsap/react";
 import gsap from 'gsap';
 import { SplitText } from "gsap/SplitText";
+import useStore from "../../shared/hooks/useStore";
 
 
 type NavbarProps = {
@@ -14,51 +15,33 @@ type NavbarProps = {
 
 const Navbar = ({ isHome = false }: NavbarProps) => {
    const [isLeaveHero, setIsLeaveHero] = useState(false);
-   const [scrollY, setScrollY] = useState(0);
    const location = useLocation();
+   const isMobile = useStore((state) => state.isMobile);
+
 
    useEffect(() => {
-      const handleScroll = () => {
-         const newScrollY = window.scrollY;
+      if (isMobile) return;
 
-         if (newScrollY > scrollY) {
-            gsap.to('nav', {
-               y: '-100%',
-               duration: 0.5,
-               ease: 'power3.inOut',
-            })
-         } else {
-            gsap.to('nav', {
-               y: '0%',
-               duration: 0.5,
-               ease: 'power3.inOut',
-            })
-         }
-
-         setScrollY(newScrollY);
-      }
-
-      window.addEventListener('scroll', handleScroll)
-
-      return () => window.removeEventListener('scroll', handleScroll)
-   }, [scrollY])
-
-   useEffect(() => {
+      let lastScrollY = 0;
       
       const handleScroll = () => {
-         const scrollY = window.scrollY;
+         const currentY = window.scrollY;
 
-         if (isHome && scrollY >= 100) {
-            setIsLeaveHero(true);
+         if (currentY > lastScrollY) {
+            gsap.to('nav', { y: '-100%', duration: 0.5, ease: 'power3.inOut' });
          } else {
-            setIsLeaveHero(false);
+            gsap.to('nav', { y: '0%', duration: 0.5, ease: 'power3.inOut' });
          }
+
+         if (isHome) setIsLeaveHero(currentY >= 80);
+
+         lastScrollY = currentY;
       }
 
       window.addEventListener('scroll', handleScroll)
 
       return () => window.removeEventListener('scroll', handleScroll)
-   }, [isHome])
+   }, [isHome, isMobile])
 
    useGSAP(() => {
       document.fonts.ready.then(() => {
@@ -80,12 +63,17 @@ const Navbar = ({ isHome = false }: NavbarProps) => {
       <nav className="w-full flex justify-center fixed top-0 bg-white/10 z-50 backdrop-brightness-50 backdrop-blur-xl">
          <div className="w-full max-w-[1536px] h-20 flex justify-between items-center px-5 py-3 ">
             <div className="h-12 flex items-center gap-2 relative">
-               <img src="/images/logo.webp" alt="logo" className="h-full text-white"/>
+               <img src="/images/logo.webp" alt="logo" className="h-full text-white cursor-pointer" onClick={() => window.location.href = "/" }/>
                <h1 className={`
                   text-xl text-slate-100 w-[max-content]
                   font-inter font-bold tracking-tighter absolute top-1/2 -translate-y-1/2 origin-left
-                  ${isLeaveHero && isHome ? "left-15" : "top-40 left-5 sm:left-8 scale-200 sm:scale-300 lg:scale-500"}
-                  ease-in-out duration-500 `}>
+                  ${isMobile ? `
+                     left-15
+                  ` : `
+                     ${isLeaveHero && isHome ? "left-15" : "top-40 left-5 sm:left-8 scale-200 sm:scale-300 lg:scale-500"}
+                  `}
+                  ease-in-out duration-500
+                  `}>
                      Healthy Tails
                </h1>
             </div>
