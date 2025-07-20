@@ -11,7 +11,7 @@ type Props = {
    contrast?: boolean
 }
 
-const BasicButton = ({ type, children, link, contrast }: Props) => {
+const MagneticButton = ({ type, children, link, contrast }: Props) => {
    const btnRef = useRef<HTMLButtonElement>(null);
    const labelRef = useRef<HTMLSpanElement>(null);
    const navigate = useNavigate();
@@ -122,4 +122,4 @@ const BasicButton = ({ type, children, link, contrast }: Props) => {
    )
 }
 
-export default BasicButton
+export default MagneticButton

@@ -1,7 +1,7 @@
 import React from 'react'
 import { favoriteProducts } from '../../../shared/constants/constant'
 import CardProduct from '../components/CardProduct'
-import BasicButton from '../components/BasicButton'
+import MagneticButton from '../components/MagneticButton'
 
 const Shop = () => {
    return (
@@ -12,13 +12,13 @@ const Shop = () => {
             </p>
             <h1 className='font-inter text-[var(--text-color)] text-[clamp(2rem,5vw,4rem)] font-bold mb-10'>Shop Cat Favorites</h1>
 
-            <div className='w-full max-w-5xl pb-5 flex gap-10 overflow-x-auto snap-x snap-proximity custom-scrollbar mb-20'>
+            <div className='w-full max-w-5xl pb-5 flex gap-10 overflow-x-auto snap-x snap-proximity custom-scrollbar mb-10'>
                {favoriteProducts.map((product, index) => (
                   <CardProduct redirectLabel='See Product' key={index} {...product} />
                ))}
             </div>
 
-            <BasicButton type='fill' link="">View All</BasicButton>
+            <MagneticButton type='fill' link="">View All</MagneticButton>
          </div>
       </section>
    )

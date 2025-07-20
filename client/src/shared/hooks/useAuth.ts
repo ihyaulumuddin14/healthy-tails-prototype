@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import useStore from "./useStore";
-import toast from "react-hot-toast";
 
 
 const useAuth = () => {
@@ -21,8 +20,9 @@ const useAuth = () => {
             if (!res.ok) throw new Error(data.error);
             
             setUser(data);
+         // eslint-disable-next-line @typescript-eslint/no-unused-vars
          } catch (error) {
-            toast.error((error as Error).message);
+            setUser(null);
          } finally {
             setLoading(false);
          }

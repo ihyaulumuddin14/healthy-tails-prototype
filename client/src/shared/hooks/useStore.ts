@@ -2,24 +2,24 @@ import { create } from 'zustand'
 import { type User } from '../../features/auth/models/types'
 
 
-type AuthState = {
+type StoreState = {
    user: User | null,
-   isLoading: boolean,
-   error: string | null,
-   setIsLoading: (arg: boolean) => void,
    setUser: (arg: User | null) => void,
+   isLoading: boolean,
+   setIsLoading: (arg: boolean) => void,
+   error: string | null,
    isMobile: undefined | boolean,
    setIsMobile: (arg: boolean) => void,
    fixedHeight: undefined | number,
    setFixedHeight: (arg: number) => void
 }
 
-const useStore = create<AuthState>((set) => ({
+const useStore = create<StoreState>((set) => ({
    user: null,
-   isLoading: false,
-   error: null,
-   setIsLoading: (arg: boolean) => set({ isLoading: arg }),
    setUser: (arg: User | null) => set({ user: arg }),
+   isLoading: false,
+   setIsLoading: (arg: boolean) => set({ isLoading: arg }),
+   error: null,
    isMobile: undefined,
    setIsMobile: (arg: boolean) => set({ isMobile: arg }),
    fixedHeight: window.innerHeight,

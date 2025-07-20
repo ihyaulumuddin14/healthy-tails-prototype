@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
    if (loading) return (
       <div className="w-full h-screen flex justify-center items-center bg-[var(--primary-color)]">
-         Loading...
+         <video src="/animation/Loader cat.webm" autoPlay loop muted className="w-full h-full"></video>
       </div>
    )
    if (!user) return <Navigate to="/login" replace />;

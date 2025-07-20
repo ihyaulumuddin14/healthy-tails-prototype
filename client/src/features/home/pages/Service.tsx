@@ -49,7 +49,7 @@ const Service = () => {
             const pinST = ScrollTrigger.create({
                trigger: serviceWrapperRef.current,
                start: "top top",
-               end: "bottom 60%",
+               end: "bottom 70%",
                pin: countRef.current,
                pinSpacing: false,
                anticipatePin: 1,

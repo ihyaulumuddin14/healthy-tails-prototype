@@ -39,14 +39,16 @@
       --tertiary-color : #A2D5C6;
       --accent-color : #CFFFE2;
       --text-color: #444444;
+      --hover-color: #cacaca;
    }
-
+   
    .dark {
       --primary-color : #000000;
       --secondary-color : #F6F6F6;
       --tertiary-color : #A2D5C6;
       --accent-color : #CFFFE2;
       --text-color: #F6F6F6;
+      --hover-color: #646464;
    }
 }
 

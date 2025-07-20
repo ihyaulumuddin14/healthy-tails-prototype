@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react"
 import { navbarLink } from "../constants/constant";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 import Hamburger from "./Hamburger";
 import { useGSAP } from "@gsap/react";
 import gsap from 'gsap';
 import { SplitText } from "gsap/SplitText";
 import useStore from "../../shared/hooks/useStore";
+import BasicButton from "./BasicButton";
+import toast from "react-hot-toast";
 
 
 type NavbarProps = {
@@ -14,6 +16,7 @@ type NavbarProps = {
 }
 
 const Navbar = ({ isHome = false }: NavbarProps) => {
+   const user = useStore((state) => state.user);
    const [isLeaveHero, setIsLeaveHero] = useState(false);
    const location = useLocation();
    const isMobile = useStore((state) => state.isMobile);
@@ -79,6 +82,7 @@ const Navbar = ({ isHome = false }: NavbarProps) => {
             </div>
 
             <div className="flex items-center gap-20">
+               {/* navigation items */}
                <ul className="hidden lg:flex items-center">
                   {navbarLink.map((link, index) => (
                      <NavLink 
@@ -96,14 +100,15 @@ const Navbar = ({ isHome = false }: NavbarProps) => {
                   ))}
                </ul>
 
+               {/* theme toggle and profile button */}
                <div className="hidden lg:flex items-center gap-5">
                   <ThemeToggle />
-
-                  <NavLink to={'/user'}>
-                     <svg className="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path fillRule="evenodd" d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z" clipRule="evenodd"/>
-                     </svg>
-                  </NavLink>
+                  
+                  {user !== null ? (
+                     <ProfileDropDown />
+                  ) : (
+                     <BasicButton type="fill" link="/login">Login</BasicButton>
+                  )}
                </div>
 
                <Hamburger />
@@ -114,3 +119,52 @@ const Navbar = ({ isHome = false }: NavbarProps) => {
 }
 
 export default Navbar
+
+
+const ProfileDropDown = () => {
+   const [isOpen, setIsOpen] = useState(false);
+   const navigate = useNavigate();
+
+   const handleLogout = async () => {
+      try {
+         const response = await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
+            method: 'POST',
+            credentials: 'include'
+         })
+   
+         const data = await response.json();
+         
+         if (!response.ok) throw new Error(data.error);
+
+         toast.success(data.message, { duration: 2000 });
+
+         setTimeout(() => {
+            window.location.href = "/";
+         }, 2000)
+      } catch (error) {
+         toast.error((error as Error).message);
+      }
+   }
+
+   return (
+      <div
+         className="wrapper w-10 h-fit relative font-inter"
+         onClick={() => setIsOpen(!isOpen)}
+         >
+         <div className="flex items-center justify-center cursor-pointer">
+            <svg className="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+               <path fillRule="evenodd" d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z" clipRule="evenodd"/>
+            </svg>
+         </div>
+
+         <div className={`w-fit h-fit absolute right-0 mt-2  rounded-2xl text-[var(--text-color)] grid ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"} ease-in-out duration-200`}>
+            <div className={`w-30 h-full overflow-hidden ${isOpen ? "opacity-100" : "opacity-0"} ease-in-out duration-500 rounded-2xl`}>
+               <ul className="w-full h-fit flex flex-col gap-1 items-end bg-[var(--primary-color)] rounded-2xl p-1">
+                  <li onClick={() => navigate("/profile")} className="py-2 px-4 w-full flex justify-end rounded-xl bg-[var(--primary-color)] hover:bg-[var(--hover-color)] cursor-pointer ease-in-out duration-150">My Profile</li>
+                  <li onClick={() => handleLogout()} className="py-2 px-4 w-full flex justify-end rounded-xl bg-[var(--primary-color)] hover:bg-[var(--hover-color)] cursor-pointer ease-in-out duration-150">Logout</li>
+               </ul>
+            </div>
+         </div>
+      </div>
+   )
+}

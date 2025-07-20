@@ -17,7 +17,7 @@ const Veterinarian = () => {
             ease: 'expo.inOut',
             scrollTrigger: {
                trigger: '.team-wrapper',
-               start: 'top center',
+               start: 'top 80%',
                once: true
             }
          });

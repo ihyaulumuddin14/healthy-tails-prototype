@@ -1,5 +1,5 @@
 import React from 'react'
-import BasicButton from '../components/BasicButton'
+import MagneticButton from '../components/MagneticButton'
 import { HomeSections } from '../../../shared/constants/constant'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import gsap from 'gsap'
@@ -39,7 +39,7 @@ const Footer = () => {
    })
 
    return (
-      <section className='footer-wrapper w-full h-fit flex justify-center items-center bg-[var(--tertiary-color)] relative z-1 border overflow-hidden mask-t-from-90% py-20'>
+      <section className='footer-wrapper w-full h-fit flex justify-center items-center bg-[var(--tertiary-color)] relative z-1 border overflow-hidden mask-t-from-90% pt-20'>
          <div className='footer-content w-full max-w-[1536px] h-fit items-center p-[min(7vw,100px)] grid lg:grid-cols-2 grid-cols-1 gap-10'>
             {/* left */}
             <div className='w-full h-fit flex flex-col gap-5'>
@@ -55,8 +55,8 @@ const Footer = () => {
                </p>
 
                <div className='flex justify-start items-center w-full max-w-[300px] h-fit gap-5'>
-                  <BasicButton type='fill' link='' contrast={true}>Book a Visit</BasicButton>
-                  <BasicButton type='fill' link='' contrast={true}>Contact Us</BasicButton>
+                  <MagneticButton type='fill' link='' contrast={true}>Book a Visit</MagneticButton>
+                  <MagneticButton type='fill' link='' contrast={true}>Contact Us</MagneticButton>
                </div>
             </div>
 
@@ -97,6 +97,8 @@ const Footer = () => {
                   </ul>
                </div>
             </div>
+
+            <p className='font-inter text-slate-700 text-[clamp(0.8rem,1.5vw,1rem)]'>Copyright &copy; Ihya' Ulumuddin 2025. All rights reserved</p>
          </div>
       </section>
    )

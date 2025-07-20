@@ -17,7 +17,7 @@ const ThemeToggle = () => {
 
   return (
     <StyledWrapper>
-      <label className="switch">
+      <label className="switch hover:opacity-70 ease-in-out duration-200">
         <input type="checkbox" checked={theme === 'dark'} onChange={setTheme}/>
         <span className="slider" />
       </label>

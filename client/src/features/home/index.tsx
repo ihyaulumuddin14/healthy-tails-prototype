@@ -10,11 +10,13 @@ import Feedback from "./pages/Feedback"
 import Footer from "./pages/Footer"
 import useStore from "../../shared/hooks/useStore"
 import { useLayoutEffect } from "react"
+import useAuth from "../../shared/hooks/useAuth"
+import { Toaster } from "react-hot-toast"
 
 
 const Index = () => {
-
    const setIsMobile = useStore(state => state.setIsMobile )
+   const { loading } = useAuth();
 
    useLayoutEffect(() => {
       const checkMobile = () => {
@@ -28,21 +30,32 @@ const Index = () => {
    }, [setIsMobile]);
 
    return (
-      <div className="w-full h-fit flex flex-col items-center relative gradient-background-light">
-         {/* Navbar di luar smooth wrapper */}
-         <Navbar isHome={true} />
+      <div className="w-full h-screen flex flex-col justify-center items-center relative gradient-background">
+         <Toaster position="top-center" reverseOrder={false}></Toaster>
 
-         {/* ScrollSmoother wrapper */}
-         <Main>
-            <Hero />
-            <History />
-            <Service />
-            <Veterinarian />
-            <Hours />
-            <Feedback />
-            <Shop />
-            <Footer />
-         </Main>
+         {loading ? (
+            <>
+               <video src="/animation/Loader cat.webm" autoPlay loop muted className=""></video>
+               <p className="text-[clamp(0.8rem,1.5vw,1rem)] text-[var(--text-color)] font-inter font-semibold">Wait a minute.. miaw</p>
+            </>
+         ) : (
+            <>
+               {/* Navbar di luar smooth wrapper */}
+               <Navbar isHome={true} />
+
+               {/* ScrollSmoother wrapper */}
+               <Main>
+                  <Hero />
+                  <History />
+                  <Service />
+                  <Veterinarian />
+                  <Hours />
+                  <Feedback />
+                  <Shop />
+                  <Footer />
+               </Main>
+            </>
+         )}
       </div>
    )
 }
