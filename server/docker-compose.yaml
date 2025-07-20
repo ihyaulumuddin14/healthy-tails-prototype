@@ -5,11 +5,14 @@ services:
     ports:
       - "3000:3000"
     environment:
-      MONGO_URI: ${MONGO_URI} 
+      MONGO_URI: ${MONGO_URI}
       NODE_ENV: ${NODE_ENV}
+      REDIS_URL: ${REDIS_URL}
     depends_on:
       mongo:
         condition: service_healthy
+      redis:
+        condition: service-healthy
 
   mongo:
     image: mongo:6-jammy
@@ -20,6 +23,16 @@ services:
       - mongodata:/data/db
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 5s
       retries: 5
