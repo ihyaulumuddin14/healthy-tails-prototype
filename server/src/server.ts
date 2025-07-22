@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import routes from "./routes/routes";
 
@@ -19,7 +18,6 @@ app.use(
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cookieParser());
 
 app.disable("x-powered-by");
 
