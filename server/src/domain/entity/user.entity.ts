@@ -30,7 +30,6 @@ const UserSchema = new Schema(
       type: String,
       required: true,
       maxlength: 255,
-      select: false,
     },
     role: {
       type: String,
@@ -44,7 +43,6 @@ const UserSchema = new Schema(
     refreshToken: {
       type: String,
       maxlength: 255,
-      select: false,
     },
   },
   { timestamps: true }
