@@ -10,11 +10,16 @@ export default [
       parser: parser,
       sourceType: "module",
       parserOptions: {
-        project: "./tsconfig.json",
         tsconfigRootDir: import.meta.dirname,
       },
+      globals: {
+        console: true,
+        process: true,
+      },
     },
-    plugins: [pluginTs],
+    plugins: {
+      "@typescript-eslint": pluginTs,
+    },
     rules: {
       ...pluginJs.configs.recommended.rules,
       ...pluginTs.configs.recommended.rules,

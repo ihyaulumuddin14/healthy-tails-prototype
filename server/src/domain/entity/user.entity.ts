@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface UserItf extends Document {
   _id: string;
@@ -24,7 +24,7 @@ const UserSchema = new Schema(
       required: true,
       unique: true,
       maxlength: 255,
-      match: /.+\@.+\..+/,
+      match: /.+@.+\..+/,
     },
     password: {
       type: String,

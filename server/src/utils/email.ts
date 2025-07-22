@@ -18,8 +18,8 @@ export const sendOTPEmail = async (email: string, otp: string) => {
 
   try {
     await transporter.sendMail(mailOptions);
-  } catch (err: any) {
-    throw new Error(`Failed to send email: ${err.message}`);
+  } catch {
+    throw new Error("Failed to send email");
   }
 };
 
@@ -35,7 +35,7 @@ export const sendResetLinkEmail = async (email: string, resetToken: string) => {
 
   try {
     await transporter.sendMail(mailOptions);
-  } catch (err: any) {
-    throw new Error(`Failed to send email: ${err.message}`);
+  } catch {
+    throw new Error("Failed to send email");
   }
 };
