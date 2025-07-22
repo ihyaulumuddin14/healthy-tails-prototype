@@ -1,4 +1,3 @@
-import React from 'react'
 import { favoriteProducts } from '../../../shared/constants/constant'
 import CardProduct from '../components/CardProduct'
 import MagneticButton from '../../../shared/components/MagneticButton'

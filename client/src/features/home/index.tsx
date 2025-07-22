@@ -10,13 +10,13 @@ import Feedback from "./pages/Feedback"
 import Footer from "../../shared/components/Footer"
 import useStore from "../../shared/hooks/useStore"
 import { useLayoutEffect } from "react"
-// import useAuth from "../../shared/hooks/useAuth"
+import useAuth from "../../shared/hooks/useAuth"
 import { Toaster } from "react-hot-toast"
 
 
 const Index = () => {
    const setIsMobile = useStore(state => state.setIsMobile )
-   // const { isLoading } = useAuth();
+   const { isLoading } = useAuth();
 
    useLayoutEffect(() => {
       const checkMobile = () => {
@@ -33,12 +33,12 @@ const Index = () => {
       <div className="w-full h-screen flex flex-col justify-center items-center relative gradient-background">
          <Toaster position="top-center" reverseOrder={false}></Toaster>
 
-         {/* {isLoading ? (
+         {isLoading ? (
             <>
                <video src="/animation/Loader cat.webm" autoPlay loop muted className=""></video>
                <p className="text-[clamp(0.8rem,1.5vw,1rem)] text-[var(--text-color)] font-inter font-semibold">Wait a minute.. miaw</p>
             </>
-         ) : ( */}
+         ) : (
             <>
                {/* Navbar di luar smooth wrapper */}
                <Navbar isHome={true} />
@@ -56,7 +56,7 @@ const Index = () => {
                </Main>
                
             </>
-         {/* )} */}
+         )}
       </div>
    )
 }

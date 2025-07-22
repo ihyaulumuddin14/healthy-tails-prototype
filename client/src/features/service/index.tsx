@@ -7,12 +7,13 @@ import { serviceLists } from "../../shared/constants/constant"
 import Footer from "../../shared/components/Footer"
 import Hero from "./pages/Hero"
 import Articles from "./pages/Articles"
+import useAuth from "../../shared/hooks/useAuth"
 
 
 const Index = () => {
    const setIsMobile = useStore(state => state.setIsMobile )
    const sectionIDs = serviceLists.map(section => section.articles.id);
-   // const { isLoading } = useAuth();
+   const { isLoading } = useAuth();
 
    useLayoutEffect(() => {
       const checkMobile = () => {
@@ -29,12 +30,12 @@ const Index = () => {
       <div className="w-full h-screen flex flex-col justify-center items-center relative gradient-background">
          <Toaster position="top-center" reverseOrder={false}></Toaster>
 
-         {/* {isLoading ? (
+         {isLoading ? (
             <>
                <video src="/animation/Loader cat.webm" autoPlay loop muted className=""></video>
                <p className="text-[clamp(0.8rem,1.5vw,1rem)] text-[var(--text-color)] font-inter font-semibold">Wait a minute.. miaw</p>
             </>
-         ) : ( */}
+         ) : (
             <>
                {/* Navbar di luar smooth wrapper */}
                <Navbar isHome={false} />
@@ -47,7 +48,7 @@ const Index = () => {
                </Main>
                
             </>
-         {/* )} */}
+      )}
       </div>
    )
 }
