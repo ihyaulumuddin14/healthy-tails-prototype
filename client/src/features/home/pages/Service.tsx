@@ -4,14 +4,16 @@ import { serviceLists } from '../../../shared/constants/constant'
 import RedirectButton from '../components/RedirectButton'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import useStore from '../../../shared/hooks/useStore'
+import { useNavigate } from 'react-router-dom'
 
 const Service = () => {
+   const navigate = useNavigate();
    const [count, setCount] = useState(0);
    const isMobile = useStore((state) => state.isMobile);
    const serviceWrapperRef = useRef<HTMLDivElement>(null);
    const shineRefs = useRef<SVGSVGElement[]>([]);
    const shieldRefs = useRef<SVGSVGElement[]>([]);
-   const countRef = useRef<HTMLDivElement>(null);
+   const countRef = useRef<HTMLElement>(null);
    
    // Refs untuk cleanup
    const scrollTriggersRef = useRef<ScrollTrigger[]>([]);
@@ -112,9 +114,9 @@ const Service = () => {
 
    return (
       <section id='service' ref={serviceWrapperRef} className='w-full h-fit flex justify-center'>
-         <div className='w-full max-w-[1536px] h-fit grid grid-cols-1 lg:grid-cols-[1fr_1.5fr]'>
+         <main className='w-full max-w-[1536px] h-fit grid grid-cols-1 lg:grid-cols-[1fr_1.5fr]'>
             {/* left */}
-            <div ref={countRef} className='w-full h-fit relative z-2 p-10 pb-40 bg-[var(--primary-color)] mask-b-from-80%'>
+            <aside ref={countRef} className='w-full h-fit relative z-2 p-10 pb-40 bg-[var(--primary-color)] mask-b-from-80%'>
                <div className='w-full h-fit flex flex-col items-center'>
                   <h2 className='text-[clamp(2.5rem,5vw,6rem)] font-bold font-inter text-[var(--text-color)] inline-block'>
                      {count}+
@@ -140,7 +142,7 @@ const Service = () => {
                      />
                   </a>
                </div>
-            </div>
+            </aside>
 
             {/* right */}
             <ul className='w-full h-fit p-10 flex flex-col'>
@@ -169,15 +171,15 @@ const Service = () => {
                            <hr className='h-full border-l-1 border-[var(--secondary-color)]'/>
                         )}
                      </div>
-                     <div className='w-full h-fit flex flex-col gap-2 text-white items-end mb-8 pt-2'>
-                        <h2 className='self-start font-bold font-inter text-[clamp(1.5rem,3vw,2rem)] text-[var(--text-color)]'>{service.name}</h2>
-                        <p className='font-inter text-[clamp(1rem,1.5vw,1.5rem)] text-[var(--text-color)]'>{service.details}</p>
-                        <RedirectButton label='Learn More' onClick={() => {}} />
+                     <div className='w-full h-fit flex flex-col gap-2 items-end mb-8 pt-2 pb-10 relative overflow-hidden'>
+                        <h2 className='self-start font-bold font-inter text-[clamp(1.5rem,3vw,2rem)] text-[var(--text-color)] group-hover:text-[var(--tertiary-color)] ease-in-out duration-300'>{service.name}</h2>
+                        <p className='font-inter text-[clamp(1rem,1.5vw,1.5rem)] text-[var(--text-color)]'>{service.summary}</p>
+                        <RedirectButton position='right' label='Learn More' onClick={() => navigate('/service')} />
                      </div>
                   </li>
                ))}
             </ul>
-         </div>
+         </main>
       </section>
    )
 }

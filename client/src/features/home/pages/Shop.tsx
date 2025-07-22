@@ -1,7 +1,7 @@
 import React from 'react'
 import { favoriteProducts } from '../../../shared/constants/constant'
 import CardProduct from '../components/CardProduct'
-import MagneticButton from '../components/MagneticButton'
+import MagneticButton from '../../../shared/components/MagneticButton'
 
 const Shop = () => {
    return (

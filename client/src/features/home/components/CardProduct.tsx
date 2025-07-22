@@ -13,8 +13,9 @@ type Props = {
 
 const CardProduct = ({ srcImg, productName, price, rating, sold, redirectLabel, link = "/" }: Props) => {
    return (
-      <div className='w-[250px] aspect-4/6 rounded-2xl relative shrink-0 flex flex-col items-center group overflow-hidden snap-start cursor-pointer backdrop-blur-3xl'>
+      <div className='w-[250px] aspect-4/6 rounded-2xl relative shrink-0 flex flex-col items-center group overflow-hidden snap-start cursor-pointer backdrop-blur-3xl shadow-md'>
          <img
+            loading='lazy'
             src={srcImg}
             alt="product img"
             className='h-[70%] object-cover absolute top-0 z-0 group-hover:scale-120 group-hover:rotate-3 ease-in-out duration-300'/>
@@ -36,7 +37,7 @@ const CardProduct = ({ srcImg, productName, price, rating, sold, redirectLabel, 
             </div>
          </div>
 
-         <RedirectButton label={redirectLabel} onClick={() => window.location.href = link} />
+         <RedirectButton addGapBottom={true} label={redirectLabel} onClick={() => window.location.href = link} />
       </div>
    )
 }

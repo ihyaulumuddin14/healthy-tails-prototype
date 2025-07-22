@@ -11,12 +11,12 @@ const Main = ({ children }: { children: React.ReactNode }) => {
    useLayoutEffect(() => {
 
       const smoother = ScrollSmoother.create({
-               wrapper: '#smooth-wrapper',
-               content: '#smooth-content',
-               smooth: 1.5,
-               effects: true,
-               smoothTouch: 0.5
-            })
+         wrapper: '#smooth-wrapper',
+         content: '#smooth-content',
+         smooth: 1.5,
+         effects: true,
+         smoothTouch: 0.5
+      })
       
       return () => smoother.kill()
    }, [])

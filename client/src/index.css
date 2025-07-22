@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Barriecito&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
+@plugin "daisyui";
 
 @theme {
    --font-barriecito: 'Barriecito', system-ui, sans-serif;
    --font-inter: 'Inter', system-ui, sans-serif;
-
+   --custom-shadow: 0px 4px 4px var(--secondary-color);
    --animate-shake: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
 
 
@@ -84,7 +85,7 @@
    }
 
    .gradient-background {
-      background: linear-gradient(153deg,#f6f6f6,#cfffe252,#f6f6f6, #f6f6f6, #cfffe252, #f6f6f6,#cfffe252,#f6f6f6, #f6f6f6, #cfffe252);
+      background: linear-gradient(153deg,#f6f6f6,#f6f6f6, #f6f6f6, #e9faf0f3, #f6f6f6,#f6f6f6, #f6f6f6);
       background-size: 240% 240%;
       animation: gradient-animation 10s ease infinite;
    }

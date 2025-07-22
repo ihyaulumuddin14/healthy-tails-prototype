@@ -1,9 +1,23 @@
 import styled from 'styled-components';
 
-const Button = ({ label, onClick }: { label: string, onClick: () => void }) => {
+type Props = {
+   label: string,
+   onClick: () => void,
+   addGapBottom?: boolean
+   position?: 'left' | 'center' | 'right'
+};
+
+const RedirectButton = ({ label, onClick, addGapBottom = false, position }: Props) => {
   return (
     <StyledWrapper>
-      <button className="button ease-in-out duration-200 absolute z-0 left-1/2 -translate-x-1/2 -bottom-50 opacity-100 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-hover:bottom-10" onClick={onClick}>
+      <button
+         className={`
+            button ease-in-out duration-200 absolute z-0
+            ${position === 'left' ? 'left-10' : position === 'right' ? 'right-10' : 'left-1/2 -translate-x-1/2'} 
+            ${addGapBottom ? 'group-hover:bottom-10' : 'group-hover:bottom-0' }
+            -bottom-50 opacity-100
+            pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto`}
+         onClick={onClick}>
         <span className="button__icon-wrapper">
           <svg viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="button__icon-svg" width={10}>
             <path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor" />
@@ -77,4 +91,4 @@ const StyledWrapper = styled.div`
     transform: translate(0);
   }`;
 
-export default Button;
+export default RedirectButton;

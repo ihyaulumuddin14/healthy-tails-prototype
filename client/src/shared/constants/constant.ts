@@ -1,7 +1,7 @@
 export const navbarLink = [
    {
       name: 'Home',
-      path: '/'
+      path: '/home'
    },
    {
       name: 'Service',
@@ -24,23 +24,53 @@ export const navbarLink = [
 export const serviceLists = [
    {
       name: "Physical Exam",
-      details: "Routine checkups are the foundation of preventive care. We assess your pet’s overall health, monitor vital signs, and detect early signs of illness—before they become serious."
+      summary: "Routine checkups are the foundation of preventive care. We assess your pet’s overall health, monitor vital signs, and detect early signs of illness—before they become serious.",
+      articles: {
+         id: 'physical-exam',
+         subtitle: "Keeping Your Feline Healthy from Head to Tail",
+         content: "A physical exam is the foundation of your cat’s health care. This service includes a thorough evaluation of the cat’s body condition: eyes, ears, mouth and teeth, skin, fur, and vital organs such as the heart and lungs. The vet will check body temperature, heart rate, breathing, and any hidden signs of illness.Regular check-ups are recommended every 6 months or at least once a year to prevent more serious health problems in the future.",
+         image: "/article/physical-exam.webp"
+      }
    },
    {
       name: "Vaccination",
-      details: "Keep your pet protected with essential vaccinations tailored to their age, breed, and lifestyle. We provide up-to-date immunizations to prevent dangerous diseases."
+      summary: "Keep your pet protected with essential vaccinations tailored to their age, breed, and lifestyle. We provide up-to-date immunizations to prevent dangerous diseases.",
+      articles: {
+         id: 'vaccination',
+         subtitle: "Protect Your Cat from Life-Threatening Diseases",
+         content: "Vaccines play a vital role in preventing contagious and dangerous diseases such as rabies, panleukopenia, calicivirus, and rhinotracheitis. Every kitten should receive core vaccines at the age of 6–8 weeks, followed by boosters as scheduled by the vet. Our clinic offers complete vaccination services, including annual vaccines and boosters. Vaccination is also required before boarding or interaction with other cats.",
+         image: "/article/vaccination.webp"
+      }
    },
    {
       name: "Ward Unit",
-      details: "Our clean, calm ward unit provides a safe recovery space for pets requiring observation or post-surgery rest—with constant monitoring and gentle care."
+      summary: "Our clean, calm ward unit provides a safe recovery space for pets requiring observation or post-surgery rest—with constant monitoring and gentle care.",
+      articles: {
+         id: 'ward-unit',
+         subtitle: 'Intensive Monitoring by Our Experienced Medical Team',
+         content: "Our Ward Unit is designed to provide extended care for cats recovering from major illnesses, surgeries, or trauma. The room is equipped with individual cages, a monitoring system, and controlled temperature for comfort. Veterinarians and veterinary nurses will closely monitor your cat, administer medication regularly, and ensure comfort during recovery. Owners will receive regular updates on their cat’s condition.",
+         image: "/article/ward-unit.webp"
+      }
    },
    {
       name: "Major & Minor Surgeries",
-      details: "From minor procedures to complex operations, our experienced veterinary team ensures your pet is in safe, expert hands—using modern tools and strict safety protocols."
+      summary: "From minor procedures to complex operations, our experienced veterinary team ensures your pet is in safe, expert hands—using modern tools and strict safety protocols.",
+      articles: {
+         id: 'surgeries',
+         subtitle: "Advanced Surgical Procedures for Your Feline Friend",
+         content: "Includes procedures such as deep wound cleaning, abscess removal, or abnormal nail extraction. These are performed under local or mild general anesthesia. Includes sterilization (spaying/neutering), tumor removal, gastrointestinal surgery, or bone repair. Performed by a licensed veterinary surgeon following full anesthesia protocols. Post-surgery, patients may stay in our Ward Unit for proper recovery and monitoring.",
+         image: "/article/minor-surgery.webp"
+      }
    },
    {
       name: "Therapeutic Diet",
-      details: "Every pet's health journey is unique—and nutrition plays a key role. We provide veterinary-recommended therapeutic diets tailored to specific medical conditions such as kidney disease, allergies, obesity, and more."
+      summary: "Every pet's health journey is unique—and nutrition plays a key role. We provide veterinary-recommended therapeutic diets tailored to specific medical conditions such as kidney disease, allergies, obesity, and more.",
+      articles: {
+         id: 'therapeutic-diet',
+         subtitle: "Nutrition Therapy That Supports Healing",
+         content: 'Cats with medical conditions such as kidney disease, obesity, food allergies, or diabetes require special diets. Our therapeutic diet service includes vet-approved product recommendations and regular monitoring of your cat’s nutritional needs. Our veterinarian will determine the appropriate food type, daily portion, and feeding method. Products are available at the clinic or can be ordered through our Shop page.',
+         image: "/article/diet.webp"
+      }
    },
 ]
 
@@ -81,22 +111,28 @@ export const sliderImageLists = [
 
 export const teamMembers = [
    {
+      id: 1,
       name: "drh. Ling Sandra A.H.",
       noSIP: "SIP.100.3.12/126.0015/35.73.406/2024",
       role: "Veterinarian",
-      image: "/veterinarian/drh.Ling_Sandra.png"
+      image: "/veterinarian/drh.Ling_Sandra.png",
+      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, itaque."
    },
    {
+      id: 2,
       name: "drh. Neila Rahma",
       noSIP: "SIP.100.3.12/126.0014/35.73.406/2024",
       role: "Veterinarian",
-      image: "/veterinarian/drh.Neila_Rahma.png"
+      image: "/veterinarian/drh.Neila_Rahma.png",
+      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, itaque."
    },
    {
+      id: 3,
       name: "Dwiky Yayan F.",
       noSIP: "",
       role: "Vet Assistant",
-      image: "/veterinarian/Dwiky_Yayan.png"
+      image: "/veterinarian/Dwiky_Yayan.png",
+      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, itaque."
    }
 ]
 

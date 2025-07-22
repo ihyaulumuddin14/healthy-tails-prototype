@@ -1,16 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useStore from "./useStore";
+import { useShallow } from "zustand/react/shallow";
 
 
 const useAuth = () => {
-   const setUser = useStore((state) => state.setUser);
-   const user = useStore((state) => state.user);
-   const [loading, setLoading] = useState(true);
+   const {
+      user,
+      setUser,
+      isLoading,
+      setIsLoading
+   } = useStore(useShallow(state => ({
+      user: state.user,
+      setUser: state.setUser,
+      isLoading: state.isLoading,
+      setIsLoading: state.setIsLoading
+   })))
 
    useEffect(() => {
 
       const getUser = async () => {
          try {
+            setIsLoading(true);
             const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
                method: "GET",
                credentials: "include",
@@ -24,14 +34,14 @@ const useAuth = () => {
          } catch (error) {
             setUser(null);
          } finally {
-            setLoading(false);
+            setIsLoading(false);
          }
       }
 
       getUser();
-   }, [setUser]);
+   }, [setUser, setIsLoading]);
 
-   return { user, loading };
+   return { user, isLoading };
 }
 
 

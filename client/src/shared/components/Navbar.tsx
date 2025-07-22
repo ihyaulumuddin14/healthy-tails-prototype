@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { navbarLink } from "../constants/constant";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 import Hamburger from "./Hamburger";
 import { useGSAP } from "@gsap/react";
@@ -9,6 +9,7 @@ import { SplitText } from "gsap/SplitText";
 import useStore from "../../shared/hooks/useStore";
 import BasicButton from "./BasicButton";
 import toast from "react-hot-toast";
+import MobileNav from "./MobileNav";
 
 
 type NavbarProps = {
@@ -18,23 +19,23 @@ type NavbarProps = {
 const Navbar = ({ isHome = false }: NavbarProps) => {
    const user = useStore((state) => state.user);
    const [isLeaveHero, setIsLeaveHero] = useState(false);
+   const [isOpen, setIsOpen] = useState(false);
    const location = useLocation();
    const isMobile = useStore((state) => state.isMobile);
 
-
    useEffect(() => {
-      if (isMobile) return;
+      if (isMobile || !isHome) return;
 
       let lastScrollY = 0;
       
       const handleScroll = () => {
          const currentY = window.scrollY;
 
-         if (currentY > lastScrollY) {
-            gsap.to('nav', { y: '-100%', duration: 0.5, ease: 'power3.inOut' });
-         } else {
-            gsap.to('nav', { y: '0%', duration: 0.5, ease: 'power3.inOut' });
-         }
+         gsap.to('header', {
+            y: `${currentY > lastScrollY ? '-100%' : '0%'}`,
+            duration: 0.5,
+            ease: 'power3.inOut'
+         });
 
          if (isHome) setIsLeaveHero(currentY >= 80);
 
@@ -48,7 +49,7 @@ const Navbar = ({ isHome = false }: NavbarProps) => {
 
    useGSAP(() => {
       document.fonts.ready.then(() => {
-         const heroText = new SplitText('nav h1', { type: 'words' });
+         const heroText = new SplitText('header h1', { type: 'words' });
    
          if (isHome && !isLeaveHero) {
             gsap.from(heroText.words, {
@@ -62,15 +63,19 @@ const Navbar = ({ isHome = false }: NavbarProps) => {
       })
    }, []);
 
+
    return (
-      <nav className="w-full flex justify-center fixed top-0 bg-white/10 z-50 backdrop-brightness-50 backdrop-blur-xl">
-         <div className="w-full max-w-[1536px] h-20 flex justify-between items-center px-5 py-3 ">
+      <header className="w-full flex justify-center fixed top-0 bg-white/10 z-50 backdrop-brightness-50 backdrop-blur-xl">
+         <MobileNav isOpen={isOpen} />
+
+         <nav className="w-full max-w-[1536px] h-20 flex justify-between items-center px-5 py-3 relative top-0 left-0 z-48">
+            {/* logo */}
             <div className="h-12 flex items-center gap-2 relative">
                <img src="/images/logo.webp" alt="logo" className="h-full text-white cursor-pointer" onClick={() => window.location.href = "/" }/>
                <h1 className={`
                   text-xl text-slate-100 w-[max-content]
                   font-inter font-bold tracking-tighter absolute top-1/2 -translate-y-1/2 origin-left
-                  ${isMobile ? `
+                  ${isMobile || !isHome ? `
                      left-15
                   ` : `
                      ${isLeaveHero && isHome ? "left-15" : "top-40 left-5 sm:left-8 scale-200 sm:scale-300 lg:scale-500"}
@@ -85,22 +90,22 @@ const Navbar = ({ isHome = false }: NavbarProps) => {
                {/* navigation items */}
                <ul className="hidden lg:flex items-center">
                   {navbarLink.map((link, index) => (
-                     <NavLink 
+                     <Link
                         to={link.path}
                         key={index}
                         className="group relative flex items-center text-sm font-inter px-10">
                            <span
                               className={`group-hover:text-[var(--tertiary-color)]
-                              ${location.pathname === link.path ? "text-[var(--tertiary-color)]" : "text-slate-100"}
+                              ${location.pathname.includes(link.path) ? "text-[var(--tertiary-color)]" : "text-slate-100"}
                               ease-in-out duration-300`}>
                                  {link.name}
                            </span>
                            <hr className="absolute right-0 bottom-0 w-0.5 h-6 bg-[var(--tertiary-color)] border-0 group-hover:w-full group-hover:h-0.5 ease-in-out duration-300"/>
-                     </NavLink>
+                     </Link>
                   ))}
                </ul>
 
-               {/* theme toggle and profile button */}
+               {/* theme toggle and profile button/login button */}
                <div className="hidden lg:flex items-center gap-5">
                   <ThemeToggle />
                   
@@ -111,10 +116,10 @@ const Navbar = ({ isHome = false }: NavbarProps) => {
                   )}
                </div>
 
-               <Hamburger />
+               <Hamburger handleOpen={setIsOpen} />
             </div>
-         </div>
-      </nav>
+         </nav>
+      </header>
    )
 }
 
@@ -122,6 +127,7 @@ export default Navbar
 
 
 const ProfileDropDown = () => {
+   const setUser = useStore((state) => state.setUser);
    const [isOpen, setIsOpen] = useState(false);
    const navigate = useNavigate();
 
@@ -136,12 +142,15 @@ const ProfileDropDown = () => {
          
          if (!response.ok) throw new Error(data.error);
 
+         setUser(null);
+         toast.dismiss();
          toast.success(data.message, { duration: 2000 });
 
          setTimeout(() => {
             window.location.href = "/";
          }, 2000)
       } catch (error) {
+         toast.dismiss();
          toast.error((error as Error).message);
       }
    }

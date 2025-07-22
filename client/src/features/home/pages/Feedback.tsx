@@ -66,7 +66,8 @@ const Feedback = () => {
       <section id='feedback' className='review-wrapper w-full h-fit flex justify-center items-center'>
          <div className='w-full max-w-[1536px] flex flex-col overflow-hidden'>
             <h1 className='caption-review self-start text-[var(--text-color)] border-l-2 border-[var(--secondary-color)] pl-2 font-semibold text-2xl mb-10 mx-[min(7vw,100px)]'>
-               Your feedback keeps us going
+               <span className='bg-[url(/images/texture.jpg)] bg-cover text-shadow-2xs bg-clip-text text-transparent text-texture'>Your feedback</span>
+               {" "}keeps us going
             </h1>
             
             <div className='self-center w-[80vw] max-w-[1000px] relative overflow-hidden'>

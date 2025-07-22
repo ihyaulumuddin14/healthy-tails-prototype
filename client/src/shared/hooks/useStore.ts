@@ -20,7 +20,7 @@ const useStore = create<StoreState>((set) => ({
    isLoading: false,
    setIsLoading: (arg: boolean) => set({ isLoading: arg }),
    error: null,
-   isMobile: undefined,
+   isMobile: window.innerWidth <= 768,
    setIsMobile: (arg: boolean) => set({ isMobile: arg }),
    fixedHeight: window.innerHeight,
    setFixedHeight: (arg: number) => set({ fixedHeight: arg })

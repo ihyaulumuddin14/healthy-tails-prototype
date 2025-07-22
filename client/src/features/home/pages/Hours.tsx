@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { openHours } from '../../../shared/constants/constant';
-import MagneticButton from '../components/MagneticButton';
+import MagneticButton from '../../../shared/components/MagneticButton';
 
 const Hours = () => {
 
@@ -17,7 +17,10 @@ const Hours = () => {
    return ( 
       <section id='hours' className='w-full h-fit flex justify-center items-center '>
          <div className='w-full max-w-[1536px] h-full flex flex-col items-center py-20 px-[min(7vw,100px)]'>
-            <h1 className='text-[clamp(2.5rem,5vw,4rem)] font-bold font-inter text-[var(--text-color)] leading-10 mb-5'>Paws Up, We're Open!</h1>
+            <h1 className='text-[clamp(2.5rem,5vw,4rem)] font-bold font-inter text-[var(--text-color)] leading-10 mb-5'>
+               <span className='bg-[url(/images/texture.jpg)] bg-cover bg-clip-text text-transparent text-texture text-shadow-xs'>Paws Up</span>,
+               We're Open!
+            </h1>
             <p className='text-lg font-inter text-[var(--text-color)] text-[clamp(1rem,1.5vw,2rem)] mb-20'>Tail wags and care — check our operating hours below.</p>
 
             {/* content */}

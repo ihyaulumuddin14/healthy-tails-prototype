@@ -1,13 +1,16 @@
 import React from 'react'
-import MagneticButton from '../components/MagneticButton'
-import { HomeSections } from '../../../shared/constants/constant'
+import MagneticButton from './MagneticButton'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 
 gsap.registerPlugin(ScrollToPlugin)
 
-const Footer = () => {
+type FooterProps = {
+   sectionIDs : string[]
+}
+
+const Footer = ({ sectionIDs }: FooterProps) => {
 
    const scrollToSection = (sectionID: string) => {
       gsap.to(window, {
@@ -47,12 +50,12 @@ const Footer = () => {
                   <img src="images/logo.webp" alt="logo" className='w-[70px]'/>
                   <h2 className='font-inter text-slate-700 text-[clamp(1.5rem,5vw,2rem)] font-bold'>Healthy Tails</h2>
                </div>
-               <p className='font-inter text-slate-700 text-[clamp(0.8rem,1.5vw,1rem)]'>
+               <address className='font-inter text-slate-700 text-[clamp(0.8rem,1.5vw,1rem)]'>
                   Green Living Residence M17, Jl. Satsui Tubun, Gadang,<br />
                   Kec. Sukun, Kota Malang,<br />
                   Jawa Timur<br />
                   65149
-               </p>
+               </address>
 
                <div className='flex justify-start items-center w-full max-w-[300px] h-fit gap-5'>
                   <MagneticButton type='fill' link='' contrast={true}>Book a Visit</MagneticButton>
@@ -67,12 +70,12 @@ const Footer = () => {
                   <h3 className='font-inter text-slate-700 text-[clamp(1.5rem,5vw,2rem)] font-bold'>Information</h3>
 
                   <ul className='w-full h-fit flex flex-col gap-2'>
-                     {HomeSections.map((section, index) => (
+                     {sectionIDs.map((section, index) => (
                         <li
-                           onClick={() => scrollToSection(section.sectionID)}
+                           onClick={() => scrollToSection(section)}
                            className='font-inter text-slate-700 text-[clamp(0.8rem,1.5vw,1rem)] cursor-pointer hover:scale-110 ease-in-out duration-200'
                            key={index}>
-                              {section.name}
+                              {section.charAt(0).toUpperCase() + section.slice(1)}
                         </li>
                      ))}
                   </ul>

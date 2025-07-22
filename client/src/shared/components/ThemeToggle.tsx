@@ -10,8 +10,10 @@ const ThemeToggle = () => {
    useEffect(() => {
       if (theme === 'dark') {
          document.documentElement.classList.add("dark");
+         document.documentElement.dataset.theme = "dark";
       } else {
          document.documentElement.classList.remove("dark");
+         document.documentElement.dataset.theme = "light";
       }
    }, [theme])
 
@@ -47,8 +49,9 @@ const StyledWrapper = styled.div`
     position: absolute;
     cursor: pointer;
     inset: 0;
-    border: 2px solid #fff;
+    border: 2px solid var(--tertiary-color);
     border-radius: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
@@ -59,7 +62,8 @@ const StyledWrapper = styled.div`
     width: 1.4em;
     left: 0.2em;
     bottom: 0.2em;
-    background-color: white;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
     border-radius: inherit;
     transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
   }

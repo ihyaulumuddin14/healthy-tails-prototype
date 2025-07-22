@@ -37,9 +37,9 @@ const CardReview = ({ imgSrc, name, reviewText, rating }: Props) => {
          </div>
 
          <div className='w-full max-w-full h-full sm:pt-20 p-10 flex flex-col justify-between items-center gap-5'>
-            <p className='review-text text-[var(--text-color)] w-full break-words text-[clamp(1rem,1.5vw,1.5rem)] font-inter'>
+            <q className='review-text text-[var(--text-color)] w-full break-words text-[clamp(1rem,1.5vw,1.5rem)] font-inter'>
                {reviewText}
-            </p>
+            </q>
             
             <div className='flex items-center gap-1 self-end'>
                <p className='text-[clamp(1rem,1.5vw,1.2rem)] font-inter text-[var(--text-color)] mr-3'>{rating} |</p>
