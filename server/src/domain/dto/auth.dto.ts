@@ -43,6 +43,24 @@ export const LogoutRequestSchema = z.object({
     .min(10, "Refresh token must be at least 10 characters long"),
 });
 
+export const ForgotPasswordRequestSchema = z.object({
+  email: z.string().email("Invalid email format").max(255),
+});
+
+export const ResetPasswordRequestSchema = z.object({
+  resetToken: z
+    .string()
+    .min(10, "Reset token must be at least 10 characters long"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .max(255)
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+    ),
+});
+
 export const TokenResponseSchema = z.object({
   accessToken: z.string(),
   refreshToken: z.string(),
@@ -53,4 +71,6 @@ export type VerifyOTPRequest = z.infer<typeof VerifyOTPRequestSchema>;
 export type LoginRequest = z.infer<typeof LoginRequestSchema>;
 export type RefreshRequest = z.infer<typeof RefreshRequestSchema>;
 export type LogoutRequest = z.infer<typeof LogoutRequestSchema>;
+export type ForgotPasswordRequest = z.infer<typeof ForgotPasswordRequestSchema>;
+export type ResetPasswordRequest = z.infer<typeof ResetPasswordRequestSchema>;
 export type TokenResponse = z.infer<typeof TokenResponseSchema>;

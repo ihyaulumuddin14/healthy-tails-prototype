@@ -5,6 +5,8 @@ import {
   login,
   refresh,
   logout,
+  forgotPassword,
+  resetPassword,
 } from "../controllers/auth.controller";
 import { validateRequest } from "../middlewares/validate-request";
 import {
@@ -13,6 +15,8 @@ import {
   LoginRequestSchema,
   RefreshRequestSchema,
   LogoutRequestSchema,
+  ForgotPasswordRequestSchema,
+  ResetPasswordRequestSchema,
 } from "../domain/dto/auth.dto";
 
 const router = Router();
@@ -22,5 +26,15 @@ router.post("/verify-otp", validateRequest(VerifyOTPRequestSchema), verifyOTP);
 router.post("/login", validateRequest(LoginRequestSchema), login);
 router.post("/refresh", validateRequest(RefreshRequestSchema), refresh);
 router.post("/logout", validateRequest(LogoutRequestSchema), logout);
+router.post(
+  "/forgot-password",
+  validateRequest(ForgotPasswordRequestSchema),
+  forgotPassword
+);
+router.post(
+  "/reset-password",
+  validateRequest(ResetPasswordRequestSchema),
+  resetPassword
+);
 
 export default router;

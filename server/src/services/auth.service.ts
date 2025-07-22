@@ -1,8 +1,10 @@
 import {
+  ForgotPasswordRequest,
   LoginRequest,
   LogoutRequest,
   RefreshRequest,
   RegisterRequest,
+  ResetPasswordRequest,
   VerifyOTPRequest,
 } from "../domain/dto/auth.dto";
 import {
@@ -13,10 +15,11 @@ import {
   removeRefreshToken,
 } from "../repositories/user.repository";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import { HttpError } from "../utils/http-error";
 import { generateOTP } from "../utils/otp";
-import { setOTP, getOTP } from "../utils/redis";
-import { sendOTPEmail } from "../utils/email";
+import { setOTP, getOTP, setResetToken, getResetToken } from "../utils/redis";
+import { sendOTPEmail, sendResetLinkEmail } from "../utils/email";
 import {
   RefreshTokenPayload,
   generateAccessToken,
@@ -39,7 +42,7 @@ export const registerUser = async (payload: RegisterRequest) => {
     password: hashedPassword,
   });
 
-  setOTP(email, otp);
+  await setOTP(email, otp);
   await sendOTPEmail(email, otp);
 };
 
@@ -124,4 +127,32 @@ export const logoutUser = async (payload: LogoutRequest) => {
   }
 
   await removeRefreshToken(refreshToken);
+};
+
+export const forgotPasswordUser = async (payload: ForgotPasswordRequest) => {
+  const { email } = payload;
+
+  const user = await findUserByEmail(email);
+  if (!user) {
+    throw new HttpError(404, "User not found");
+  }
+
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  await setResetToken(email, resetToken);
+  await sendResetLinkEmail(email, resetToken);
+};
+
+export const resetPasswordUser = async (payload: ResetPasswordRequest) => {
+  const { resetToken, password } = payload;
+
+  const email = await getResetToken(resetToken);
+
+  const user = await findUserByEmail(email);
+  if (!user) {
+    throw new HttpError(404, "User not found");
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  await updateUserByEmail(email, { password: hashedPassword });
 };
