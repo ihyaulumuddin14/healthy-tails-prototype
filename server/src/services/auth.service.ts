@@ -31,7 +31,9 @@ export const registerUser = async (payload: RegisterRequest) => {
   const { name, email, password } = payload;
 
   const user = await findUserByEmail(email);
-  if (user) throw new HttpError(409, "Email already registered");
+  if (user) {
+    throw new HttpError(409, "Email already registered");
+  }
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const otp = await generateOTP();
@@ -50,7 +52,9 @@ export const verifyOTPUser = async (payload: VerifyOTPRequest) => {
   const { email, otp } = payload;
 
   const user = await findUserByEmail(email);
-  if (!user) throw new HttpError(404, "User not found");
+  if (!user) {
+    throw new HttpError(404, "User not found");
+  }
 
   const storedOTP = await getOTP(email);
   if (storedOTP !== otp) {
