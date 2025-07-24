@@ -1,5 +1,6 @@
-import Redis from "ioredis";
+import pkg from "ioredis";
 
+const Redis = pkg.default;
 const redis = new Redis(process.env.REDIS_URL!);
 
 export const setOTP = async (email: string, otp: string) => {

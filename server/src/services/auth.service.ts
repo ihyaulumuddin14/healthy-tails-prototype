@@ -6,26 +6,31 @@ import {
   RegisterRequest,
   ResetPasswordRequest,
   VerifyOTPRequest,
-} from "../domain/dto/auth.dto";
+} from "../domain/dto/auth.dto.js";
 import {
   findUserByEmail,
   createUser,
   updateUserByEmail,
   findUserByRefreshToken,
   removeRefreshToken,
-} from "../repositories/user.repository";
+} from "../repositories/user.repository.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
-import { HttpError } from "../utils/http-error";
-import { generateOTP } from "../utils/otp";
-import { setOTP, getOTP, setResetToken, getResetToken } from "../utils/redis";
-import { sendOTPEmail, sendResetLinkEmail } from "../utils/email";
+import { HttpError } from "../utils/http-error.js";
+import { generateOTP } from "../utils/otp.js";
+import {
+  setOTP,
+  getOTP,
+  setResetToken,
+  getResetToken,
+} from "../utils/redis.js";
+import { sendOTPEmail, sendResetLinkEmail } from "../utils/email.js";
 import {
   RefreshTokenPayload,
   generateAccessToken,
   generateRefreshToken,
   verifyToken,
-} from "../utils/jwt";
+} from "../utils/jwt.js";
 
 export const registerUser = async (payload: RegisterRequest) => {
   const { name, email, password } = payload;

@@ -24,6 +24,12 @@ export default [
       ...pluginJs.configs.recommended.rules,
       ...pluginTs.configs.recommended.rules,
       "no-console": "warn",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_.*",
+        },
+      ],
     },
   },
 ];
