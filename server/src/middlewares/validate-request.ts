@@ -10,3 +10,13 @@ export const validateRequest =
       next(err);
     }
   };
+
+export const validateParams =
+  (schema: ZodSchema) => (req: Request, _res: Response, next: NextFunction) => {
+    try {
+      schema.parse(req.params);
+      next();
+    } catch (err) {
+      next(err);
+    }
+  };
