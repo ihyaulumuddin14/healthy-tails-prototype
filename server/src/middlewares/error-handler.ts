@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";
-import { HttpError } from "../utils/http-error";
+import { HttpError } from "../utils/http-error.js";
 
 export const errorHandler = (
-  err: any,
-  req: Request,
+  err: unknown,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   let statusCode = 500;
   let message = "Internal Server Error";

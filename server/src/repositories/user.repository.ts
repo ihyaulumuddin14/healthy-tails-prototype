@@ -1,4 +1,4 @@
-import UserModel, { UserItf } from "../domain/entity/user.entity";
+import UserModel, { UserItf } from "../domain/entity/user.entity.js";
 
 export const findUserByEmail = async (
   email: string

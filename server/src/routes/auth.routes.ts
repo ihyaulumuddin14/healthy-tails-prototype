@@ -7,8 +7,8 @@ import {
   logout,
   forgotPassword,
   resetPassword,
-} from "../controllers/auth.controller";
-import { validateRequest } from "../middlewares/validate-request";
+} from "../controllers/auth.controller.js";
+import { validateRequest } from "../middlewares/validate-request.js";
 import {
   RegisterRequestSchema,
   VerifyOTPRequestSchema,
@@ -17,7 +17,7 @@ import {
   LogoutRequestSchema,
   ForgotPasswordRequestSchema,
   ResetPasswordRequestSchema,
-} from "../domain/dto/auth.dto";
+} from "../domain/dto/auth.dto.js";
 
 const router = Router();
 

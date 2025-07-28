@@ -1,6 +1,21 @@
-import Redis from "ioredis";
+import pkg from "ioredis";
 
+const Redis = pkg.default;
 const redis = new Redis(process.env.REDIS_URL!);
+
+export const setCache = async (key: string, value: unknown, ttl: number) => {
+  const jsonData = JSON.stringify(value);
+  await redis.set(key, jsonData, "EX", ttl);
+};
+
+export const getCache = async <T = unknown>(key: string): Promise<T | null> => {
+  const raw = await redis.get(key);
+  return raw ? (JSON.parse(raw) as T) : null;
+};
+
+export const deleteCache = async (key: string) => {
+  await redis.del(key);
+};
 
 export const setOTP = async (email: string, otp: string) => {
   await redis.set(`otp:${email}`, otp, "EX", 300);

@@ -7,8 +7,8 @@ import {
   logoutUser,
   forgotPasswordUser,
   resetPasswordUser,
-} from "../services/auth.service";
-import { TokenResponse } from "../domain/dto/auth.dto";
+} from "../services/auth.service.js";
+import { TokenResponse } from "../domain/dto/auth.dto.js";
 
 export const register = async (
   req: Request,
