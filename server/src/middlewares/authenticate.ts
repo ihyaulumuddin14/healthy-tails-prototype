@@ -7,16 +7,19 @@ export const authenticate = (
   _res: Response,
   next: NextFunction
 ) => {
-  const token = req.header("Authorization");
-  if (!token) {
-    throw new HttpError(401, "Authentication token is required");
-  }
+  try {
+    const authHeader = req.header("Authorization");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      throw new HttpError(401, "Authentication token is required");
+    }
 
-  const decoded = verifyToken<AccessTokenPayload>(token);
-  if (!decoded) {
-    throw new HttpError(401, "Invalid authentication token");
-  }
+    const token = authHeader.split(" ")[1];
 
-  req.user = decoded;
-  next();
+    const decoded = verifyToken<AccessTokenPayload>(token);
+
+    req.user = decoded;
+    next();
+  } catch {
+    next(new HttpError(401, "Invalid or expired token"));
+  }
 };
