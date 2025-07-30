@@ -19,6 +19,7 @@ import { authenticate } from "../middlewares/authenticate.js";
 import { adminOnly } from "../middlewares/admin-only.js";
 
 const router = Router();
+
 router.get("/", findAllNews);
 router.get("/:id", validateParams(NewsIdParamSchema), findNewsById);
 router.post(

@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const RegisterRequestSchema = z.object({
   name: z.string().min(5, "Name must be at least 5 characters long").max(50),
-  email: z.string().email("Invalid email format").max(255),
+  email: z.email("Invalid email format").max(255),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
@@ -14,12 +14,12 @@ export const RegisterRequestSchema = z.object({
 });
 
 export const VerifyOTPRequestSchema = z.object({
-  email: z.string().email("Invalid email format").max(255),
+  email: z.email("Invalid email format").max(255),
   otp: z.string().length(6, "OTP must be exactly 6 characters long"),
 });
 
 export const LoginRequestSchema = z.object({
-  email: z.string().email("Invalid email format").max(255),
+  email: z.email("Invalid email format").max(255),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
@@ -44,7 +44,7 @@ export const LogoutRequestSchema = z.object({
 });
 
 export const ForgotPasswordRequestSchema = z.object({
-  email: z.string().email("Invalid email format").max(255),
+  email: z.email("Invalid email format").max(255),
 });
 
 export const ResetPasswordRequestSchema = z.object({
