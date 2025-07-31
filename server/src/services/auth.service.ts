@@ -1,8 +1,6 @@
 import {
   ForgotPasswordRequest,
   LoginRequest,
-  LogoutRequest,
-  RefreshRequest,
   RegisterRequest,
   ResetPasswordRequest,
   VerifyOTPRequest,
@@ -104,9 +102,7 @@ export const loginUser = async (payload: LoginRequest) => {
   return { accessToken, refreshToken };
 };
 
-export const refreshUser = async (payload: RefreshRequest) => {
-  const { refreshToken } = payload;
-
+export const refreshUser = async (refreshToken: string) => {
   const user = await findUserByRefreshToken(refreshToken);
   if (!user) {
     throw new HttpError(401, "Invalid or expired refresh token");
@@ -122,17 +118,19 @@ export const refreshUser = async (payload: RefreshRequest) => {
   );
   const newRefreshToken = generateRefreshToken(user._id, decoded.rememberMe);
 
-  await updateUserByEmail(user.email, { refreshToken });
+  await updateUserByEmail(user.email, { refreshToken: newRefreshToken });
 
-  return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+  return {
+    accessToken: newAccessToken,
+    refreshToken: newRefreshToken,
+    rememberMe: decoded.rememberMe,
+  };
 };
 
-export const logoutUser = async (payload: LogoutRequest) => {
-  const { refreshToken } = payload;
-
+export const logoutUser = async (refreshToken: string) => {
   const user = await findUserByRefreshToken(refreshToken);
   if (!user) {
-    throw new HttpError(401, "Invalid or expired refresh token");
+    return;
   }
 
   await removeRefreshToken(refreshToken);

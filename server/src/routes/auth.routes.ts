@@ -13,8 +13,6 @@ import {
   RegisterRequestSchema,
   VerifyOTPRequestSchema,
   LoginRequestSchema,
-  RefreshRequestSchema,
-  LogoutRequestSchema,
   ForgotPasswordRequestSchema,
   ResetPasswordRequestSchema,
 } from "../domain/dto/auth.dto.js";
@@ -24,8 +22,8 @@ const router = Router();
 router.post("/register", validateRequest(RegisterRequestSchema), register);
 router.post("/verify-otp", validateRequest(VerifyOTPRequestSchema), verifyOTP);
 router.post("/login", validateRequest(LoginRequestSchema), login);
-router.post("/refresh", validateRequest(RefreshRequestSchema), refresh);
-router.post("/logout", validateRequest(LogoutRequestSchema), logout);
+router.post("/refresh", refresh);
+router.post("/logout", logout);
 router.post(
   "/forgot-password",
   validateRequest(ForgotPasswordRequestSchema),
