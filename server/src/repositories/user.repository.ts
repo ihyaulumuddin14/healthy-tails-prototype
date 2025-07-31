@@ -1,5 +1,9 @@
 import UserModel, { UserItf } from "../domain/entity/user.entity.js";
 
+export const findAllUsers = async (): Promise<UserItf[]> => {
+  return UserModel.find().exec();
+};
+
 export const findUserById = async (id: string): Promise<UserItf | null> => {
   return UserModel.findById(id).exec();
 };
@@ -53,4 +57,8 @@ export const removeRefreshToken = async (
     { refreshToken },
     { $unset: { refreshToken: "" } }
   ).exec();
+};
+
+export const deleteUserById = async (id: string): Promise<UserItf | null> => {
+  return UserModel.findByIdAndDelete(id).exec();
 };

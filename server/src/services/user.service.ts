@@ -4,6 +4,8 @@ import {
   UserResponse,
 } from "../domain/dto/user.dto.js";
 import {
+  deleteUserById,
+  findAllUsers,
   findUserById,
   updateUserById,
   updateUserPassword,
@@ -11,7 +13,7 @@ import {
 import bcrypt from "bcrypt";
 import { HttpError } from "../utils/http-error.js";
 import { deleteCache, getCache, setCache } from "../utils/redis.js";
-import { toUserResponse } from "../helpers/user-mapper.js";
+import { toUserResponse, toUserResponseArray } from "../helpers/user-mapper.js";
 
 export const getUserById = async (id: string) => {
   const cacheKey = `user:${id}`;
@@ -74,4 +76,27 @@ export const changeUserPasswordService = async (
 
   const cacheKey = `user:${id}`;
   await deleteCache(cacheKey);
+};
+
+export const getAllUsers = async () => {
+  const cacheKey = `users:all`;
+
+  const cachedUsers = await getCache<UserResponse[]>(cacheKey);
+  if (cachedUsers) {
+    return cachedUsers;
+  }
+
+  const users = await findAllUsers();
+  const mappedUsers = toUserResponseArray(users);
+
+  await setCache(cacheKey, mappedUsers, 3600);
+
+  return mappedUsers;
+};
+
+export const deleteUserService = async (id: string) => {
+  await deleteUserById(id);
+
+  await deleteCache(`users:all`);
+  await deleteCache(`user:${id}`);
 };

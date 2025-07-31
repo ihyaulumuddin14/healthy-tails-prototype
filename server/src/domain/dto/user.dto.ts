@@ -1,4 +1,15 @@
+import mongoose from "mongoose";
 import { z } from "zod";
+
+const MongoIdString = z
+  .string()
+  .refine((val) => mongoose.Types.ObjectId.isValid(val), {
+    message: "Invalid ID format",
+  });
+
+export const UserIdParamSchema = z.object({
+  id: MongoIdString,
+});
 
 export const UpdateUserRequestSchema = z.object({
   name: z.string().min(5, "Name must be at least 5 characters long").max(50),
