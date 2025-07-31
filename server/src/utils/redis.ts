@@ -1,7 +1,4 @@
-import pkg from "ioredis";
-
-const Redis = pkg.default;
-const redis = new Redis(process.env.REDIS_URL!);
+import redis from "../config/redis.js";
 
 export const setCache = async (key: string, value: unknown, ttl: number) => {
   const jsonData = JSON.stringify(value);
