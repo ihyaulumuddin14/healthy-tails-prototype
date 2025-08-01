@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import {
   registerUser,
   verifyOTPUser,
+  resendOTPUser,
   loginUser,
   refreshUser,
   logoutUser,
@@ -45,6 +46,19 @@ export const verifyOTP = async (
       message: "OTP verified successfully.",
       accessToken: tokens.accessToken,
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const resendOTP = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await resendOTPUser(req.body);
+    res.status(200).json({ message: "OTP resent successfully" });
   } catch (err) {
     next(err);
   }

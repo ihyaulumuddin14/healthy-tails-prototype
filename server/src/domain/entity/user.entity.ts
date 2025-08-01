@@ -1,5 +1,4 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { maxLength } from "zod";
 
 export interface UserItf extends Document {
   _id: string;

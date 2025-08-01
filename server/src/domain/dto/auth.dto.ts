@@ -18,6 +18,10 @@ export const VerifyOTPRequestSchema = z.object({
   otp: z.string().length(6, "OTP must be exactly 6 characters long"),
 });
 
+export const ResendOTPRequestSchema = z.object({
+  email: z.email("Invalid email format").max(255),
+});
+
 export const LoginRequestSchema = z.object({
   email: z.email("Invalid email format").max(255),
   password: z
@@ -51,6 +55,7 @@ export const ResetPasswordRequestSchema = z.object({
 
 export type RegisterRequest = z.infer<typeof RegisterRequestSchema>;
 export type VerifyOTPRequest = z.infer<typeof VerifyOTPRequestSchema>;
+export type ResendOTPRequest = z.infer<typeof ResendOTPRequestSchema>;
 export type LoginRequest = z.infer<typeof LoginRequestSchema>;
 export type ForgotPasswordRequest = z.infer<typeof ForgotPasswordRequestSchema>;
 export type ResetPasswordRequest = z.infer<typeof ResetPasswordRequestSchema>;

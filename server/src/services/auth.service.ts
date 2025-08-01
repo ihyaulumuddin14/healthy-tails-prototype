@@ -1,9 +1,10 @@
 import {
-  ForgotPasswordRequest,
-  LoginRequest,
   RegisterRequest,
-  ResetPasswordRequest,
   VerifyOTPRequest,
+  ResendOTPRequest,
+  LoginRequest,
+  ForgotPasswordRequest,
+  ResetPasswordRequest,
 } from "../domain/dto/auth.dto.js";
 import {
   findUserByEmail,
@@ -17,6 +18,8 @@ import crypto from "crypto";
 import { HttpError } from "../utils/http-error.js";
 import { generateOTP } from "../utils/otp.js";
 import {
+  getCache,
+  setCache,
   setOTP,
   getOTP,
   setResetToken,
@@ -49,6 +52,9 @@ export const registerUser = async (payload: RegisterRequest) => {
 
   await setOTP(email, otp);
   await sendOTPEmail(email, otp);
+
+  const cooldownKey = `otp_cooldown:${email}`;
+  await setCache(cooldownKey, true, 300);
 };
 
 export const verifyOTPUser = async (payload: VerifyOTPRequest) => {
@@ -75,6 +81,32 @@ export const verifyOTPUser = async (payload: VerifyOTPRequest) => {
   await updateUserByEmail(email, { verified: true, refreshToken });
 
   return { accessToken, refreshToken };
+};
+
+export const resendOTPUser = async (payload: ResendOTPRequest) => {
+  const { email } = payload;
+
+  const user = await findUserByEmail(email);
+  if (!user) {
+    throw new HttpError(404, "User not found");
+  }
+
+  if (user.verified) {
+    throw new HttpError(400, "User already verified");
+  }
+
+  const cacheKey = `otp_cooldown:${email}`;
+
+  const cooldown = await getCache(cacheKey);
+  if (cooldown) {
+    throw new HttpError(429, "Please wait before requesting a new OTP");
+  }
+
+  const otp = await generateOTP();
+  await setOTP(email, otp);
+  await sendOTPEmail(email, otp);
+
+  await setCache(cacheKey, true, 300);
 };
 
 export const loginUser = async (payload: LoginRequest) => {
