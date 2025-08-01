@@ -16,6 +16,7 @@ import { HttpError } from "../utils/http-error.js";
 import { deleteCache, getCache, setCache } from "../utils/redis.js";
 import { toUserResponse, toUserResponseArray } from "../helpers/user-mapper.js";
 import { supabase } from "../config/supabase.js";
+import logger from "../utils/logger.js";
 
 export const getUserById = async (id: string) => {
   const cacheKey = `user:${id}`;
@@ -98,7 +99,7 @@ export const uploadAvatarService = async (
       const oldFilePath = user.photoUrl.split("/media/")[1];
       await supabase.storage.from("media").remove([oldFilePath]);
     } catch (err) {
-      console.error("Failed to remove old avatar:", err);
+      logger.error("Failed to remove old avatar:", err);
     }
   }
 
