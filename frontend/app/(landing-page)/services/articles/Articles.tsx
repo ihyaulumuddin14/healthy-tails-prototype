@@ -56,7 +56,7 @@ const Articles = () => {
                      <em className='text-md font-inter font-extralight'>{service.articles.subtitle}</em>
 
                      <figure className='w-full h-fit flex flex-col items-center justify-center my-5 rounded-2xl overflow-hidden'>
-                        <Image src={service.articles.image} alt={service.name} width={500} height={250} className='w-full h-full max-h-[500px] object-cover object-bottom'/>
+                        <Image src={service.articles.image} alt={service.name} width={500} height={250} loading='lazy' className='w-full h-full max-h-[500px] object-cover object-bottom'/>
                         <figcaption className='w-full h-fit text-center p-1 font-inter font-extralight text-xs'>{service.name}</figcaption>
                      </figure>
 

@@ -31,8 +31,21 @@
 }
 
 @layer utilities {
+   .dark    .text-stroke {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(124, 124, 124, 0.74);
+   }
+
+   .split-line {
+      line-height: 2;
+   }
+
    .news-wrapper {
-      columns: 300px;
+      display: grid;
+      justify-content: center;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+      grid-template-rows: auto;
    }
 
    .custom-scrollbar::-webkit-scrollbar {

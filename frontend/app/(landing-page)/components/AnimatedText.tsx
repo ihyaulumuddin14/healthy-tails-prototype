@@ -14,6 +14,7 @@ type Props = {
    splitBy: 'words' | 'lines' | 'chars';
    className?: string;
    reverse?: boolean;
+   addLineHeight?: boolean
 }
 
 export default function AnimatedText({ 
@@ -22,7 +23,8 @@ export default function AnimatedText({
    type = 'p', 
    splitBy = 'words', 
    className = '', 
-   reverse = false 
+   reverse = false,
+   addLineHeight = false
 }: Props) {
    const textRef = useRef<HTMLElement>(null);
 
@@ -32,8 +34,7 @@ export default function AnimatedText({
       const splitText = SplitText.create(textRef.current, {
          type: splitBy,
          mask: splitBy === 'lines' ? 'lines' : undefined,
-         lineClass: 'split-line',
-         wordClass: 'split-word',
+         linesClass: addLineHeight ? 'split-line' : '',
       });
 
       const target =
@@ -44,7 +45,7 @@ export default function AnimatedText({
          opacity: 0,
          yPercent: 100,
          duration: 2,
-         ease: 'easeInOut',
+         ease: 'power4.out',
          stagger: 0.2,
          scrollTrigger: triggerWrapper !== '#home' ? 
          {
@@ -67,8 +68,8 @@ export default function AnimatedText({
 
    const renderElement = () => {
       const baseProps = {
-         className: `animated-text ${className}`,
-         children: children || `animated ${type}`
+         className: `animated-text relative ${className}`,
+         children: children || `absolute top-0 animated ${type}`
       };
 
       switch(type) {

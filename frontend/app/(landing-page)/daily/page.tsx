@@ -1,44 +1,43 @@
-// import { useRef } from "react"
 import { news } from "@/app/constant"
 import Image from "next/image";
-import CardNews from "./components/CardNews";
+import CardNews from "./components/NewsCard";
 import AnimatedText from "../components/AnimatedText";
 import PromoBanner from "@/public/images/promo.webp";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { DialogTrigger } from "@/components/ui/dialog";
+import PromoModal from "./components/PromoModal";
 
 
 export default function Daily () {
-   // const promoModalRef = useRef<HTMLDialogElement>(null);
-
-   // const handleModal = () => {
-   //    promoModalRef.current?.showModal();
-   // }
-
    return (
       <section id="daily" className='w-full h-fit flex justify-center items-center relative'>
          <div className='w-full max-w-[1536px] h-fit flex-col justify-center items-center p-[min(7vw,100px)] text-[var(--text-color)] mt-18'>
             {/* title */}
-            <header className="w-full grid lg:grid-cols-[1.5fr_1fr] grid-cols-1 gap-20 text-inter pb-10 border-b-1 border-[var(--text-color)]/20">
+            <header className="w-full grid lg:grid-cols-[1.5fr_1fr] grid-cols-1 gap-20 text-inter pb-10 border-b-1 border-[var(--color-foreground)]/20">
                <div className="w-full flex flex-col gap-5">
-                  <AnimatedText
-                     triggerWrapper='#daily'
-                     type='h1'
-                     splitBy='lines'
-                     className='text-3xl flex flex-col gap-5'
-                  >
-                     <span className="daily-title font-bold text-5xl">Welcome to Cat Daily</span>
-                     <span className="paragraph">— your go-to space for everything about cats, every single day.</span>
+                  <AnimatedText triggerWrapper='#daily' type='h1' splitBy='lines' className='font-bold lg:text-7xl md:text-6xl text-5xl mb-5' addLineHeight>
+                     Welcome to Cat Daily
                   </AnimatedText>
-                  <AnimatedText
-                     triggerWrapper='#daily'
-                     type='p'
-                     splitBy='lines'>
+                  <AnimatedText triggerWrapper="#daily" type="p" splitBy="lines" className="lg:text-2xl md:text-xl">
+                     — your go-to space for everything about cats, every single day.
+                  </AnimatedText>
+                  <AnimatedText triggerWrapper='#daily' type='p' splitBy='lines'>
                      Discover fun facts, the latest news, and useful tips and tricks from around the world to help you better understand and care for your feline friends.
                      Whether you`re a new cat owner or a lifelong cat lover, we’ve got something to make both you and your kitty purr with joy.
                   </AnimatedText>
                </div>
 
-               <div className='tooltip tooltip-open tooltip-accent w-full flex justify-center lg:justify-end items-center cursor-pointer group' data-tip="Click to more info">
-                  <Image src={PromoBanner} alt="promo image" className='w-[400px] h-fit shrink-0 group-hover:scale-105 ease-in-out duration-300'/>
+               <div className="w-full flex justify-center">
+                  <Tooltip>
+                     <TooltipTrigger>
+                        <DialogTrigger asChild>
+                           <Image src={PromoBanner} loading="lazy" alt="promo image" className='w-[400px] h-fit shrink-0 group-hover:scale-105 ease-in-out duration-300 cursor-pointer'/>
+                        </DialogTrigger>
+                     </TooltipTrigger>
+                     <TooltipContent>
+                        Click to see details
+                     </TooltipContent>
+                  </Tooltip>
                </div>
             </header>
 
@@ -55,7 +54,7 @@ export default function Daily () {
                </div>
 
                {/* news */}
-               <div className="w-full h-[max-content] news-wrapper pt-5 mask-y-from-95%">
+               <div className="w-full h-[max-content] news-wrapper pt-5 ">
                   {news.map((item, index) => (
                      <CardNews title={item.title} badge={item.badge} imgSrc={item["image-src"]} link={item["web-scraper-start-url"]} key={index}/>
                   ))}
@@ -63,16 +62,7 @@ export default function Daily () {
             </main>
          </div>
 
-         {/* <dialog ref={promoModalRef} id="my_modal_2" className="modal">
-            <div className="modal-box font-inter">
-               <h3 className="font-bold text-lg">Hello Pawrents!</h3>
-               <p className="py-4">Press ESC key or click outside to close</p>
-               <Image src={PromoBanner} alt="promo poster image" />
-            </div>
-            <form method="dialog" className="modal-backdrop">
-               <button>close</button>
-            </form>
-         </dialog> */}
+         <PromoModal />
       </section>
    )
 }

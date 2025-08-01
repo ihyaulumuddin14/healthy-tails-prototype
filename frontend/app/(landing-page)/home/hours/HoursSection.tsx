@@ -12,7 +12,7 @@ export default function Hours () {
                type='h1'
                splitBy='lines'
                className='flex-text-2'
-               // reverse={true}
+               addLineHeight
                >
                <span className='text-texture font-bold'>Paws Up</span>,
                We`re Open!

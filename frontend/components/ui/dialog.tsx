@@ -5,11 +5,36 @@ import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { XIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react"
+import Lenis from "lenis"
 
 function Dialog({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Root>) {
-  return <DialogPrimitive.Root data-slot="dialog" {...props} />
+   const [isOpen, setIsOpen] = useState(false);
+   
+   useEffect(() => {
+      const lenis = new Lenis();
+
+      if (isOpen) {
+         lenis.stop();
+      } else {
+         lenis.start();
+
+         function raf(time: number) {
+            lenis.raf(time*0.5);
+            requestAnimationFrame(raf);
+         }
+         requestAnimationFrame(raf);
+      }
+   
+      return () => {
+         lenis.destroy();
+         lenis.start();
+      }
+   }, [isOpen]);
+
+  return <DialogPrimitive.Root data-slot="dialog" onOpenChange={setIsOpen} {...props} />
 }
 
 function DialogTrigger({
@@ -60,7 +85,7 @@ function DialogContent({
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg",
+          "bg-[var(--color-muted)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg p-6 shadow-lg duration-200 sm:max-w-lg",
           className
         )}
         {...props}
@@ -84,7 +109,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex flex-col gap-2 text-center sm:text-left", className)}
+      className={cn("flex flex-col gap-2 text-center sm:text-left pb-5 pl-2 border-b-1 border-[var(--color-foreground)]/20", className)}
       {...props}
     />
   )
@@ -123,7 +148,7 @@ function DialogDescription({
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("text-muted-foreground text-sm flex flex-col items-center relative", className)}
       {...props}
     />
   )

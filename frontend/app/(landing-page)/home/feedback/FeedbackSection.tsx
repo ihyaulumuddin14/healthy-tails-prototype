@@ -11,6 +11,7 @@ export default function FeedbackSection() {
                type='h1'
                splitBy='lines'
                className='flex-text-1 text-[var(--color-foreground)] mb-10 self-start border-b'
+               addLineHeight
             >
                <span className='bg-[url(/images/texture.jpg)] bg-cover text-shadow-2xs bg-clip-text text-transparent text-texture'>Your feedback</span>
                {" "}keeps us going

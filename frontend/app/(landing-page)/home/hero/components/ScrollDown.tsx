@@ -1,27 +1,6 @@
 'use client'
 
-import Lenis from 'lenis'
-import { useEffect, useRef } from 'react';
-
 export default function ScrollDown() {
-
-   const lenisRef = useRef<Lenis | null>(null);
-
-   useEffect(() => {
-      const lenis = new Lenis();
-      lenisRef.current = lenis;
-
-      function raf(time: number) {
-         lenis.raf(time*.8);
-         requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
-
-      return () => {
-         lenis.destroy();
-      };
-   }, [])
-
    return (
       <div
          onClick={() => scrollTo({ top: window.innerHeight, behavior: 'smooth' })}

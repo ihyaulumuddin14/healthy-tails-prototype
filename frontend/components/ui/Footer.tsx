@@ -17,7 +17,7 @@ export default function Footer ({ sectionIDs }: FooterProps) {
             {/* left */}
             <div className='w-full h-fit flex flex-col gap-5'>
                <div className='w-full h-fit flex items-center gap-2 cursor-pointer' onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}>
-                  <Image src={LogoImage} alt="logo" className='w-[70px]'/>
+                  <Image src={LogoImage} loading="eager" alt="logo" className='w-[70px]'/>
                   <h2 className='font-inter text-slate-700 text-[clamp(1.5rem,5vw,2rem)] font-bold'>Healthy Tails</h2>
                </div>
                <address className='font-inter text-slate-700 text-[clamp(0.8rem,1.5vw,1rem)]'>

@@ -10,7 +10,7 @@ const Hero = () => {
    return (
       <section id='home' className='w-full min-h-screen h-fit flex justify-center bg-transparent overflow-hidden relative'>
          <div className='bg-container w-[100vw] h-full absolute z-0 top-0 left-0'>
-            <Image src={HeroImage} alt="Hero" className='text-[var(--color-foreground)] w-full h-full object-cover brightness-50 ease-in-out'/>
+            <Image src={HeroImage} loading='eager' alt="Hero" className='text-[var(--color-foreground)] w-full h-full object-cover brightness-50 ease-in-out'/>
          </div>
 
          <div className={`content-wrapper min-h-screen grid grid-cols-1 sm:grid-cols-[1fr_0.7fr] relative pb-[min(15vw,60px)]`}>
@@ -19,8 +19,9 @@ const Hero = () => {
                   <AnimatedText
                      triggerWrapper='#home'
                      type='h1'
-                     splitBy='words'
+                     splitBy='lines'
                      className='xl:text-8xl lg:text-7xl md:text-6xl text-5xl font-bold text-white'
+                     addLineHeight
                      >
                         Healthy Tails
                   </AnimatedText>

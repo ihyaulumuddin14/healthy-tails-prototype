@@ -22,14 +22,14 @@ const NewsCard = ({ title, badge, imgSrc, link }: Props) => {
    }
 
    return (
-      <div className='news-card w-full h-fit p-5 flex flex-col border-2 border-[var(--color-tertiary)]/20 rounded-2xl mb-5 text-inter bg-[var(--foreground)]/10 backdrop-blur-3xl group'>
+      <div className='news-card w-full h-full p-5 flex flex-col border-2 border-[var(--color-tertiary)]/20 rounded-2xl text-inter bg-[var(--foreground)]/10 backdrop-blur-3xl group'>
          <header className="w-full h-fit flex flex-col gap-2 mb-5 cursor-pointer group/header">
-            <Badge variant="destructive">{badge}</Badge>
+            <Badge variant="default">{badge}</Badge>
             <h2 className="text-2xl leading-7 font-bold group-hover/header:text-[var(--color-tertiary)] ease-in-out duration-100">{title}</h2>
          </header>
          
          <main className="w-full h-fit overflow-hidden rounded-lg">
-            <Image src={imgSrc} alt="news image" width={200} height={200} className="w-full h-fit group-hover:scale-110 ease-in-out duration-300"/>
+            <Image src={imgSrc} loading="lazy" alt="news image" width={200} height={200} className="w-full h-fit group-hover:scale-110 ease-in-out duration-300"/>
          </main>
 
          <footer className="w-full mt-3 flex justify-end">

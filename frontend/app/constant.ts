@@ -116,15 +116,35 @@ export const teamMembers = [
       noSIP: "SIP.100.3.12/126.0015/35.73.406/2024",
       role: "Veterinarian",
       image: "/veterinarian/drh.Ling_Sandra.png",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, itaque."
+      description: "A graduate of the University of Brawijaya with a Doctor of Veterinary Medicine degree, currently based in Malang, East Java, and the owner of Healthy Tails, a veterinary service business focused on pet health and clinical care.",
+      socialMedia: [
+         {
+            platform: "instagram",
+            url: "https://www.instagram.com/lingalkahfi/"
+         },
+         {
+            platform: "linkedin",
+            url: "linkedin.com/in/ling-sandra-aryastyani-hajar-al-kahfi-56540a265"
+         }
+      ]
    },
    {
       id: 2,
-      name: "drh. Neila Rahma",
+      name: "drh. Neila Rahma H.",
       noSIP: "SIP.100.3.12/126.0014/35.73.406/2024",
       role: "Veterinarian",
       image: "/veterinarian/drh.Neila_Rahma.png",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, itaque."
+      description: "A veterinarian based in Malang Regency, East Java, who earned a Doctor of Veterinary Medicine degree from Universitas Gadjah Mada in 2020 and is committed to providing quality veterinary care.",
+      socialMedia: [
+         {
+            platform: "instagram",
+            url: "https://www.instagram.com/neilarah/"
+         },
+         {
+            platform: "linkedin",
+            url: "linkedin.com/in/neila-rahma-habibah-a0411313a"
+         }
+      ]
    },
    {
       id: 3,
@@ -132,7 +152,13 @@ export const teamMembers = [
       noSIP: "",
       role: "Vet Assistant",
       image: "/veterinarian/Dwiky_Yayan.png",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, itaque."
+      description: "A veterinary assistant with hands-on experience in supporting clinical procedures, animal care, and day-to-day operations in a veterinary practice.",
+      socialMedia: [
+         {
+            platform: "instagram",
+            url: "https://www.instagram.com/_dwikyyayan/"
+         }
+      ]
    }
 ]
 
@@ -342,3 +368,47 @@ export const news = [
     "badge": "Kesehatan Hewan"
   }
 ]
+
+
+export const faqData = [
+  {
+    question: "What types of animals do you treat at Healthy Tails?",
+    answer: "At Healthy Tails, we primarily treat cats, but we also accept other small animals such as rabbits and, depending on the case, small dogs. If you're unsure, feel free to contact us first."
+  },
+  {
+    question: "How do I make a reservation for my pet?",
+    answer: "You can book an appointment directly through our website or by sending us a message via WhatsApp. Both options are easy and convenient."
+  },
+  {
+    question: "Can I just walk in, or is an appointment required?",
+    answer: "We recommend making a reservation in advance to ensure a smooth visit, but we do accept walk-ins when our schedule allows."
+  },
+  {
+    question: "I’m not sure if my pet needs to visit. Can I just ask questions via WhatsApp?",
+    answer: "Absolutely! We’re happy to answer general inquiries via WhatsApp before you decide to book an appointment."
+  },
+  {
+    question: "Do you offer grooming or only medical services?",
+    answer: "Currently, Healthy Tails focuses on medical check-ups, vaccinations, minor treatments, and general wellness care. Grooming services are not available at the moment."
+  },
+  {
+    question: "What are some common symptoms I should watch out for in my cat?",
+    answer: "Watch out for lethargy, appetite loss, sudden aggression, sneezing, vomiting, diarrhea, or abnormal behavior. These can be signs your cat needs medical attention."
+  },
+  {
+    question: "Do you treat rabbits?",
+    answer: "Yes, we do accept rabbit patients! If you’re unsure about the type of care needed, contact us to check if it falls within our services."
+  },
+  {
+    question: "Can I cancel or reschedule my reservation?",
+    answer: "Yes, you can cancel or reschedule your appointment by contacting us through the same method you used to book — either web or WhatsApp."
+  },
+  {
+    question: "What should I prepare before bringing my pet in?",
+    answer: "Bring your pet’s health record (if available), any recent medication info, and keep your pet safely secured in a carrier or leash."
+  },
+  {
+    question: "Do you offer advice for new pet owners?",
+    answer: "Definitely! We love helping new cat or rabbit parents. Ask us in person or via WhatsApp for basic care tips, feeding guidelines, and early warning signs to watch for."
+  }
+];

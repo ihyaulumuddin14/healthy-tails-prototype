@@ -1,5 +1,5 @@
 import Navbar from "./components/Navbar";
-import ScrollProvider from "./ScrollProvider";
+import Main from "./Main";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,9 +10,7 @@ export default function LandingPageLayout({children}: {children: React.ReactNode
    return (
       <>
          <Navbar />
-         <ScrollProvider>
-            { children }
-         </ScrollProvider>
+         <Main> { children } </Main>
       </>
    );
 }

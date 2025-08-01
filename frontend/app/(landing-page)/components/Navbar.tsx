@@ -6,6 +6,7 @@ import LinkNavbar from './LinkNavbar'
 import ClientUserButton from './ClientUserButton'
 import Loader from '@/components/ui/Loader'
 import { Suspense } from 'react'
+import LinkHomeLogo from './LinkHomeLogo'
 
 const Navbar = () => {
 
@@ -14,10 +15,7 @@ const Navbar = () => {
          <MobileNav />
 
          <nav className="w-full max-w-[1536px] h-18 flex justify-between items-center px-5 lg:px-10 py-3">
-            <div className="h-12 flex items-center gap-2 cursor-pointer">
-               <Image src="/images/logo.webp" alt="logo" className="text-white" width={50} height={50}/>
-               <h1 className='text-xl text-[var(--color-foreground)] font-bold tracking-tighter'>Healthy Tails</h1>
-            </div>
+            <LinkHomeLogo />
 
             <div className="flex items-center gap-5">
                <LinkNavbar />

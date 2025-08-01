@@ -15,6 +15,7 @@ export default function Shop () {
                type='h1'
                splitBy='lines'
                className='font-bold mb-10 lg:text-6xl md:text-5xl text-4xl'
+               addLineHeight
                >
                   Shop Cat Favorites
             </AnimatedText>
@@ -26,7 +27,13 @@ export default function Shop () {
                ))}
             </div>
 
-            <BasicButton model='fill' width='auto'>View All</BasicButton>
+            <BasicButton model='fill' width='auto'>
+               Shop Now
+               <svg className="w-6 h-6 text-slate-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+               </svg>
+
+            </BasicButton>
          </div>
       </section>
    )
