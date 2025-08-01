@@ -1,11 +1,10 @@
 import {
-  ForgotPasswordRequest,
-  LoginRequest,
-  LogoutRequest,
-  RefreshRequest,
   RegisterRequest,
-  ResetPasswordRequest,
   VerifyOTPRequest,
+  ResendOTPRequest,
+  LoginRequest,
+  ForgotPasswordRequest,
+  ResetPasswordRequest,
 } from "../domain/dto/auth.dto.js";
 import {
   findUserByEmail,
@@ -19,6 +18,8 @@ import crypto from "crypto";
 import { HttpError } from "../utils/http-error.js";
 import { generateOTP } from "../utils/otp.js";
 import {
+  getCache,
+  setCache,
   setOTP,
   getOTP,
   setResetToken,
@@ -51,6 +52,9 @@ export const registerUser = async (payload: RegisterRequest) => {
 
   await setOTP(email, otp);
   await sendOTPEmail(email, otp);
+
+  const cooldownKey = `otp_cooldown:${email}`;
+  await setCache(cooldownKey, true, 300);
 };
 
 export const verifyOTPUser = async (payload: VerifyOTPRequest) => {
@@ -79,6 +83,32 @@ export const verifyOTPUser = async (payload: VerifyOTPRequest) => {
   return { accessToken, refreshToken };
 };
 
+export const resendOTPUser = async (payload: ResendOTPRequest) => {
+  const { email } = payload;
+
+  const user = await findUserByEmail(email);
+  if (!user) {
+    throw new HttpError(404, "User not found");
+  }
+
+  if (user.verified) {
+    throw new HttpError(400, "User already verified");
+  }
+
+  const cacheKey = `otp_cooldown:${email}`;
+
+  const cooldown = await getCache(cacheKey);
+  if (cooldown) {
+    throw new HttpError(429, "Please wait before requesting a new OTP");
+  }
+
+  const otp = await generateOTP();
+  await setOTP(email, otp);
+  await sendOTPEmail(email, otp);
+
+  await setCache(cacheKey, true, 300);
+};
+
 export const loginUser = async (payload: LoginRequest) => {
   const { email, password, rememberMe } = payload;
 
@@ -104,9 +134,7 @@ export const loginUser = async (payload: LoginRequest) => {
   return { accessToken, refreshToken };
 };
 
-export const refreshUser = async (payload: RefreshRequest) => {
-  const { refreshToken } = payload;
-
+export const refreshUser = async (refreshToken: string) => {
   const user = await findUserByRefreshToken(refreshToken);
   if (!user) {
     throw new HttpError(401, "Invalid or expired refresh token");
@@ -122,17 +150,19 @@ export const refreshUser = async (payload: RefreshRequest) => {
   );
   const newRefreshToken = generateRefreshToken(user._id, decoded.rememberMe);
 
-  await updateUserByEmail(user.email, { refreshToken });
+  await updateUserByEmail(user.email, { refreshToken: newRefreshToken });
 
-  return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+  return {
+    accessToken: newAccessToken,
+    refreshToken: newRefreshToken,
+    rememberMe: decoded.rememberMe,
+  };
 };
 
-export const logoutUser = async (payload: LogoutRequest) => {
-  const { refreshToken } = payload;
-
+export const logoutUser = async (refreshToken: string) => {
   const user = await findUserByRefreshToken(refreshToken);
   if (!user) {
-    throw new HttpError(401, "Invalid or expired refresh token");
+    return;
   }
 
   await removeRefreshToken(refreshToken);

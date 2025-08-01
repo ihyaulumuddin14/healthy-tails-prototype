@@ -10,6 +10,7 @@ import logger from "./utils/logger.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app = express();
@@ -47,6 +48,7 @@ app.use(
   })
 );
 app.use(helmet());
+app.use(cookieParser());
 app.use(express.json());
 app.disable("x-powered-by");
 

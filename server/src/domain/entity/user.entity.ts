@@ -7,6 +7,7 @@ export interface UserItf extends Document {
   password: string;
   role: "USER" | "ADMIN";
   verified: boolean;
+  photoUrl: string;
   refreshToken: string;
   createdAt: Date;
   updatedAt: Date;
@@ -39,6 +40,12 @@ const UserSchema = new Schema(
     verified: {
       type: Boolean,
       default: false,
+    },
+    photoUrl: {
+      type: String,
+      maxlength: 255,
+      default:
+        "https://qdtfpohyfsqvunddzoge.supabase.co/storage/v1/object/public/media/profile/default_pfp.jpg",
     },
     refreshToken: {
       type: String,

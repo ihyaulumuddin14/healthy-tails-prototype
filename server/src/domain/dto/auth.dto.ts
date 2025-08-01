@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const RegisterRequestSchema = z.object({
   name: z.string().min(5, "Name must be at least 5 characters long").max(50),
-  email: z.string().email("Invalid email format").max(255),
+  email: z.email("Invalid email format").max(255),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
@@ -14,12 +14,16 @@ export const RegisterRequestSchema = z.object({
 });
 
 export const VerifyOTPRequestSchema = z.object({
-  email: z.string().email("Invalid email format").max(255),
+  email: z.email("Invalid email format").max(255),
   otp: z.string().length(6, "OTP must be exactly 6 characters long"),
 });
 
+export const ResendOTPRequestSchema = z.object({
+  email: z.email("Invalid email format").max(255),
+});
+
 export const LoginRequestSchema = z.object({
-  email: z.string().email("Invalid email format").max(255),
+  email: z.email("Invalid email format").max(255),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
@@ -31,20 +35,8 @@ export const LoginRequestSchema = z.object({
   rememberMe: z.boolean().optional().default(false),
 });
 
-export const RefreshRequestSchema = z.object({
-  refreshToken: z
-    .string()
-    .min(10, "Refresh token must be at least 10 characters long"),
-});
-
-export const LogoutRequestSchema = z.object({
-  refreshToken: z
-    .string()
-    .min(10, "Refresh token must be at least 10 characters long"),
-});
-
 export const ForgotPasswordRequestSchema = z.object({
-  email: z.string().email("Invalid email format").max(255),
+  email: z.email("Invalid email format").max(255),
 });
 
 export const ResetPasswordRequestSchema = z.object({
@@ -61,16 +53,9 @@ export const ResetPasswordRequestSchema = z.object({
     ),
 });
 
-export const TokenResponseSchema = z.object({
-  accessToken: z.string(),
-  refreshToken: z.string(),
-});
-
 export type RegisterRequest = z.infer<typeof RegisterRequestSchema>;
 export type VerifyOTPRequest = z.infer<typeof VerifyOTPRequestSchema>;
+export type ResendOTPRequest = z.infer<typeof ResendOTPRequestSchema>;
 export type LoginRequest = z.infer<typeof LoginRequestSchema>;
-export type RefreshRequest = z.infer<typeof RefreshRequestSchema>;
-export type LogoutRequest = z.infer<typeof LogoutRequestSchema>;
 export type ForgotPasswordRequest = z.infer<typeof ForgotPasswordRequestSchema>;
 export type ResetPasswordRequest = z.infer<typeof ResetPasswordRequestSchema>;
-export type TokenResponse = z.infer<typeof TokenResponseSchema>;

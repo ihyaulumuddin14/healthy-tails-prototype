@@ -1,5 +1,13 @@
 import UserModel, { UserItf } from "../domain/entity/user.entity.js";
 
+export const findAllUsers = async (): Promise<UserItf[]> => {
+  return UserModel.find().exec();
+};
+
+export const findUserById = async (id: string): Promise<UserItf | null> => {
+  return UserModel.findById(id).exec();
+};
+
 export const findUserByEmail = async (
   email: string
 ): Promise<UserItf | null> => {
@@ -15,6 +23,22 @@ export const findUserByRefreshToken = async (
 export const createUser = async (data: Partial<UserItf>): Promise<UserItf> => {
   const user = new UserModel(data);
   return user.save();
+};
+
+export const updateUserById = async (
+  id: string,
+  updateData: Partial<UserItf>
+): Promise<UserItf | null> => {
+  return UserModel.findByIdAndUpdate(id, updateData, {
+    new: true,
+  }).exec();
+};
+
+export const updateUserPassword = async (
+  id: string,
+  password: string
+): Promise<UserItf | null> => {
+  return UserModel.findByIdAndUpdate(id, { password }, { new: true }).exec();
 };
 
 export const updateUserByEmail = async (
@@ -33,4 +57,8 @@ export const removeRefreshToken = async (
     { refreshToken },
     { $unset: { refreshToken: "" } }
   ).exec();
+};
+
+export const deleteUserById = async (id: string): Promise<UserItf | null> => {
+  return UserModel.findByIdAndDelete(id).exec();
 };
