@@ -15,7 +15,6 @@ import { Express } from "express";
 import { HttpError } from "../utils/http-error.js";
 import { deleteCache, getCache, setCache } from "../utils/redis.js";
 import { toUserResponse, toUserResponseArray } from "../helpers/user-mapper.js";
-import { Readable } from "stream";
 import { supabase } from "../config/supabase.js";
 
 export const getUserById = async (id: string) => {
@@ -28,7 +27,7 @@ export const getUserById = async (id: string) => {
 
   const user = await findUserById(id);
   if (!user) {
-    throw new HttpError(403, "Unauthorized access");
+    throw new HttpError(404, "User not found");
   }
 
   const mappedUser = toUserResponse(user);
@@ -44,7 +43,7 @@ export const updateUserService = async (
 ) => {
   const updatedUser = await updateUserById(id, payload);
   if (!updatedUser) {
-    throw new HttpError(403, "Unauthorized access");
+    throw new HttpError(404, "User not found");
   }
 
   const cacheKey = `user:${id}`;
@@ -62,7 +61,7 @@ export const changeUserPasswordService = async (
 ) => {
   const user = await findUserById(id);
   if (!user) {
-    throw new HttpError(403, "Unauthorized access");
+    throw new HttpError(404, "User not found");
   }
 
   if (payload.oldPassword === payload.newPassword) {
@@ -91,7 +90,7 @@ export const uploadAvatarService = async (
 
   const user = await findUserById(id);
   if (!user) {
-    throw new HttpError(403, "Unauthorized access");
+    throw new HttpError(404, "User not found");
   }
 
   if (user.photoUrl && !user.photoUrl.includes("default_pfp.jpg")) {
