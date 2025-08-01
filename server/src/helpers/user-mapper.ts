@@ -7,6 +7,7 @@ export const toUserResponse = (user: UserItf) => {
     email: user.email,
     role: user.role,
     verified: user.verified,
+    photoUrl: user.photoUrl,
   };
 };
 

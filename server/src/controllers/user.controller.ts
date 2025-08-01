@@ -3,6 +3,7 @@ import {
   getUserById,
   updateUserService,
   changeUserPasswordService,
+  uploadAvatarService,
   getAllUsers,
   deleteUserService,
 } from "../services/user.service.js";
@@ -44,6 +45,22 @@ export const changeUserPassword = async (
   try {
     await changeUserPasswordService(req.user!.id, req.body);
     return res.status(200).json({ message: "Password changed successfully" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const uploadAvatar = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const avatar = req.file;
+    const user: UserResponse = await uploadAvatarService(req.user!.id, avatar!);
+    return res
+      .status(200)
+      .json({ message: "Avatar uploaded successfully", user });
   } catch (err) {
     next(err);
   }

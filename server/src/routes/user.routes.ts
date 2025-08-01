@@ -3,6 +3,7 @@ import {
   findUserById,
   updateUser,
   changeUserPassword,
+  uploadAvatar,
   findAllUsers,
   deleteUser,
 } from "../controllers/user.controller.js";
@@ -17,6 +18,7 @@ import {
   UpdateUserRequestSchema,
   UserIdParamSchema,
 } from "../domain/dto/user.dto.js";
+import upload from "../middlewares/upload.js";
 
 const router = Router();
 
@@ -33,6 +35,7 @@ router.put(
   validateRequest(UpdatePasswordUserRequestSchema),
   changeUserPassword
 );
+router.post("/me/avatar", authenticate, upload.single("avatar"), uploadAvatar);
 router.get("/", authenticate, adminOnly, findAllUsers);
 router.delete(
   "/:id",
