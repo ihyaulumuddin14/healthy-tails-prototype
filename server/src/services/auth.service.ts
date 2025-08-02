@@ -32,6 +32,7 @@ import {
   generateRefreshToken,
   verifyToken,
 } from "../utils/jwt.js";
+import { toUserResponse } from "../helpers/user-mapper.js";
 
 export const registerUser = async (payload: RegisterRequest) => {
   const { name, email, password } = payload;
@@ -80,7 +81,7 @@ export const verifyOTPUser = async (payload: VerifyOTPRequest) => {
 
   await updateUserByEmail(email, { verified: true, refreshToken });
 
-  return { accessToken, refreshToken };
+  return { accessToken, refreshToken, user: toUserResponse(user) };
 };
 
 export const resendOTPUser = async (payload: ResendOTPRequest) => {
@@ -131,7 +132,7 @@ export const loginUser = async (payload: LoginRequest) => {
 
   await updateUserByEmail(email, { refreshToken });
 
-  return { accessToken, refreshToken };
+  return { accessToken, refreshToken, user: toUserResponse(user) };
 };
 
 export const refreshUser = async (refreshToken: string) => {

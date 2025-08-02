@@ -32,9 +32,9 @@ export const verifyOTP = async (
   next: NextFunction
 ) => {
   try {
-    const tokens = await verifyOTPUser(req.body);
+    const result = await verifyOTPUser(req.body);
 
-    res.cookie("refreshToken", tokens.refreshToken, {
+    res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
@@ -44,7 +44,8 @@ export const verifyOTP = async (
 
     res.status(200).json({
       message: "OTP verified successfully.",
-      accessToken: tokens.accessToken,
+      accessToken: result.accessToken,
+      user: result.user,
     });
   } catch (err) {
     next(err);
@@ -70,14 +71,14 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
-    const tokens = await loginUser(req.body);
+    const result = await loginUser(req.body);
 
     const rememberMe = req.body.rememberMe || false;
     const cookieMaxAge = rememberMe
       ? 30 * 24 * 60 * 60 * 1000
       : 7 * 24 * 60 * 60 * 1000;
 
-    res.cookie("refreshToken", tokens.refreshToken, {
+    res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
@@ -87,7 +88,11 @@ export const login = async (
 
     res
       .status(200)
-      .json({ message: "Login successfully", accessToken: tokens.accessToken });
+      .json({
+        message: "Login successfully",
+        accessToken: result.accessToken,
+        user: result.user,
+      });
   } catch (err) {
     next(err);
   }
