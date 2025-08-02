@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import { HttpError } from "./http-error.js";
+import logger from "./logger.js";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -19,7 +20,8 @@ export const sendOTPEmail = async (email: string, otp: string) => {
 
   try {
     await transporter.sendMail(mailOptions);
-  } catch {
+  } catch (err) {
+    logger.error("Failed to send OTP email", err);
     throw new HttpError(500, "Failed to send email");
   }
 };
@@ -36,7 +38,8 @@ export const sendResetLinkEmail = async (email: string, resetToken: string) => {
 
   try {
     await transporter.sendMail(mailOptions);
-  } catch {
+  } catch (err) {
+    logger.error("Failed to send reset link email", err);
     throw new HttpError(500, "Failed to send email");
   }
 };
