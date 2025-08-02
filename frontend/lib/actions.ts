@@ -6,8 +6,7 @@ import {
    ForgotPasswordCredentials,
    ResetPasswordCredentials,
    VerifyOTPCredentials,
-   TokenResponse,
-   LogoutCredentials
+   TokenResponse
 } from "../app/(auth)/schemas/AuthSchema";
 
 
@@ -15,7 +14,7 @@ export async function onSubmitLogin (credential: LoginCredentials) : Promise<{
    success: boolean,
    message?: string,
    error?: string,
-   tokens?: TokenResponse
+   accessToken?: TokenResponse
 }> {
    try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/login`, {
@@ -31,7 +30,7 @@ export async function onSubmitLogin (credential: LoginCredentials) : Promise<{
          return {success: false, error: data.message}
       }
       
-      return {success: true, message: data.message, tokens: data.tokens}
+      return {success: true, message: data.message, accessToken: data.accessToken}
    } catch (error) {
       return {success: false, error: (error as Error).message}
    }
@@ -86,36 +85,36 @@ export async function onSubmitForgotPassword (credential: ForgotPasswordCredenti
    }
 }
 
-// export async function onSubmitRequestReset (credential: { email: string }) : Promise<{
-//    success: boolean,
-//    message?: string,
-//    error?: string
-// }> {
-//    try {
-//       const response = await fetch(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/forgot-password`, {
-//          method: 'POST',
-//          headers: { 'Content-Type': 'application/json' },
-//          body: JSON.stringify(credential)
-//       })
+export async function onSubmitResendOTP (credential: { email: string }) : Promise<{
+   success: boolean,
+   message?: string,
+   error?: string
+}> {
+   try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/resend-otp`, {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(credential)
+      })
 
-//       const data = await response.json();
+      const data = await response.json();
       
-//       if (!response.ok) {
-//          return {success: false, error: data.message}
-//       }
+      if (!response.ok) {
+         return {success: false, error: data.message}
+      }
       
-//       return {success: true, message: data.message}
-//    } catch (error) {
-//       return {success: false, error: (error as Error).message}
-//    }
-// }
+      return {success: true, message: data.message}
+   } catch (error) {
+      return {success: false, error: (error as Error).message}
+   }
+}
 
 
 export async function onSubmitVerifyOTP (credential: VerifyOTPCredentials) : Promise<{
    success: boolean,
    message?: string,
    error?: string,
-   tokens?: TokenResponse
+   accessToken?: TokenResponse
 }> {
    try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/verify-otp`, {
@@ -131,7 +130,7 @@ export async function onSubmitVerifyOTP (credential: VerifyOTPCredentials) : Pro
          return {success: false, error: data.message}
       }
 
-      return {success: true, message: data.message, tokens: data.tokens}
+      return {success: true, message: data.message, accessToken: data.accessToken}
    } catch (error) {
       return {success: false, error: (error as Error).message}
    }
@@ -163,7 +162,7 @@ export async function onSubmitResetPassword (credential: ResetPasswordCredential
 }
 
 
-export async function onSubmitLogout (credentials: LogoutCredentials) : Promise<{
+export async function onSubmitLogout () : Promise<{
    success: boolean,
    message?: string,
    error?: string
@@ -171,9 +170,7 @@ export async function onSubmitLogout (credentials: LogoutCredentials) : Promise<
    try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/logout`, {
          method: 'POST',
-         credentials: 'include',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify(credentials)
+         credentials: 'include'
       })
 
       const data = await response.json();

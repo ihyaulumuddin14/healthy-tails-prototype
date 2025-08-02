@@ -63,7 +63,7 @@ export default function AnimatedText({
          splitText.revert();
          gsap.killTweensOf(target);
       };
-   }, [triggerWrapper, splitBy, reverse]);
+   }, [triggerWrapper, splitBy, reverse, addLineHeight]);
 
 
    const renderElement = () => {

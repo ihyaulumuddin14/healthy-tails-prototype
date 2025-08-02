@@ -3,21 +3,26 @@ import { persist } from 'zustand/middleware'
 import { toast } from "sonner"
 
 type VerifyStoreType = {
-   email: string | null,
-   setEmail: (arg: string) => void,
-   clearEmail: () => void
+   email: string,
+   setEmail: (arg: {  email: string, updatedAt: number }) => void,
+   clearEmail: () => void,
+   updatedAt: number
 }
 
 const useVerifyStore = create<VerifyStoreType>()(
    persist(
       (set) => ({
-         email: null,
-         setEmail: (arg: string) => {
-            set({ email: arg })
+         email: '',
+         setEmail: (arg: { email: string, updatedAt: number }) => {
+            set({
+               email: arg.email,
+               updatedAt: arg.updatedAt
+            })
          },
          clearEmail: () => {
-            set({ email: null })
-         }
+            set({ email: '', updatedAt: 0 })
+         },
+         updatedAt: 0
       }),
       {
          name: 'email',
@@ -48,6 +53,7 @@ const useVerifyStore = create<VerifyStoreType>()(
                const item = {
                   value: JSON.stringify(value),
                   expireAt,
+                  email: value.state.email
                }
                sessionStorage.setItem(name, JSON.stringify(item))
             },

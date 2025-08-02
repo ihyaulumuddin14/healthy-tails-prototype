@@ -6,25 +6,20 @@ import { usePathname, useRouter } from 'next/navigation'
 import BasicButton from '../../../components/ui/BasicButton'
 import useStore from '@/stores/useStore'
 import { handleFormResponse } from '@/app/(auth)/HandleFormResponse'
-import { getTokenFromStorage } from '@/app/(auth)/HandleTokenState'
-import { TokenResponse } from '@/app/(auth)/schemas/AuthSchema'
 
 const MobileNav = () => {
    const router = useRouter();
    const pathname = usePathname();
    const isMobileNavOpen = useStore((state) => state.isMobileNavOpen);
    const setIsMobileNavOpen = useStore((state) => state.setIsMobileNavOpen);
-   const user = getTokenFromStorage();
+   const accessToken = useStore((state) => state.accessToken);
+
 
    const handleLogout = async () => {
-      const { refreshToken } = getTokenFromStorage() as TokenResponse;
-
-      if (refreshToken) {
-         await handleFormResponse({
-            authType: 'logout',
-            data: { refreshToken }
-         })
-      }
+      await handleFormResponse({
+         authType: 'logout',
+         router
+      })
    }
 
    const handleLogin = () => {
@@ -50,7 +45,7 @@ const MobileNav = () => {
          </ul>
 
          <div className='w-full h-fit flex flex-col items-center justify-center gap-5'>
-            {user ? (
+            {accessToken ? (
                <div className='w-full h-fit flex justify-between items-center px-5 gap-5'>
                   <BasicButton model='fill' width='full'>Profile</BasicButton>
                   <hr className='h-full border border-[var(--color-tertiary)]/40'/>

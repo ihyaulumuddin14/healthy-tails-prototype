@@ -9,10 +9,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ResetPasswordUISchema, ResetPasswordUICredentials, ResetPasswordCredentials } from '../../schemas/AuthSchema'
 import { handleFormResponse } from '../../HandleFormResponse'
+import { useRouter } from 'next/navigation'
 
 const ResetPassword = () => {
    const params = useParams();
    const resetToken = params.resetToken;
+   const router = useRouter();
 
    const [isPasswordValid, setIsPasswordValid] = useState({
       lengthValid: false,
@@ -51,7 +53,7 @@ const ResetPassword = () => {
          resetToken: resetToken as string,
          password: data.newPassword
       };
-      await handleFormResponse({ authType: 'reset-password', data: dto });
+      await handleFormResponse({ authType: 'reset-password', data: dto, router });
    };
 
 

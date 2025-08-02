@@ -1,11 +1,8 @@
-import Image from 'next/image'
 import MobileNav from './MobileNav'
 import Hamburger from './Hamburger'
 import ThemeToggle from './ThemeToggle'
 import LinkNavbar from './LinkNavbar'
 import ClientUserButton from './ClientUserButton'
-import Loader from '@/components/ui/Loader'
-import { Suspense } from 'react'
 import LinkHomeLogo from './LinkHomeLogo'
 
 const Navbar = () => {
@@ -20,9 +17,7 @@ const Navbar = () => {
             <div className="flex items-center gap-5">
                <LinkNavbar />
                <ThemeToggle />
-               <Suspense fallback={<Loader/>}>
-                  <ClientUserButton />
-               </Suspense>
+               <ClientUserButton />
                <Hamburger />
             </div>
          </nav>

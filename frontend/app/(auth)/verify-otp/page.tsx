@@ -1,26 +1,34 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AuthLayout from '../AuthLayout'
 import Input from '../components/Input'
-import useResetStore from '@/stores/useVerifyStore'
 import { handleFormResponse } from '../HandleFormResponse'
+import { useRouter } from 'next/navigation'
 
 const VerifyOTP = () => {
-   const email = useResetStore(state => state.email)
+   const [email, setEmail] = useState<string>('')
+   const router = useRouter()
    const [otpValidation, setOtpValidation] = useState({
       isValid: true,
       message: ''
    })
 
    const handleResponseVerifyOTP = async (email: string, otp: string) => {
-      handleFormResponse({authType: 'verify-otp', data: { email, otp } })
+      handleFormResponse({authType: 'verify-otp', data: { email, otp }, router})
    }
+
+   useEffect(() => {
+      const { email } = JSON.parse(sessionStorage.getItem('email') as string);
+      if (email) {
+         setEmail(email) 
+      }
+   }, [])
 
    return (
       <AuthLayout
          title='Verify your email address'
-         subtitle={`We emailed you a six-digit otp to ${email}, \nEnter the code below to confirm your email address.`}
+         subtitle={`We emailed a six-digit otp to ${email}, \nEnter the code below to confirm`}
          type='recovery'>
             <Input
                onChange={(e) => {

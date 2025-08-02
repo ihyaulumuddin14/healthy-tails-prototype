@@ -14,20 +14,23 @@ import {
    onSubmitForgotPassword,
    onSubmitVerifyOTP,
    onSubmitResetPassword,
-   onSubmitLogout
+   onSubmitLogout,
+   onSubmitResendOTP
 } from '@/lib/actions'
 import { toast } from 'sonner'
-import { redirect } from "next/navigation";
 import useVerifyStore from "@/stores/useVerifyStore";
-import { removeTokenFromStorage, setTokenToStorage } from './HandleTokenState';
+import useStore from '@/stores/useStore';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+
 
 
 type Props = {
    authType: 'login' | 'register' | 'forgot-password' | 'resend-otp' | 'verify-otp' | 'reset-password' | 'logout',
-   data: LoginCredentials | RegisterCredentials | ForgotPasswordCredentials | VerifyOTPCredentials | ResetPasswordCredentials | LogoutCredentials
+   data?: LoginCredentials | RegisterCredentials | ForgotPasswordCredentials | VerifyOTPCredentials | ResetPasswordCredentials | LogoutCredentials
+   router: AppRouterInstance
 }
 
-export async function handleFormResponse({ authType, data }: Props) {
+export async function handleFormResponse({ authType, data, router }: Props) {
    let response;
 
    switch (authType) {
@@ -43,9 +46,9 @@ export async function handleFormResponse({ authType, data }: Props) {
          response = await onSubmitForgotPassword(data as ForgotPasswordCredentials);
          break;
          
-      // case 'resend-otp':
-      //    response = await onSubmitRequestReset(data as { email: string });
-      //    break;
+      case 'resend-otp':
+         response = await onSubmitResendOTP(data as { email: string });
+         break;
 
       case 'verify-otp':
          response = await onSubmitVerifyOTP(data as VerifyOTPCredentials);
@@ -56,8 +59,7 @@ export async function handleFormResponse({ authType, data }: Props) {
          break;
 
       case 'logout':
-         response = await onSubmitLogout(data as LogoutCredentials);
-         console.log(data);
+         response = await onSubmitLogout();
          break;
 
       default:
@@ -70,42 +72,47 @@ export async function handleFormResponse({ authType, data }: Props) {
 
          const redirectMap: Record<string, () => void> = {
             'login': () => {
-               setTokenToStorage(response.tokens);
-               redirect('/')
+               useStore.getState().setAccessToken(response.accessToken)
+               router.replace('/')
             },
             'register': () => {
-               useVerifyStore.setState({ email: (data as { email: string }).email});
-               redirect('/verify-otp')
+               useVerifyStore.getState().setEmail({
+                  email: (data as { email: string }).email,
+                  updatedAt: Date.now()
+               });
+               router.push('/verify-otp')
             },
             'forgot-password': () => {},
+            'resend-otp': () => {
+               useVerifyStore.getState().setEmail({
+                  email: (data as { email: string }).email,
+                  updatedAt: Date.now()
+               });
+            },
             'verify-otp': () => {
-               setTokenToStorage(response.tokens);
-               redirect('/')
+               useVerifyStore.getState().clearEmail();
+               useStore.getState().setAccessToken(response.accessToken);
+               router.replace('/')
             },
             'reset-password': () => {
-               useVerifyStore.getState().clearEmail();
-               redirect('/login')
+               router.replace('/login')
             },
             'logout': () => {
-               removeTokenFromStorage();
-               redirect('/')
+               useStore.getState().setAccessToken(null);
+               router.replace('/')
             }
          }
 
          const doRedirect = redirectMap[authType];
 
          if (doRedirect) {
-            console.log('redirect found');
             setTimeout(() => {
                doRedirect();
             }, 2000)
-         } else {
-            console.log('redirect not found');
          }
 
       } else {
          toast.error(response.error, { duration: 2000 });
-         console.log(response.error);
       }
    } else {
       return null

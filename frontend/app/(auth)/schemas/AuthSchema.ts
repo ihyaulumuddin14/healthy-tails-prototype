@@ -68,7 +68,6 @@ export const VerifyOTPSchema = z.object({
 
 export const TokenResponseSchema = z.object({
   accessToken: z.string(),
-  refreshToken: z.string(),
 });
 
 export const LogoutRequestSchema = z.object({

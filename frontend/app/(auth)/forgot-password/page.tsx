@@ -7,10 +7,10 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ForgotPasswordCredentials, ForgotPasswordSchema } from "../schemas/AuthSchema"
 import { handleFormResponse } from "../HandleFormResponse"
-
+import { useRouter } from "next/navigation"
 
 const RequestReset = () => {
-
+   const router = useRouter();
    const {
       register,
       handleSubmit,
@@ -20,7 +20,7 @@ const RequestReset = () => {
    })
 
    const handleResponseRequestReset = async (data: ForgotPasswordCredentials) => {
-      await handleFormResponse({ authType: 'forgot-password', data });
+      await handleFormResponse({ authType: 'forgot-password', data, router });
    };
 
    return (

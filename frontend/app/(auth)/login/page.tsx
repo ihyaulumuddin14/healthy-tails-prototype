@@ -8,8 +8,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginCredentials, LoginSchema } from '../schemas/AuthSchema';
 import { handleFormResponse } from '../HandleFormResponse'
 import RememberMe from './components/RememberMe';
+import { useRouter } from "next/navigation"
 
 const Login = () => {
+   const router = useRouter();
    const {
       register,
       handleSubmit,
@@ -19,7 +21,7 @@ const Login = () => {
    })
 
    const handleResponseLogin = async (data: LoginCredentials) => {
-      await handleFormResponse({ authType: 'login', data });
+      await handleFormResponse({ authType: 'login', data, router });
    };
 
    return (

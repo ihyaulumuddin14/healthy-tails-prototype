@@ -8,8 +8,10 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { handleFormResponse } from '../HandleFormResponse'
+import { useRouter } from 'next/navigation'
 
 const Register = () => {
+   const router = useRouter();
    const {
       register,
       handleSubmit,
@@ -40,7 +42,7 @@ const Register = () => {
    }, [password]);
 
    const handleResponseRegister = async (data: RegisterCredentials) => {
-      await handleFormResponse({authType: 'register', data});
+      await handleFormResponse({authType: 'register', data, router});
    }
 
    return (

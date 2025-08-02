@@ -1,26 +1,31 @@
 'use client'
 
+import useVerifyStore from "@/stores/useVerifyStore";
 import { useEffect, useState } from "react";
 
 export default function Countdown () {
    const [count, setCount] = useState(0);
+   const updatedAt = useVerifyStore((state) => state.updatedAt);
    
    useEffect(() => {
-      const expireAt = Date.now() + ((5 * 60 * 1000))
-      setCount(Math.floor(((expireAt as number) - Date.now()) / 1000));
+      const email = JSON.parse(sessionStorage.getItem('email') as string);
+      const expireAt = Number(email.expireAt);
+      console.log(typeof expireAt)
+      console.log(expireAt)
+      setCount(Math.floor(((expireAt) - Date.now()) / 1000));
 
       const interval = setInterval(() => {
-         const secondsNow = Math.floor(((expireAt as number) - Date.now()) / 1000);
+         const secondsNow = Math.floor(((expireAt) - Date.now()) / 1000);
 
          if (secondsNow >= 0) {
-            setCount(Math.floor(((expireAt as number) - Date.now()) / 1000));
+            setCount(Math.round(((expireAt) - Date.now()) / 1000));
          } else {
             clearInterval(interval);
          }
       }, 1000)
 
       return () => clearInterval(interval);
-   }, []);
+   }, [updatedAt]);
 
    return (
       <div className="py-1 px-2 text-[var(--color-foreground)] border border-[var(--color-foreground)]/30 bg-red-900 rounded-sm">

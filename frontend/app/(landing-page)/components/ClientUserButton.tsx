@@ -1,11 +1,12 @@
 'use client'
 
+import useStore from '@/stores/useStore';
 import BasicButton from '../../../components/ui/BasicButton'
 import { useRouter } from 'next/navigation'
 
 export default function ClientUserButton() {
    const router = useRouter();
-   const user = getTokenFromStorage();
+   const accessToken = useStore((state) => state.accessToken);
 
    const handleLogin = () => {
       router.push('/login')
@@ -13,7 +14,7 @@ export default function ClientUserButton() {
 
    return (
       <div className="hidden lg:flex items-center gap-3">
-         {user !== null ? (
+         {accessToken !== null ? (
             <ProfileDropdown />
          ) : (
             <BasicButton model="fill" onClick={handleLogin}>Login</BasicButton>
@@ -29,12 +30,12 @@ export default function ClientUserButton() {
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { handleFormResponse } from '@/app/(auth)/HandleFormResponse'
-import { getTokenFromStorage } from '@/app/(auth)/HandleTokenState';
-import { TokenResponse } from '@/app/(auth)/schemas/AuthSchema';
+
 
 function ProfileDropdown() {
    const [isOpen, setIsOpen] = useState(false);
    const ProfileDropdownRef = useRef<HTMLDivElement>(null);
+   const router = useRouter();
 
    useEffect(() => {
       const handleClick = (e: MouseEvent) => {
@@ -52,14 +53,10 @@ function ProfileDropdown() {
 
 
    const handleLogout = async () => {
-      const { refreshToken } = getTokenFromStorage() as TokenResponse;
-      console.log(refreshToken);
-      if (refreshToken) {
-         await handleFormResponse({
-            authType: 'logout',
-            data: { refreshToken }
-         })
-      }
+      await handleFormResponse({
+         authType: 'logout',
+         router
+      })
    }
 
    return (

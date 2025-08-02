@@ -1,10 +1,16 @@
+'use client'
+
 import Link from 'next/link'
 import { handleFormResponse } from '../HandleFormResponse';
+import useVerifyStore from '@/stores/useVerifyStore';
+import { useRouter } from 'next/navigation';
 
-const AuthLinks = ({ type, email = '' }: { type: string, email?: string }) => {
+const AuthLinks = ({ type }: { type: string }) => {
+   const email = useVerifyStore((state) => state.email);
+   const router = useRouter();
 
    const handleResponseResendOTP = async() => {
-      await handleFormResponse({ authType: 'resend-otp', data: { email } });
+      await handleFormResponse({ authType: 'resend-otp', data: { email }, router });
    }
 
    return (
