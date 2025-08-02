@@ -51,19 +51,27 @@ export const getNewsById = async (id: string) => {
 };
 
 export const createNewsService = async (payload: CreateNewsRequest) => {
-  await createNews(payload);
-
+  const news = await createNews(payload);
   await deleteCache("news:all");
+
+  const mappedNews = toNewsResponse(news);
+  return mappedNews;
 };
 
 export const updateNewsService = async (
   id: string,
   payload: UpdateNewsRequest
 ) => {
-  await updateNewsById(id, payload);
+  const news = await updateNewsById(id, payload);
+  if (!news) {
+    throw new HttpError(404, "News not found");
+  }
 
   await deleteCache("news:all");
   await deleteCache(`news:${id}`);
+
+  const mappedNews = toNewsResponse(news);
+  return mappedNews;
 };
 
 export const deleteNewsService = async (id: string) => {

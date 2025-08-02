@@ -44,8 +44,8 @@ export const createNews = async (
   next: NextFunction
 ) => {
   try {
-    await createNewsService(req.body);
-    return res.status(201).json({ message: "News created successfully" });
+    const news = await createNewsService(req.body);
+    return res.status(201).json({ message: "News created successfully", news });
   } catch (err) {
     next(err);
   }
@@ -57,8 +57,8 @@ export const updateNews = async (
   next: NextFunction
 ) => {
   try {
-    await updateNewsService(req.params.id, req.body);
-    return res.status(200).json({ message: "News updated successfully" });
+    const news = await updateNewsService(req.params.id, req.body);
+    return res.status(200).json({ message: "News updated successfully", news });
   } catch (err) {
     next(err);
   }
