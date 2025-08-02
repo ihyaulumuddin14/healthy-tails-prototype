@@ -75,7 +75,10 @@ export const updateNewsService = async (
 };
 
 export const deleteNewsService = async (id: string) => {
-  await deleteNews(id);
+  const deletedNews = await deleteNews(id);
+  if (!deletedNews) {
+    throw new HttpError(404, "News not found");
+  }
 
   await deleteCache("news:all");
   await deleteCache(`news:${id}`);
