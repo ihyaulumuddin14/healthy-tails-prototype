@@ -96,8 +96,11 @@ export const uploadAvatarService = async (
 
   if (user.photoUrl && !user.photoUrl.includes("default_pfp.jpg")) {
     try {
-      const oldFilePath = user.photoUrl.split("/media/")[1];
-      await supabase.storage.from("media").remove([oldFilePath]);
+      const urlParts = user.photoUrl.split("/media/");
+      if (urlParts.length > 1) {
+        const oldFilePath = urlParts[1];
+        await supabase.storage.from("media").remove([oldFilePath]);
+      }
     } catch (err) {
       logger.error("Failed to remove old avatar:", err);
     }
@@ -148,7 +151,10 @@ export const getAllUsers = async () => {
 };
 
 export const deleteUserService = async (id: string) => {
-  await deleteUserById(id);
+  const deletedUser = await deleteUserById(id);
+  if (!deletedUser) {
+    throw new HttpError(404, "User not found");
+  }
 
   await deleteCache(`users:all`);
   await deleteCache(`user:${id}`);
