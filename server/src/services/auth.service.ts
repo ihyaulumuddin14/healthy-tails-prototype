@@ -142,6 +142,9 @@ export const refreshUser = async (refreshToken: string) => {
   }
 
   const decoded = verifyToken<RefreshTokenPayload>(refreshToken);
+  if (!decoded) {
+    throw new HttpError(401, "Invalid or expired refresh token");
+  }
 
   const newAccessToken = generateAccessToken(
     user._id.toString(),

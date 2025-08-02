@@ -30,6 +30,11 @@ export const generateRefreshToken = (userId: string, rememberMe: boolean) => {
   });
 };
 
-export const verifyToken = <T extends JwtPayload>(token: string): T => {
-  return jwt.verify(token, process.env.JWT_SECRET!) as T;
+export const verifyToken = <T extends JwtPayload>(token: string): T | null => {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as T;
+    return decoded;
+  } catch {
+    return null;
+  }
 };
