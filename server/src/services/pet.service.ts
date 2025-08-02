@@ -62,5 +62,8 @@ export const deletePetService = async (userId: string, petId: string) => {
     throw new HttpError(404, "Pet not found or you do not have access");
   }
 
-  await deletePetById(petId);
+  const deletedPet = await deletePetById(petId);
+  if (!deletedPet) {
+    throw new HttpError(404, "Pet not found or you do not have access");
+  }
 };

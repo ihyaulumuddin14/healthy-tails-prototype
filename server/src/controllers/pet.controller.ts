@@ -69,7 +69,7 @@ export const deletePet = async (
 ) => {
   try {
     await deletePetService(req.user!.id, req.params.id);
-    return res.status(200).json({ message: "Pet deleted successfully" });
+    return res.sendStatus(204);
   } catch (err) {
     next(err);
   }

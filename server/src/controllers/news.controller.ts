@@ -71,7 +71,7 @@ export const deleteNews = async (
 ) => {
   try {
     await deleteNewsService(req.params.id);
-    return res.status(200).json({ message: "News deleted successfully" });
+    return res.sendStatus(204);
   } catch (err) {
     next(err);
   }
