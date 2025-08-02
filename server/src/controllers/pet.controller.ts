@@ -42,8 +42,8 @@ export const createPet = async (
   next: NextFunction
 ) => {
   try {
-    await createPetService(req.user!.id, req.body);
-    return res.status(201).json({ message: "Pet created successfully" });
+    const pet = await createPetService(req.user!.id, req.body);
+    return res.status(201).json({ message: "Pet created successfully", pet });
   } catch (err) {
     next(err);
   }
@@ -55,8 +55,8 @@ export const updatePet = async (
   next: NextFunction
 ) => {
   try {
-    await updatePetService(req.user!.id, req.params.id, req.body);
-    return res.status(200).json({ message: "Pet updated successfully" });
+    const pet = await updatePetService(req.user!.id, req.params.id, req.body);
+    return res.status(200).json({ message: "Pet updated successfully", pet });
   } catch (err) {
     next(err);
   }
