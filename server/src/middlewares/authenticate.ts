@@ -16,6 +16,9 @@ export const authenticate = (
     const token = authHeader.split(" ")[1];
 
     const decoded = verifyToken<AccessTokenPayload>(token);
+    if (!decoded) {
+      throw new HttpError(401, "Invalid or expired token");
+    }
 
     req.user = decoded;
     next();
