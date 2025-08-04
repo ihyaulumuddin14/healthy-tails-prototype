@@ -8,6 +8,7 @@ import { errorHandler } from "./middlewares/error-handler.js";
 import { connectDB, disconnectDB } from "./config/db.js";
 import { setupLogging } from "./middlewares/logging.js";
 import logger from "./utils/logger.js";
+import "./utils/scheduler.js";
 
 dotenv.config();
 

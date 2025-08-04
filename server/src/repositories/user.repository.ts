@@ -62,3 +62,12 @@ export const removeRefreshToken = async (
 export const deleteUserById = async (id: string): Promise<UserItf | null> => {
   return UserModel.findByIdAndDelete(id).exec();
 };
+
+export const deleteUnverifiedUsers = async () => {
+  return UserModel.deleteMany({
+    verified: false,
+    createdAt: {
+      $lt: new Date(Date.now() - 24 * 60 * 60 * 1000),
+    },
+  });
+};
