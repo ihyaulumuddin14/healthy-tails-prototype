@@ -29,7 +29,7 @@ const NewsCard = ({ title, badge, imgSrc, link }: Props) => {
          </header>
          
          <main className="w-full h-fit overflow-hidden rounded-lg">
-            <Image src={imgSrc} loading="lazy" alt="news image" width={200} height={200} className="w-full h-fit group-hover:scale-110 ease-in-out duration-300"/>
+            <Image src={imgSrc} loading="lazy" alt="news image" width={200} height={200} className="w-full h-fit group-hover:scale-110 ease-in-out duration-300" placeholder="blur" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAIAAAA7ljmRAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAMklEQVR4nAEnANj/AP/rscuUYodmR/u0fwD/wIcxAwA9Kxn/0Z4AimI+n39jkn9pvZd2jlATF2Ywp1MAAAAASUVORK5CYII="/>
          </main>
 
          <footer className="w-full mt-3 flex justify-end">

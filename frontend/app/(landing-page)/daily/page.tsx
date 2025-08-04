@@ -1,21 +1,22 @@
-import { news } from "@/app/constant"
 import Image from "next/image";
-import CardNews from "./components/NewsCard";
 import AnimatedText from "../components/AnimatedText";
 import PromoBanner from "@/public/images/promo.webp";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { DialogTrigger } from "@/components/ui/dialog";
 import PromoModal from "./components/PromoModal";
-
+import { Suspense } from "react";
+import Cards from "./components/Cards";
+import SkeletonCard from "./components/SkeletonCard";
 
 export default function Daily () {
+
    return (
       <section id="daily" className='w-full h-fit flex justify-center items-center relative'>
          <div className='w-full max-w-[1536px] h-fit flex-col justify-center items-center p-[min(7vw,100px)] text-[var(--text-color)] mt-18'>
             {/* title */}
             <header className="w-full grid lg:grid-cols-[1.5fr_1fr] grid-cols-1 gap-20 text-inter pb-10 border-b-1 border-[var(--color-foreground)]/20">
                <div className="w-full flex flex-col gap-5">
-                  <AnimatedText triggerWrapper='#daily' type='h1' splitBy='lines' className='font-bold lg:text-7xl md:text-6xl text-5xl mb-5' addLineHeight>
+                  <AnimatedText triggerWrapper='#daily' type='h1' splitBy='lines' className='font-bold lg:text-7xl md:text-6xl text-5xl mb-5'>
                      Welcome to Cat Daily
                   </AnimatedText>
                   <AnimatedText triggerWrapper="#daily" type="p" splitBy="lines" className="lg:text-2xl md:text-xl">
@@ -27,7 +28,7 @@ export default function Daily () {
                   </AnimatedText>
                </div>
 
-               <div className="w-full flex justify-center">
+               <div className="w-fit h-fit flex justify-center group lg:justify-self-end lg:self-center justify-self-center">
                   <Tooltip>
                      <TooltipTrigger>
                         <DialogTrigger asChild>
@@ -55,9 +56,13 @@ export default function Daily () {
 
                {/* news */}
                <div className="w-full h-[max-content] news-wrapper pt-5 ">
-                  {news.map((item, index) => (
-                     <CardNews title={item.title} badge={item.badge} imgSrc={item["image-src"]} link={item["web-scraper-start-url"]} key={index}/>
-                  ))}
+                  <Suspense fallback={
+                     [...Array(10)].map((i) => {
+                        return <SkeletonCard key={i}/>
+                     })
+                  }>
+                     <Cards/>
+                  </Suspense>
                </div>
             </main>
          </div>

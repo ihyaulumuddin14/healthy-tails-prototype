@@ -296,75 +296,57 @@ export const HomeSections = [
 
 export const news = [
   {
-    "web-scraper-order": "1753188551-1",
-    "web-scraper-start-url": "https://www.halodoc.com/artikel/search/kucing",
-    "pagination": "",
+    "sourceUrl": "https://www.halodoc.com/artikel/search/kucing",
     "title": "Kucing Kawin: Ciri-Ciri, Proses, dan Waktu yang Tepat",
-    "image-src": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2025/07/17122028/kucing-kawin-1.jpg",
+    "imageUrl": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2025/07/17122028/kucing-kawin-1.jpg",
     "badge": "Kesehatan Hewan"
   },
   {
-    "web-scraper-order": "1753188551-2",
-    "web-scraper-start-url": "https://www.halodoc.com/artikel/search/kucing",
-    "pagination": "",
+    "sourceUrl": "https://www.halodoc.com/artikel/search/kucing",
     "title": "Kucing Tidak Mau Makan, Apa yang Perlu Dilakukan?",
-    "image-src": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2021/11/16042620/kucing-tidak-mau-makan-apa-yang-perlu-dilakukan-halodoc.jpg",
+    "imageUrl": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2021/11/16042620/kucing-tidak-mau-makan-apa-yang-perlu-dilakukan-halodoc.jpg",
     "badge": "Kesehatan Kucing"
   },
   {
-    "web-scraper-order": "1753188551-3",
-    "web-scraper-start-url": "https://www.halodoc.com/artikel/search/kucing",
-    "pagination": "",
+    "sourceUrl": "https://www.halodoc.com/artikel/search/kucing",
     "title": "Kucing Mulai Obesitas, Coba Lakukan Hal Ini",
-    "image-src": "https://d1bpj0tv6vfxyp.cloudfront.net/articles/114092_5-4-2021_11-33-1.jpeg",
+    "imageUrl": "https://d1bpj0tv6vfxyp.cloudfront.net/articles/114092_5-4-2021_11-33-1.jpeg",
     "badge": "Kesehatan Hewan"
   },
   {
-    "web-scraper-order": "1753188551-4",
-    "web-scraper-start-url": "https://www.halodoc.com/artikel/search/kucing",
-    "pagination": "",
+    "sourceUrl": "https://www.halodoc.com/artikel/search/kucing",
     "title": "Ini Cara Mengatasi Kucing yang Sering Muntah",
-    "image-src": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2021/12/01064854/Ini-Penyebab-Kucing-Muntah-Kuning-dan-Cara-Mengatasinya.jpg",
+    "imageUrl": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2021/12/01064854/Ini-Penyebab-Kucing-Muntah-Kuning-dan-Cara-Mengatasinya.jpg",
     "badge": "Kesehatan Kucing"
   },
   {
-    "web-scraper-order": "1753188551-5",
-    "web-scraper-start-url": "https://www.halodoc.com/artikel/search/kucing",
-    "pagination": "",
+    "sourceUrl": "https://www.halodoc.com/artikel/search/kucing",
     "title": "Tips Merawat Kucing Anggora dan Kisaran Harganya",
-    "image-src": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2024/09/18060143/Kisaran-Harga-Kucing-Anggora-dan-Tips-Merawatnya.jpg",
+    "imageUrl": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2024/09/18060143/Kisaran-Harga-Kucing-Anggora-dan-Tips-Merawatnya.jpg",
     "badge": "Kesehatan Hewan"
   },
   {
-    "web-scraper-order": "1753188551-6",
-    "web-scraper-start-url": "https://www.halodoc.com/artikel/search/kucing",
-    "pagination": "",
+    "sourceUrl": "https://www.halodoc.com/artikel/search/kucing",
     "title": "Rekomendasi Obat Cacing Kucing yang Paling Ampuh dan Aman",
-    "image-src": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2024/04/22033758/Rekomendasi-Obat-Cacing-Kucing-yang-Paling-Ampuh-dan-Aman-1.jpg",
+    "imageUrl": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2024/04/22033758/Rekomendasi-Obat-Cacing-Kucing-yang-Paling-Ampuh-dan-Aman-1.jpg",
     "badge": "Combantrin"
   },
   {
-    "web-scraper-order": "1753188551-7",
-    "web-scraper-start-url": "https://www.halodoc.com/artikel/search/kucing",
-    "pagination": "",
+    "sourceUrl": "https://www.halodoc.com/artikel/search/kucing",
     "title": "Bagaimana Penanganan Flu pada Kucing Peliharaan?",
-    "image-src": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2024/04/04015419/Bagaimana-Penanganan-Flu-pada-Kucing-Peliharaan.jpg",
+    "imageUrl": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2024/04/04015419/Bagaimana-Penanganan-Flu-pada-Kucing-Peliharaan.jpg",
     "badge": "Kesehatan Hewan"
   },
   {
-    "web-scraper-order": "1753188551-9",
-    "web-scraper-start-url": "https://www.halodoc.com/artikel/search/kucing",
-    "pagination": "",
+    "sourceUrl": "https://www.halodoc.com/artikel/search/kucing",
     "title": "Main Kucing Saat Hamil, Berisiko Terkena Toksoplasmosis?",
-    "image-src": "https://d1bpj0tv6vfxyp.cloudfront.net/main-kucing-saat-hamil-berisiko-terkena-toksoplasmosishalodoc.jpg",
+    "imageUrl": "https://d1bpj0tv6vfxyp.cloudfront.net/main-kucing-saat-hamil-berisiko-terkena-toksoplasmosishalodoc.jpg",
     "badge": "Toksoplasmosis"
   },
   {
-    "web-scraper-order": "1753188551-10",
-    "web-scraper-start-url": "https://www.halodoc.com/artikel/search/kucing",
-    "pagination": "",
+    "sourceUrl": "https://www.halodoc.com/artikel/search/kucing",
     "title": "Ini Perbedaan Antara Kucing Himalaya dan Ragdoll",
-    "image-src": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2021/09/10075752/Mengenal-Perbedaan-Karakter-Kucing-Himalaya-dan-Ragdoll_Halodoc.jpg",
+    "imageUrl": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2021/09/10075752/Mengenal-Perbedaan-Karakter-Kucing-Himalaya-dan-Ragdoll_Halodoc.jpg",
     "badge": "Kesehatan Hewan"
   }
 ]

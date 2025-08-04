@@ -13,21 +13,12 @@ export default function page() {
       <section id='faq' className='section-wrapper'>
          <div className='w-full mt-18 flex flex-col items-center justify-center'>
             <header className='w-full h-fit pt-15'>
-               <AnimatedText
-                  triggerWrapper='#faq'
-                  type='h1'
-                  splitBy='lines'
-                  className='xl:text-7xl lg:text-6xl md:text-5xl text-4xl font-bold text-[var(--color-foreground)] text-center mb-5'
-               >
-                     Frequently Asked <span className='text-stroke text-transparent bg-clip-text bg-[url(/images/bg-hero.webp)] bg-top-right bg-cover'>Questions</span>
+               <AnimatedText triggerWrapper='#faq' type='h1' splitBy='lines' className='xl:text-7xl lg:text-6xl md:text-5xl text-4xl font-bold text-[var(--color-foreground)] text-center mb-5'>
+                     Frequently Asked <span className=' text-transparent bg-clip-text bg-[url(/images/bg-hero.webp)] bg-top-right bg-cover'>Questions</span>
                </AnimatedText>
 
-               <AnimatedText
-                  triggerWrapper='#faq'
-                  type='p'
-                  splitBy='lines'
-                  className='text-[var(--color-foreground)] text-center'>
-                     Do you need some help with something <br /> or do you have questions on some service?
+               <AnimatedText triggerWrapper='#faq' type='p' splitBy='lines' className='text-[var(--color-foreground)] text-center'>
+                  Do you need some help with something <br /> or do you have questions on some service?
                </AnimatedText>
             </header>
 

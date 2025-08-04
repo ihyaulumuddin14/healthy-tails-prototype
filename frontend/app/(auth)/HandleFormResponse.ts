@@ -16,7 +16,7 @@ import {
    onSubmitResetPassword,
    onSubmitLogout,
    onSubmitResendOTP
-} from '@/lib/actions'
+} from '@/lib/auth.actions'
 import { toast } from 'sonner'
 import useVerifyStore from "@/stores/useVerifyStore";
 import useStore from '@/stores/useStore';
