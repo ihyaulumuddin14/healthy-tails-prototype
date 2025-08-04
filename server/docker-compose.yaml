@@ -7,23 +7,8 @@ services:
     env_file:
       - .env
     depends_on:
-      mongo:
-        condition: service_healthy
       redis:
         condition: service_healthy
-  mongo:
-    image: mongo:6-jammy
-    restart: unless-stopped
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodata:/data/db
-    command: ["mongod", "--quiet", "--logpath", "/dev/null"]
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
   redis:
     image: redis:alpine
     restart: unless-stopped
@@ -34,6 +19,3 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
-volumes:
-  mongodata:
