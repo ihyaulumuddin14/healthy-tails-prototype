@@ -6,14 +6,14 @@ import { usePathname, useRouter } from 'next/navigation'
 import BasicButton from '../../../components/ui/BasicButton'
 import useStore from '@/stores/useStore'
 import { handleFormResponse } from '@/app/(auth)/HandleFormResponse'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuthStore } from '@/hooks/useAuthStore'
 
 const MobileNav = () => {
    const router = useRouter();
    const pathname = usePathname();
    const isMobileNavOpen = useStore((state) => state.isMobileNavOpen);
    const setIsMobileNavOpen = useStore((state) => state.setIsMobileNavOpen);
-   const accessToken = useAuth((state) => state.accessToken);
+   const accessToken = useAuthStore((state) => state.accessToken);
 
 
    const handleLogout = async () => {

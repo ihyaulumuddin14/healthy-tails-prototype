@@ -1,4 +1,5 @@
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/hooks/useAuthStore";
+import useStore from "@/stores/useStore";
 import axios from "axios";
 
 const api = axios.create({
@@ -43,22 +44,25 @@ api.interceptors.response.use( res => res, async error => {
       isRefreshing = true;
 
       try {
-         const res = await api.post('/auth/refresh');
+         const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {}, {
+            withCredentials: true
+         });
          const newAccessToken = res.data.accessToken;
-
-         useAuth.getState().setAccessToken(newAccessToken);
-
+         
+         useAuthStore.getState().setAccessToken(newAccessToken);
+         
          api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
          processQueue(null, newAccessToken);
-
-         return api(originalRequest);
-      } catch (err) {
-
          
+         return api(originalRequest);
+         
+      } catch (err) {
 
          processQueue(err, null);
          return Promise.reject(err);
+
       } finally {
+
          isRefreshing = false;
       }
    }
