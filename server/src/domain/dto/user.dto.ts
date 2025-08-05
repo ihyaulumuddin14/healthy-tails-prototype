@@ -1,11 +1,9 @@
-import { z } from "zod";
 import mongoose from "mongoose";
+import { z } from "zod";
 
-const MongoIdString = z
-  .string()
-  .refine((val) => mongoose.Types.ObjectId.isValid(val), {
-    message: "Invalid ID format",
-  });
+const MongoIdString = z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
+  message: "Invalid ID format",
+});
 
 export const UserIdParamSchema = z.object({
   id: MongoIdString,
@@ -42,7 +40,5 @@ export const UserResponseSchema = z.object({
 });
 
 export type UpdateUserRequest = z.infer<typeof UpdateUserRequestSchema>;
-export type UpdatePasswordUserRequest = z.infer<
-  typeof UpdatePasswordUserRequestSchema
->;
+export type UpdatePasswordUserRequest = z.infer<typeof UpdatePasswordUserRequestSchema>;
 export type UserResponse = z.infer<typeof UserResponseSchema>;

@@ -1,12 +1,15 @@
 import { CreatePetRequest, UpdatePetRequest } from "../domain/dto/pet.dto.js";
+
 import { toPetResponse, toPetResponseArray } from "../helpers/pet-mapper.js";
+
 import {
+  createPet,
+  deletePetById,
   findAllPetsByOwner,
   findPetByIdAndOwner,
-  createPet,
   updatePetById,
-  deletePetById,
 } from "../repositories/pet.repository.js";
+
 import { HttpError } from "../utils/http-error.js";
 
 export const getAllPets = async (userId: string) => {
@@ -26,10 +29,7 @@ export const getPetById = async (userId: string, petId: string) => {
   return mappedPet;
 };
 
-export const createPetService = async (
-  userId: string,
-  payload: CreatePetRequest
-) => {
+export const createPetService = async (userId: string, payload: CreatePetRequest) => {
   const dataWithOwner = { ...payload, owner: userId };
   const pet = await createPet(dataWithOwner);
   const mappedPet = toPetResponse(pet);
@@ -37,11 +37,7 @@ export const createPetService = async (
   return mappedPet;
 };
 
-export const updatePetService = async (
-  userId: string,
-  petId: string,
-  payload: UpdatePetRequest
-) => {
+export const updatePetService = async (userId: string, petId: string, payload: UpdatePetRequest) => {
   const pet = await findPetByIdAndOwner(userId, petId);
   if (!pet) {
     throw new HttpError(404, "Pet not found or you do not have access");

@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
 export const vaccineEnum = [
   "FeLV",
@@ -95,9 +95,6 @@ const VisitHistorySchema = new Schema(
   { timestamps: true }
 );
 
-const VisitHistoryModel = mongoose.model<VisitHistoryItf>(
-  "VisitHistory",
-  VisitHistorySchema
-);
+const VisitHistoryModel = mongoose.model<VisitHistoryItf>("VisitHistory", VisitHistorySchema);
 
 export default VisitHistoryModel;

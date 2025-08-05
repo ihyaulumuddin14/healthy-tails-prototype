@@ -1,12 +1,16 @@
-import express from "express";
-import cors from "cors";
-import helmet from "helmet";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import routes from "./routes/routes.js";
-import { errorHandler } from "./middlewares/error-handler.js";
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import helmet from "helmet";
+
 import { connectDB, disconnectDB } from "./config/db.js";
+
+import { errorHandler } from "./middlewares/error-handler.js";
 import { setupLogging } from "./middlewares/logging.js";
+
+import routes from "./routes/routes.js";
+
 import logger from "./utils/logger.js";
 import "./utils/scheduler.js";
 

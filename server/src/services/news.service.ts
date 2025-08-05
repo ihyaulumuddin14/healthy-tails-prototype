@@ -1,18 +1,11 @@
-import {
-  CreateNewsRequest,
-  UpdateNewsRequest,
-  NewsResponse,
-} from "../domain/dto/news.dto.js";
-import {
-  findAllNews,
-  findNewsById,
-  createNews,
-  updateNewsById,
-  deleteNews,
-} from "../repositories/news.repository.js";
+import { CreateNewsRequest, NewsResponse, UpdateNewsRequest } from "../domain/dto/news.dto.js";
+
+import { toNewResponseArray, toNewsResponse } from "../helpers/news-mapper.js";
+
+import { createNews, deleteNews, findAllNews, findNewsById, updateNewsById } from "../repositories/news.repository.js";
+
 import { HttpError } from "../utils/http-error.js";
 import { deleteCache, getCache, setCache } from "../utils/redis.js";
-import { toNewResponseArray, toNewsResponse } from "../helpers/news-mapper.js";
 
 export const getAllNews = async () => {
   const cacheKey = "news:all";
@@ -58,10 +51,7 @@ export const createNewsService = async (payload: CreateNewsRequest) => {
   return mappedNews;
 };
 
-export const updateNewsService = async (
-  id: string,
-  payload: UpdateNewsRequest
-) => {
+export const updateNewsService = async (id: string, payload: UpdateNewsRequest) => {
   const news = await updateNewsById(id, payload);
   if (!news) {
     throw new HttpError(404, "News not found");

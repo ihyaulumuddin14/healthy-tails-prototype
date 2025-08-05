@@ -1,12 +1,11 @@
-import { z } from "zod";
 import mongoose from "mongoose";
+import { z } from "zod";
+
 import { vaccineEnum } from "../entity/visit-history.js";
 
-const MongoIdString = z
-  .string()
-  .refine((val) => mongoose.Types.ObjectId.isValid(val), {
-    message: "Invalid ID format",
-  });
+const MongoIdString = z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
+  message: "Invalid ID format",
+});
 
 export const VisitHistoryIdParamSchema = z.object({
   id: MongoIdString,
@@ -17,10 +16,7 @@ export const CreateVisitHistorySchema = z.object({
   nextVisitDate: z.date().optional(),
   bodyWeight: z.number().min(0, "Body weight must be a positive number"),
   temperature: z.number().min(0, "Temperature must be a positive number"),
-  symptoms: z
-    .string()
-    .min(1, "Symptoms are required")
-    .max(500, "Symptoms must be at most 500 characters long"),
+  symptoms: z.string().min(1, "Symptoms are required").max(500, "Symptoms must be at most 500 characters long"),
   diagnosis: z
     .string()
     .min(1, "Diagnosis is required")
@@ -32,14 +28,8 @@ export const CreateVisitHistorySchema = z.object({
     .max(500, "Treatments must be at most 500 characters long")
     .optional(),
   vaccinesGiven: z.array(z.enum(vaccineEnum)).optional(),
-  injectionSite: z
-    .string()
-    .max(100, "Injection site must be at most 100 characters long")
-    .optional(),
-  notes: z
-    .string()
-    .max(500, "Notes must be at most 1000 characters long")
-    .optional(),
+  injectionSite: z.string().max(100, "Injection site must be at most 100 characters long").optional(),
+  notes: z.string().max(500, "Notes must be at most 1000 characters long").optional(),
 });
 
 export const VisitHistoryResponseSchema = z.object({
@@ -60,9 +50,7 @@ export const VisitHistoryResponseSchema = z.object({
   updatedAt: z.iso.datetime(),
 });
 
-export type CreateVisitHistoryRequest = z.infer<
-  typeof CreateVisitHistorySchema
->;
+export type CreateVisitHistoryRequest = z.infer<typeof CreateVisitHistorySchema>;
 export type VisitHistoryResponse = z.infer<typeof VisitHistoryResponseSchema>;
 export type VisitHistoryCreationData = CreateVisitHistoryRequest & {
   pet: string;

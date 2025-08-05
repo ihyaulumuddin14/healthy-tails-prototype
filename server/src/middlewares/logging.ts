@@ -1,6 +1,7 @@
-import morgan from "morgan";
-import logger from "../utils/logger.js";
 import { Application } from "express";
+import morgan from "morgan";
+
+import logger from "../utils/logger.js";
 
 const stream = {
   write: (message: string) => {

@@ -1,19 +1,13 @@
-import {
-  createVisitHistory,
-  findAllHistoriesByPetId,
-} from "../repositories/visit-history.repository.js";
-import {
-  tovisitHistoryResponse,
-  toVisitHistoryResponseArray,
-} from "../helpers/visit-history-mapper.js";
 import { CreateVisitHistoryRequest } from "../domain/dto/visit-history.dto.js";
-import { HttpError } from "../utils/http-error.js";
-import { findPetByIdAndOwner } from "../repositories/pet.repository.js";
 
-export const getVisitHistoriesForPet = async (
-  userId: string,
-  petId: string
-) => {
+import { toVisitHistoryResponseArray, tovisitHistoryResponse } from "../helpers/visit-history-mapper.js";
+
+import { findPetByIdAndOwner } from "../repositories/pet.repository.js";
+import { createVisitHistory, findAllHistoriesByPetId } from "../repositories/visit-history.repository.js";
+
+import { HttpError } from "../utils/http-error.js";
+
+export const getVisitHistoriesForPet = async (userId: string, petId: string) => {
   const pet = await findPetByIdAndOwner(userId, petId);
   if (!pet) {
     throw new HttpError(404, "Pet not found or you do not have access");

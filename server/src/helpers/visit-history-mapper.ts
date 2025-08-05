@@ -20,8 +20,6 @@ export const tovisitHistoryResponse = (history: VisitHistoryItf) => {
   };
 };
 
-export const toVisitHistoryResponseArray = (
-  visitHistoryArray: VisitHistoryItf[]
-) => {
+export const toVisitHistoryResponseArray = (visitHistoryArray: VisitHistoryItf[]) => {
   return visitHistoryArray.map(tovisitHistoryResponse);
 };

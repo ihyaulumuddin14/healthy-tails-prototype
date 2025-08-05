@@ -12,12 +12,7 @@ export interface RefreshTokenPayload extends JwtPayload {
   rememberMe: boolean;
 }
 
-export const generateAccessToken = (
-  userId: string,
-  name: string,
-  email: string,
-  role: string
-) => {
+export const generateAccessToken = (userId: string, name: string, email: string, role: string) => {
   return jwt.sign({ id: userId, name, email, role }, process.env.JWT_SECRET!, {
     expiresIn: "1h",
   });

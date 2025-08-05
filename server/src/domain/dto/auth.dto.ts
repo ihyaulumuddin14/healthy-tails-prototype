@@ -40,9 +40,7 @@ export const ForgotPasswordRequestSchema = z.object({
 });
 
 export const ResetPasswordRequestSchema = z.object({
-  resetToken: z
-    .string()
-    .min(10, "Reset token must be at least 10 characters long"),
+  resetToken: z.string().min(10, "Reset token must be at least 10 characters long"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")

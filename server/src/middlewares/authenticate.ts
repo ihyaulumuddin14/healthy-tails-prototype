@@ -1,12 +1,9 @@
-import { Request, Response, NextFunction } from "express";
-import { AccessTokenPayload, verifyToken } from "../utils/jwt.js";
-import { HttpError } from "../utils/http-error.js";
+import { NextFunction, Request, Response } from "express";
 
-export const authenticate = (
-  req: Request,
-  _res: Response,
-  next: NextFunction
-) => {
+import { HttpError } from "../utils/http-error.js";
+import { AccessTokenPayload, verifyToken } from "../utils/jwt.js";
+
+export const authenticate = (req: Request, _res: Response, next: NextFunction) => {
   try {
     const authHeader = req.header("Authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
