@@ -6,13 +6,14 @@ import { usePathname, useRouter } from 'next/navigation'
 import BasicButton from '../../../components/ui/BasicButton'
 import useStore from '@/stores/useStore'
 import { handleFormResponse } from '@/app/(auth)/HandleFormResponse'
+import { useAuth } from '@/hooks/useAuth'
 
 const MobileNav = () => {
    const router = useRouter();
    const pathname = usePathname();
    const isMobileNavOpen = useStore((state) => state.isMobileNavOpen);
    const setIsMobileNavOpen = useStore((state) => state.setIsMobileNavOpen);
-   const accessToken = useStore((state) => state.accessToken);
+   const accessToken = useAuth((state) => state.accessToken);
 
 
    const handleLogout = async () => {
@@ -47,7 +48,7 @@ const MobileNav = () => {
          <div className='w-full h-fit flex flex-col items-center justify-center gap-5'>
             {accessToken ? (
                <div className='w-full h-fit flex justify-between items-center px-5 gap-5'>
-                  <BasicButton model='fill' width='full'>Profile</BasicButton>
+                  <BasicButton model='fill' width='full' onClick={() => router.push('/profile')}>Profile</BasicButton>
                   <hr className='h-full border border-[var(--color-tertiary)]/40'/>
                   <BasicButton model='danger' width='full' onClick={handleLogout}>Logout</BasicButton>
                </div>

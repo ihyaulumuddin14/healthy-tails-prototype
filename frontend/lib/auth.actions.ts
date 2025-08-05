@@ -1,5 +1,3 @@
-'use server'
-
 import {
    LoginCredentials,
    RegisterCredentials,
@@ -9,6 +7,7 @@ import {
    TokenResponse
 } from "../app/(auth)/schemas/AuthSchema";
 import axios, { AxiosError } from 'axios'
+import api from "./axiosInstance";
 
 
 export async function onSubmitLogin (credential: LoginCredentials) : Promise<{
@@ -18,7 +17,7 @@ export async function onSubmitLogin (credential: LoginCredentials) : Promise<{
    accessToken?: TokenResponse
 }> {
    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/login`, credential, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, credential, {
          withCredentials: true,
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
@@ -49,8 +48,10 @@ export async function onSubmitRegister (credential: RegisterCredentials) : Promi
    message?: string,
    error?: string
 }> {
+   
    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/register`, credential, {
+      'use server'
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, credential, {
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
       })
@@ -73,8 +74,10 @@ export async function onSubmitForgotPassword (credential: ForgotPasswordCredenti
    message?: string,
    error?: string
 }> {
+   
    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/forgot-password`, credential, {
+      'use server'
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`, credential, {
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
       })
@@ -98,7 +101,7 @@ export async function onSubmitResendOTP (credential: { email: string }) : Promis
    error?: string
 }> {
    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/resend-otp`, credential, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/resend-otp`, credential, {
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
       })
@@ -124,7 +127,7 @@ export async function onSubmitVerifyOTP (credential: VerifyOTPCredentials) : Pro
    accessToken?: TokenResponse
 }> {
    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/verify-otp`, credential, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/verify-otp`, credential, {
          withCredentials: true,
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
@@ -149,8 +152,10 @@ export async function onSubmitResetPassword (credential: ResetPasswordCredential
    message?: string,
    error?: string
 }> {
+   
    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/reset-password`, credential, {
+      'use server'
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`, credential, {
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
       })
@@ -175,7 +180,7 @@ export async function onSubmitLogout () : Promise<{
    error?: string
 }> {
    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/logout`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {}, {
          withCredentials: true,
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
@@ -190,6 +195,27 @@ export async function onSubmitLogout () : Promise<{
          errorMessage = axiosError.response?.data.message || axiosError.message || errorMessage
       }
       
+      return {success: false, error: errorMessage}
+   }
+}
+
+export async function refresh(): Promise<{success: boolean, accessToken?: string, error?: string}> {
+   try {
+      const response = await api.post(`/auth/refresh`, {}, {
+         withCredentials: true,
+      })
+
+      return {success: true, accessToken: response.data.accessToken}
+   } catch (error) {
+      let errorMessage = 'An error occurred while refreshing. Please try again.'
+
+      if (axios.isAxiosError(error)) {
+         const axiosError = error as AxiosError<{ message: string }>;
+
+         errorMessage = axiosError.response?.data.message || axiosError.message || errorMessage
+         console.log(axiosError.message)
+      }
+
       return {success: false, error: errorMessage}
    }
 }

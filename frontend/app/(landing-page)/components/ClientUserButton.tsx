@@ -1,20 +1,51 @@
 'use client'
-
-import useStore from '@/stores/useStore';
+import { useAuth } from '@/hooks/useAuth'
 import BasicButton from '../../../components/ui/BasicButton'
 import { useRouter } from 'next/navigation'
 
+
 export default function ClientUserButton() {
    const router = useRouter();
-   const accessToken = useStore((state) => state.accessToken);
+   const accessToken = useAuth((state) => state.accessToken);
+   const [isLoading, setIsLoading] = useState(true);
+   const setUser = useAuth((state) => state.setUser);
+
+   useEffect(() => {
+      const getUserData = async () => {
+         try {
+            const response = await api.get('/users/me');
+
+            setUser(response.data.user);
+         } catch (error) {
+            let errorMessage = 'An error occurred while fetching user data. Please try again.'
+   
+            if (axios.isAxiosError(error)) {
+               const axiosError = error as AxiosError<{ message: string }>;
+               errorMessage = axiosError.response?.data.message || axiosError.message || errorMessage
+            }
+            
+            toast.error(errorMessage)
+         } finally {
+            setIsLoading(false);
+         }
+      }
+
+      getUserData();
+   }, [])
 
    const handleLogin = () => {
       router.push('/login')
    }
 
+   if (isLoading) return (
+      <div className='hidden lg:flex items-center gap-3'>
+         <Loader />
+      </div>
+   )
+
    return (
       <div className="hidden lg:flex items-center gap-3">
-         {accessToken !== null ? (
+         {(accessToken !== null) ? (
             <ProfileDropdown />
          ) : (
             <BasicButton model="fill" onClick={handleLogin}>Login</BasicButton>
@@ -30,6 +61,10 @@ export default function ClientUserButton() {
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { handleFormResponse } from '@/app/(auth)/HandleFormResponse'
+import Loader from '@/components/ui/Loader';
+import api from '@/lib/axiosInstance';
+import axios, { AxiosError } from 'axios';
+import { toast } from 'sonner';
 
 
 function ProfileDropdown() {

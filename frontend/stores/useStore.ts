@@ -1,9 +1,6 @@
 import { create } from 'zustand'
 
-
 type StoreState = {
-   accessToken: null | string,
-   setAccessToken: (arg: string | null) => void,
    isLoading: boolean,
    setIsLoading: (arg: boolean) => void,
    error: string | null,
@@ -14,8 +11,6 @@ type StoreState = {
 }
 
 const useStore = create<StoreState>((set) => ({
-   accessToken: null,
-   setAccessToken: (arg: string | null) => set({ accessToken: arg }),
    isLoading: false,
    setIsLoading: (arg: boolean) => set({ isLoading: arg }),
    error: null,

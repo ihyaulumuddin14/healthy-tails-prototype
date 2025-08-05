@@ -19,8 +19,8 @@ import {
 } from '@/lib/auth.actions'
 import { toast } from 'sonner'
 import useVerifyStore from "@/stores/useVerifyStore";
-import useStore from '@/stores/useStore';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { useAuth } from '@/hooks/useAuth';
 
 
 
@@ -72,7 +72,7 @@ export async function handleFormResponse({ authType, data, router }: Props) {
 
          const redirectMap: Record<string, () => void> = {
             'login': () => {
-               useStore.getState().setAccessToken(response.accessToken)
+               useAuth.getState().setAccessToken(response.accessToken)
                router.replace('/')
             },
             'register': () => {
@@ -91,14 +91,14 @@ export async function handleFormResponse({ authType, data, router }: Props) {
             },
             'verify-otp': () => {
                useVerifyStore.getState().clearEmail();
-               useStore.getState().setAccessToken(response.accessToken);
+               useAuth.getState().setAccessToken(response.accessToken);
                router.replace('/')
             },
             'reset-password': () => {
                router.replace('/login')
             },
             'logout': () => {
-               useStore.getState().setAccessToken(null);
+               useAuth.getState().logout();
                router.replace('/')
             }
          }

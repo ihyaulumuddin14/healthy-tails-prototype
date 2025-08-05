@@ -8,7 +8,7 @@ function newAbortSignal(timeoutMs: number) {
 
 export async function getAllNews() {
    try {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_NEWS_URL}/`, {
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/news`, {
          signal: newAbortSignal(5000),
       });
       return data.news;

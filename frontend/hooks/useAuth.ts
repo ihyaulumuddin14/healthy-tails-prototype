@@ -1,33 +1,25 @@
-// import useStore from '@/stores/useStore'
-// import { useEffect } from 'react';
-// import { useShallow } from "zustand/react/shallow";
+import { create } from 'zustand'
 
-// export default function useAuth() {
-//    const { user, setUser } = useStore(
-//       useShallow(state => ({
-//          user: state.user,
-//          setUser: state.setUser
-//       }))
-//    );
 
-//    useEffect(() => {
-//       (async function getUser() {
-//          try {
-//             const res = await fetch(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/user`, {
-//                method: "GET",
-//                credentials: "include",
-//             })
+type UserType = {
+   name: string,
+   email: string,
+   role: "USER" | "ADMIN",
+   verified: boolean
+}
 
-//             const data = await res.json();
-//             if (!res.ok) throw new Error(data.error);
-            
-//             setUser(data);
-//          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//          } catch (error) {
-//             setUser(null);
-//          }
-//       })();
-//    }, [setUser]);
+type AuthState = {
+   user: UserType | null
+   accessToken: string | null
+   setAccessToken: (args: string) => void
+   setUser: (args: UserType | null) => void
+   logout: () => void
+}
 
-//    return user;
-// }
+export const useAuth = create<AuthState>((set) => ({
+   user: null,
+   accessToken: null,
+   setAccessToken: (accessToken: string) => set({ accessToken }),
+   setUser: (user: UserType | null) => set({ user }),
+   logout: () => set({ user: null, accessToken: null })
+}))
