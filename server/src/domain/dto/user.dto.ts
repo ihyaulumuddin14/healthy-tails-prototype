@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
 import { z } from "zod";
+import mongoose from "mongoose";
 
 const MongoIdString = z
   .string()

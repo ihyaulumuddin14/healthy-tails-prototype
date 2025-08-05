@@ -6,6 +6,10 @@ import {
   updatePet,
   deletePet,
 } from "../controllers/pet.controller.js";
+import {
+  findAllHistoriesForPet,
+  createVisitHistoryForPet,
+} from "../controllers/visit-history.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import {
   validateRequest,
@@ -16,6 +20,7 @@ import {
   PetIdParamSchema,
   UpdatePetRequestSchema,
 } from "../domain/dto/pet.dto.js";
+import { CreateVisitHistorySchema } from "../domain/dto/visit-history.dto.js";
 
 const router = Router();
 
@@ -39,6 +44,15 @@ router.delete(
   authenticate,
   validateParams(PetIdParamSchema),
   deletePet
+);
+
+router.get("/:id/history", authenticate, findAllHistoriesForPet);
+router.post(
+  "/:id/history",
+  authenticate,
+  validateParams(PetIdParamSchema),
+  validateRequest(CreateVisitHistorySchema),
+  createVisitHistoryForPet
 );
 
 export default router;
