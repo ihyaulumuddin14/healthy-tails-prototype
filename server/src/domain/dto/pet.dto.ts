@@ -21,23 +21,7 @@ export const CreatePetRequestSchema = z.object({
   }),
 });
 
-export const UpdatePetRequestSchema = z.object({
-  name: z
-    .string()
-    .min(5, "Name must be at least 5 characters long")
-    .max(50, "Name must be at most 50 characters long")
-    .optional(),
-  type: z.enum(["Dog", "Cat"], { error: "Type must be either Dog or Cat" }).optional(),
-  race: z.string().min(1, "Race is required").max(50, "Race must be at most 50 characters long").optional(),
-  color: z.string().min(1, "Color is required").max(50, "Color must be at most 50 characters long").optional(),
-  birthDate: z.date().optional(),
-  age: z.number().min(0, "Age must be a positive number").max(30, "Age must be at most 30 years").optional(),
-  gender: z
-    .enum(["Male", "Female"], {
-      error: "Gender must be either Male or Female",
-    })
-    .optional(),
-});
+export const UpdatePetRequestSchema = CreatePetRequestSchema.partial();
 
 export const PetResponseSchema = z.object({
   _id: MongoIdString,
