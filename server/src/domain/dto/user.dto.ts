@@ -37,6 +37,7 @@ export const UserResponseSchema = z.object({
   email: z.email().max(255),
   role: z.enum(["USER", "ADMIN"]),
   verified: z.boolean(),
+  photoUrl: z.url(),
 });
 
 export type UpdateUserRequest = z.infer<typeof UpdateUserRequestSchema>;
