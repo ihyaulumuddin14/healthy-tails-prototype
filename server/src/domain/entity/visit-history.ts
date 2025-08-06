@@ -74,7 +74,7 @@ const VisitHistorySchema = new Schema(
     ],
     injectionSite: {
       type: String,
-      maxlenght: 100,
+      maxlength: 100,
     },
     notes: {
       type: String,

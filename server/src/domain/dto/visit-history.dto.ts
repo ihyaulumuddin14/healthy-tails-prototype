@@ -11,8 +11,8 @@ export const VisitHistoryIdParamSchema = z.object({
   id: MongoIdString,
 });
 
-export const CreateVisitHistorySchema = z.object({
-  visitDate: z.iso.datetime().optional(),
+export const CreateVisitHistoryRequestSchema = z.object({
+  visitDate: z.date().optional(),
   nextVisitDate: z.date().optional(),
   bodyWeight: z.number().min(0, "Body weight must be a positive number"),
   temperature: z.number().min(0, "Temperature must be a positive number"),
@@ -32,6 +32,8 @@ export const CreateVisitHistorySchema = z.object({
   notes: z.string().max(500, "Notes must be at most 1000 characters long").optional(),
 });
 
+export const UpdateVisitHistoryRequestSchema = CreateVisitHistoryRequestSchema.partial();
+
 export const VisitHistoryResponseSchema = z.object({
   _id: MongoIdString,
   visitDate: z.date(),
@@ -50,7 +52,8 @@ export const VisitHistoryResponseSchema = z.object({
   updatedAt: z.iso.datetime(),
 });
 
-export type CreateVisitHistoryRequest = z.infer<typeof CreateVisitHistorySchema>;
+export type CreateVisitHistoryRequest = z.infer<typeof CreateVisitHistoryRequestSchema>;
+export type UpdateVisitHistoryRequest = z.infer<typeof UpdateVisitHistoryRequestSchema>;
 export type VisitHistoryResponse = z.infer<typeof VisitHistoryResponseSchema>;
 export type VisitHistoryCreationData = CreateVisitHistoryRequest & {
   pet: string;
