@@ -3,6 +3,7 @@ import { Router } from "express";
 import { CreatePetRequestSchema, PetIdParamSchema, UpdatePetRequestSchema } from "../domain/dto/pet.dto.js";
 import { CreateVisitHistorySchema } from "../domain/dto/visit-history.dto.js";
 
+import { adminOnly } from "../middlewares/admin-only.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { validateParams, validateRequest } from "../middlewares/validate-request.js";
 
@@ -27,6 +28,7 @@ router.get("/:id/history", authenticate, findAllHistoriesForPet);
 router.post(
   "/:id/history",
   authenticate,
+  adminOnly,
   validateParams(PetIdParamSchema),
   validateRequest(CreateVisitHistorySchema),
   createVisitHistoryForPet

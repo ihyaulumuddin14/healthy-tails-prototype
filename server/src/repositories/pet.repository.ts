@@ -9,6 +9,10 @@ export const findPetByIdAndOwner = async (userId: string, petId: string): Promis
   return PetModel.findOne({ _id: petId, owner: userId }).exec();
 };
 
+export const findPetById = async (petId: string): Promise<PetItf | null> => {
+  return PetModel.findById(petId).exec();
+};
+
 export const createPet = async (data: PetCreationData): Promise<PetItf> => {
   const pet = new PetModel(data);
   return pet.save();
