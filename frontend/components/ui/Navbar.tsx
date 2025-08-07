@@ -20,7 +20,7 @@ const Navbar = () => {
                <LinkNavbar />
                <ThemeToggle />
                <AuthGuard
-                  skeleton={<Skeleton className="w-10 h-10" />}
+                  skeleton={<Skeleton className="w-10 h-10 hidden lg:block" />}
                   fallback={<LoginButton />}>
                      <ProfileDropdown />
                </AuthGuard>

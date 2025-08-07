@@ -1,7 +1,7 @@
 import Divider from "./components/Divider"
 import AuthLinks from "./components/AuthLinks"
 import BasicButton from "@/components/ui/BasicButton"
-import ThemeToggle from "../(landing-page)/components/ThemeToggle"
+import ThemeToggle from "../../components/ui/ThemeToggle"
 // import toastMessage, { Toaster } from 'react-hot-toast'
 
 type AuthLayoutProps = {

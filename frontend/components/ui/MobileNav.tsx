@@ -1,12 +1,13 @@
 'use client'
 
-import { navbarLink } from '../../constant'
+import { navbarLink } from '../../app/constant'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import BasicButton from '../../../components/ui/BasicButton'
+import BasicButton from './BasicButton'
 import useStore from '@/stores/useStore'
 import { handleFormResponse } from '@/app/(auth)/HandleFormResponse'
 import { useAuthStore } from '@/hooks/useAuthStore'
+import { useEffect } from 'react'
 
 const MobileNav = () => {
    const router = useRouter();
@@ -26,6 +27,10 @@ const MobileNav = () => {
    const handleLogin = () => {
       router.push('/login')
    }
+
+   useEffect(() => {
+      return () => setIsMobileNavOpen(false)
+   }, [])
 
    return (
       <nav className={`w-full h-[calc(100vh-72px)] absolute overflow-y-auto transition-transform duration-600 ease-in-out ${isMobileNavOpen ? "translate-y-[72px]" : "translate-y-[-200%]"} left-0 z-[60] flex flex-col items-center justify-start bg-[var(--background)] p-5 pb-10`}>

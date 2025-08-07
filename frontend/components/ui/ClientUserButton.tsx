@@ -1,6 +1,6 @@
 'use client'
 
-import BasicButton from '../../../components/ui/BasicButton'
+import BasicButton from './BasicButton'
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -54,7 +54,7 @@ export function ProfileDropdown() {
             <div className={`w-fit h-fit absolute right-0 mt-2 text-[var(--color-foreground)] grid ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"} ease-in-out duration-200`}>
                <div className={`w-[max-content] h-full overflow-hidden ${isOpen ? "opacity-100" : "opacity-0"} ease-in-out duration-500 rounded-md shadow-lg`}>
                   <ul className="h-fit flex flex-col items-end bg-[var(--color-background)] p-1 text-sm">
-                     <Link href="/profile" className="py-2 px-4 w-full flex justify-end rounded-md bg-[var(--color-background)] hover:bg-[var(--color-foreground)]/50 cursor-pointer ease-in-out duration-150">My Profile</Link>
+                     <Link href="/user/profile" className="py-2 px-4 w-full flex justify-end rounded-md bg-[var(--color-background)] hover:bg-[var(--color-foreground)]/50 cursor-pointer ease-in-out duration-150">My Profile</Link>
                      <li onClick={handleLogout} className="py-2 px-4 w-full flex justify-end rounded-md bg-[var(--color-background)] text-red-600 hover:bg-red-100 cursor-pointer ease-in-out duration-150">Logout</li>
                   </ul>
                </div>

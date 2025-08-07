@@ -7,7 +7,9 @@ type StoreState = {
    isMobile: undefined | boolean,
    setIsMobile: (arg: boolean) => void,
    isMobileNavOpen: undefined | boolean,
-   setIsMobileNavOpen: (arg: boolean) => void
+   setIsMobileNavOpen: (arg: boolean) => void,
+   isSidebarOpen: undefined | boolean,
+   setIsSidebarOpen: (arg: boolean) => void
 }
 
 const useStore = create<StoreState>((set) => ({
@@ -17,7 +19,9 @@ const useStore = create<StoreState>((set) => ({
    isMobile: false,
    setIsMobile: (arg: boolean) => set({ isMobile: arg }),
    isMobileNavOpen: false,
-   setIsMobileNavOpen: (arg: boolean) => set({ isMobileNavOpen: arg })
+   setIsMobileNavOpen: (arg: boolean) => set({ isMobileNavOpen: arg }),
+   isSidebarOpen: false,
+   setIsSidebarOpen: (arg: boolean) => set({ isSidebarOpen: arg }),
 }))
 
 export default useStore;

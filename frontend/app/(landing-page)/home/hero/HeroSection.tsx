@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import HeroImage from '@/public/images/bg-hero.webp'
-import MainButton from '../../components/MainButton'
+import MainButton from '../../../../components/ui/MainButton'
 import ServicesList from './components/ServicesList'
 import ScrollDown from './components/ScrollDown'
 import AnimatedText from '../../components/AnimatedText'

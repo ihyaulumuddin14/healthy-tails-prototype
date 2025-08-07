@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import AppThemeProvider from "@/themes/AppThemeProvider";
 import { Toaster } from "@/components/ui/sonner"
-import { Dialog } from "@/components/ui/dialog";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -29,10 +28,8 @@ export default function RootLayout({
         className={`${inter.variable} antialiased text-[var(--color-foreground)] overflow-x-hidden`}
       >
          <AppThemeProvider>
-            <Dialog>
-               <Toaster position="top-center" />
-               {children}
-            </Dialog>
+            <Toaster position="top-center" />
+            {children}
          </AppThemeProvider>
       </body>
    </html>
