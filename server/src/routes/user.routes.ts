@@ -9,6 +9,7 @@ import { validateParams, validateRequest } from "../middlewares/validate-request
 
 import {
   changeUserPassword,
+  deleteSelf,
   deleteUser,
   findAllUsers,
   findUserById,
@@ -20,6 +21,7 @@ const router = Router();
 
 router.get("/me", authenticate, findUserById);
 router.put("/me", authenticate, validateRequest(UpdateUserRequestSchema), updateUser);
+router.delete("/me", authenticate, deleteSelf);
 router.put("/me/change-password", authenticate, validateRequest(UpdatePasswordUserRequestSchema), changeUserPassword);
 router.post("/me/avatar", authenticate, upload.single("avatar"), uploadAvatar);
 router.get("/", authenticate, adminOnly, findAllUsers);

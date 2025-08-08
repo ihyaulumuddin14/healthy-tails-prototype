@@ -33,6 +33,7 @@ export const UpdatePasswordUserRequestSchema = z.object({
 });
 
 export const UserResponseSchema = z.object({
+  _id: MongoIdString,
   name: z.string().max(50),
   email: z.email().max(255),
   role: z.enum(["USER", "ADMIN"]),

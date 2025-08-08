@@ -29,6 +29,15 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
   }
 };
 
+export const deleteSelf = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await deleteUserService(req.user!.id);
+    return res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const changeUserPassword = async (req: Request, res: Response, next: NextFunction) => {
   try {
     await changeUserPasswordService(req.user!.id, req.body);
