@@ -50,7 +50,6 @@ export async function onSubmitRegister (credential: RegisterCredentials) : Promi
 }> {
    
    try {
-      'use server'
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, credential, {
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
@@ -76,7 +75,6 @@ export async function onSubmitForgotPassword (credential: ForgotPasswordCredenti
 }> {
    
    try {
-      'use server'
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`, credential, {
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
@@ -154,7 +152,6 @@ export async function onSubmitResetPassword (credential: ResetPasswordCredential
 }> {
    
    try {
-      'use server'
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`, credential, {
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)

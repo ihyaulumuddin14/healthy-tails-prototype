@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation"
 import { useEffect } from "react"
 import { animate } from "motion/mini"
 import { spring } from "motion"
-import path from "path"
 
 const sidebarUserLink = [
    {

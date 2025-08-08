@@ -19,7 +19,7 @@ export function ThreeDCardDemo({ name, link, color }: Props) {
             onClick={() => route.push(link)}
          >
             <CardItem
-               translateZ="50"
+               translateZ="100"
                className="text-xl font-bold"
             >
                {name === "Edit Profile" ? (
@@ -34,7 +34,7 @@ export function ThreeDCardDemo({ name, link, color }: Props) {
             </CardItem>
             <CardItem
                as="p"
-               translateZ="60"
+               translateZ="100"
                className="flex-text-0 max-w-sm mt-2 text-white font-semibold text-center"
             >
                {name}

@@ -4,12 +4,12 @@ import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from 
 import Main from "@/components/ui/Main";
 import Navbar from "@/components/ui/Navbar";
 import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
 import AuthGuard from "../AuthGuard";
 import { usePathname } from "next/navigation";
 import { Fragment, useEffect } from "react";
 import useStore from "@/stores/useStore";
 import LinkSidebar from "@/components/ui/LinkSidebar";
+import loading from "../loading";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
    const pathName = usePathname();
@@ -25,8 +25,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
    return (
       <AuthGuard
-         skeleton={<Skeleton className="w-10 h-10" />}
+         skeleton={loading()}
          fallback={<div className="w-full h-screen flex items-center justify-center">Sorry you are not logged in</div>}
+         role="ADMIN"
          >
          <Navbar />
          <Main>

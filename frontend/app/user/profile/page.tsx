@@ -3,7 +3,7 @@
 import { ThreeDCardDemo } from "./components/3DCard"
 import { TypewriterEffect } from "@/components/ui/typewriter-effect"
 import ProfilePhotoCard from "./components/ProfilePhotoCard"
-// import { useAuthStore } from '@/hooks/useAuthStore'
+import { useAuthStore } from '@/hooks/useAuthStore'
 
 
 const quickAccessList = [
@@ -31,13 +31,7 @@ const quickAccessList = [
 
 
 export default function Profile() {
-   // const user = useAuthStore((state) => state.user);
-   const user = {
-      name: 'John Doe',
-      email: '7oHd5@example.com',
-      role: 'admin',
-      verified: true
-   }
+   const user = useAuthStore((state) => state.user);
 
    const greetings = [
       {
@@ -45,7 +39,7 @@ export default function Profile() {
          className: 'text-[var(--color-foreground)] text-4xl'
       },
       {
-         text: user.name.split(' ')[0],
+         text: user?.name.split(' ')[0] as string,
          className: 'text-[var(--color-foreground)] text-4xl'
       }
    ]
