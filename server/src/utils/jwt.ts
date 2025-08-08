@@ -2,7 +2,6 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 export interface AccessTokenPayload extends JwtPayload {
   id: string;
-  name: string;
   email: string;
   role: string;
 }
@@ -12,8 +11,8 @@ export interface RefreshTokenPayload extends JwtPayload {
   rememberMe: boolean;
 }
 
-export const generateAccessToken = (userId: string, name: string, email: string, role: string) => {
-  return jwt.sign({ id: userId, name, email, role }, process.env.JWT_SECRET!, {
+export const generateAccessToken = (userId: string, email: string, role: string) => {
+  return jwt.sign({ id: userId, email, role }, process.env.JWT_SECRET!, {
     expiresIn: "1h",
   });
 };

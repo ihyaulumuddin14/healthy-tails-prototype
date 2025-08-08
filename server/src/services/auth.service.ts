@@ -63,7 +63,7 @@ export const verifyOTPUser = async (payload: VerifyOTPRequest) => {
     throw new HttpError(400, "Invalid OTP");
   }
 
-  const accessToken = generateAccessToken(user._id.toString(), user.name, user.email, user.role);
+  const accessToken = generateAccessToken(user._id.toString(), user.email, user.role);
   const refreshToken = generateRefreshToken(user._id, false);
 
   await updateUserByEmail(email, { verified: true, refreshToken });
@@ -109,7 +109,7 @@ export const loginUser = async (payload: LoginRequest) => {
     throw new HttpError(403, "Account not verified");
   }
 
-  const accessToken = generateAccessToken(user._id.toString(), user.name, user.email, user.role);
+  const accessToken = generateAccessToken(user._id.toString(), user.email, user.role);
   const refreshToken = generateRefreshToken(user._id, rememberMe);
 
   await updateUserByEmail(email, { refreshToken });
@@ -128,7 +128,7 @@ export const refreshUser = async (refreshToken: string) => {
     throw new HttpError(401, "Invalid or expired refresh token");
   }
 
-  const newAccessToken = generateAccessToken(user._id.toString(), user.name, user.email, user.role);
+  const newAccessToken = generateAccessToken(user._id.toString(), user.email, user.role);
   const newRefreshToken = generateRefreshToken(user._id, decoded.rememberMe);
 
   await updateUserByEmail(user.email, { refreshToken: newRefreshToken });
