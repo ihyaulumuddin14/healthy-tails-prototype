@@ -2,7 +2,12 @@ import { CreateServiceRequest, ServiceResponse, UpdateServiceRequest } from "../
 
 import { toServiceResponse, toServiceResponseArray } from "../helpers/service-mapper.js";
 
-import { findAllServices, insertService, updateServiceById } from "../repositories/service.repository.js";
+import {
+  findAllServices,
+  findServiceByName,
+  insertService,
+  updateServiceById,
+} from "../repositories/service.repository.js";
 
 import { HttpError } from "../utils/http-error.js";
 import { deleteCache, getCache, setCache } from "../utils/redis.js";
@@ -24,6 +29,11 @@ export const getAllServices = async () => {
 };
 
 export const addService = async (payload: CreateServiceRequest) => {
+  const existingService = await findServiceByName(payload.name);
+  if (existingService) {
+    throw new HttpError(409, "Service with this name already exists");
+  }
+
   const service = await insertService(payload);
   await deleteCache("services:all");
 
