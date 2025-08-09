@@ -1,17 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-export const serviceEnum = [
-  "General / Emergency Consultation",
-  "Routine Vaccination",
-  "Health Checkup",
-  "Sterilization",
-] as const;
-
-type ServiceName = (typeof serviceEnum)[number];
-
 export interface ServiceItf extends Document {
   _id: string;
-  name: ServiceName;
+  name: string;
   estimatedDurationMinutes: number;
   isActive: boolean;
 }
@@ -19,7 +10,6 @@ export interface ServiceItf extends Document {
 const ServiceSchema = new Schema({
   name: {
     type: String,
-    enum: serviceEnum,
     required: true,
     unique: true,
   },
