@@ -1,11 +1,9 @@
 import mongoose from "mongoose";
 import { z } from "zod";
 
-const MongoIdString = z
-  .string()
-  .refine((val) => mongoose.Types.ObjectId.isValid(val), {
-    message: "Invalid ID format",
-  });
+const MongoIdString = z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
+  message: "Invalid ID format",
+});
 
 export const UserIdParamSchema = z.object({
   id: MongoIdString,
@@ -35,14 +33,14 @@ export const UpdatePasswordUserRequestSchema = z.object({
 });
 
 export const UserResponseSchema = z.object({
+  _id: MongoIdString,
   name: z.string().max(50),
   email: z.email().max(255),
   role: z.enum(["USER", "ADMIN"]),
   verified: z.boolean(),
+  photoUrl: z.url(),
 });
 
 export type UpdateUserRequest = z.infer<typeof UpdateUserRequestSchema>;
-export type UpdatePasswordUserRequest = z.infer<
-  typeof UpdatePasswordUserRequestSchema
->;
+export type UpdatePasswordUserRequest = z.infer<typeof UpdatePasswordUserRequestSchema>;
 export type UserResponse = z.infer<typeof UserResponseSchema>;

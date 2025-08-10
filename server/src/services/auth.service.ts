@@ -1,37 +1,30 @@
-import {
-  RegisterRequest,
-  VerifyOTPRequest,
-  ResendOTPRequest,
-  LoginRequest,
-  ForgotPasswordRequest,
-  ResetPasswordRequest,
-} from "../domain/dto/auth.dto.js";
-import {
-  findUserByEmail,
-  createUser,
-  updateUserByEmail,
-  findUserByRefreshToken,
-  removeRefreshToken,
-} from "../repositories/user.repository.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
-import { HttpError } from "../utils/http-error.js";
-import { generateOTP } from "../utils/otp.js";
+
 import {
-  getCache,
-  setCache,
-  setOTP,
-  getOTP,
-  setResetToken,
-  getResetToken,
-} from "../utils/redis.js";
+  ForgotPasswordRequest,
+  LoginRequest,
+  RegisterRequest,
+  ResendOTPRequest,
+  ResetPasswordRequest,
+  VerifyOTPRequest,
+} from "../domain/dto/auth.dto.js";
+
+import { toUserResponse } from "../helpers/user-mapper.js";
+
+import {
+  createUser,
+  findUserByEmail,
+  findUserByRefreshToken,
+  removeRefreshToken,
+  updateUserByEmail,
+} from "../repositories/user.repository.js";
+
 import { sendOTPEmail, sendResetLinkEmail } from "../utils/email.js";
-import {
-  RefreshTokenPayload,
-  generateAccessToken,
-  generateRefreshToken,
-  verifyToken,
-} from "../utils/jwt.js";
+import { HttpError } from "../utils/http-error.js";
+import { RefreshTokenPayload, generateAccessToken, generateRefreshToken, verifyToken } from "../utils/jwt.js";
+import { generateOTP } from "../utils/otp.js";
+import { getCache, getOTP, getResetToken, setCache, setOTP, setResetToken } from "../utils/redis.js";
 
 export const registerUser = async (payload: RegisterRequest) => {
   const { name, email, password } = payload;
@@ -70,17 +63,12 @@ export const verifyOTPUser = async (payload: VerifyOTPRequest) => {
     throw new HttpError(400, "Invalid OTP");
   }
 
-  const accessToken = generateAccessToken(
-    user._id.toString(),
-    user.name,
-    user.email,
-    user.role
-  );
+  const accessToken = generateAccessToken(user._id.toString(), user.email, user.role);
   const refreshToken = generateRefreshToken(user._id, false);
 
   await updateUserByEmail(email, { verified: true, refreshToken });
 
-  return { accessToken, refreshToken };
+  return { accessToken, refreshToken, user: toUserResponse(user) };
 };
 
 export const resendOTPUser = async (payload: ResendOTPRequest) => {
@@ -121,17 +109,12 @@ export const loginUser = async (payload: LoginRequest) => {
     throw new HttpError(403, "Account not verified");
   }
 
-  const accessToken = generateAccessToken(
-    user._id.toString(),
-    user.name,
-    user.email,
-    user.role
-  );
+  const accessToken = generateAccessToken(user._id.toString(), user.email, user.role);
   const refreshToken = generateRefreshToken(user._id, rememberMe);
 
   await updateUserByEmail(email, { refreshToken });
 
-  return { accessToken, refreshToken };
+  return { accessToken, refreshToken, user: toUserResponse(user) };
 };
 
 export const refreshUser = async (refreshToken: string) => {
@@ -141,13 +124,11 @@ export const refreshUser = async (refreshToken: string) => {
   }
 
   const decoded = verifyToken<RefreshTokenPayload>(refreshToken);
+  if (!decoded) {
+    throw new HttpError(401, "Invalid or expired refresh token");
+  }
 
-  const newAccessToken = generateAccessToken(
-    user._id.toString(),
-    user.name,
-    user.email,
-    user.role
-  );
+  const newAccessToken = generateAccessToken(user._id.toString(), user.email, user.role);
   const newRefreshToken = generateRefreshToken(user._id, decoded.rememberMe);
 
   await updateUserByEmail(user.email, { refreshToken: newRefreshToken });

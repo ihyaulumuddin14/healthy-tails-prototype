@@ -1,6 +1,7 @@
 import pluginJs from "@eslint/js";
-import parser from "@typescript-eslint/parser";
 import pluginTs from "@typescript-eslint/eslint-plugin";
+import parser from "@typescript-eslint/parser";
+import prettierConfig from "eslint-config-prettier";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -32,4 +33,6 @@ export default [
       ],
     },
   },
+
+  prettierConfig,
 ];

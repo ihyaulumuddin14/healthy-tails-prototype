@@ -1,18 +1,11 @@
-import {
-  CreateNewsRequest,
-  UpdateNewsRequest,
-  NewsResponse,
-} from "../domain/dto/news.dto.js";
-import {
-  findAllNews,
-  findNewsById,
-  createNews,
-  updateNewsById,
-  deleteNews,
-} from "../repositories/news.repository.js";
+import { CreateNewsRequest, NewsResponse, UpdateNewsRequest } from "../domain/dto/news.dto.js";
+
+import { toNewResponseArray, toNewsResponse } from "../helpers/news-mapper.js";
+
+import { createNews, deleteNews, findAllNews, findNewsById, updateNewsById } from "../repositories/news.repository.js";
+
 import { HttpError } from "../utils/http-error.js";
 import { deleteCache, getCache, setCache } from "../utils/redis.js";
-import { toNewResponseArray, toNewsResponse } from "../helpers/news-mapper.js";
 
 export const getAllNews = async () => {
   const cacheKey = "news:all";
@@ -51,23 +44,31 @@ export const getNewsById = async (id: string) => {
 };
 
 export const createNewsService = async (payload: CreateNewsRequest) => {
-  await createNews(payload);
-
+  const news = await createNews(payload);
   await deleteCache("news:all");
+
+  const mappedNews = toNewsResponse(news);
+  return mappedNews;
 };
 
-export const updateNewsService = async (
-  id: string,
-  payload: UpdateNewsRequest
-) => {
-  await updateNewsById(id, payload);
+export const updateNewsService = async (id: string, payload: UpdateNewsRequest) => {
+  const news = await updateNewsById(id, payload);
+  if (!news) {
+    throw new HttpError(404, "News not found");
+  }
 
   await deleteCache("news:all");
   await deleteCache(`news:${id}`);
+
+  const mappedNews = toNewsResponse(news);
+  return mappedNews;
 };
 
 export const deleteNewsService = async (id: string) => {
-  await deleteNews(id);
+  const deletedNews = await deleteNews(id);
+  if (!deletedNews) {
+    throw new HttpError(404, "News not found");
+  }
 
   await deleteCache("news:all");
   await deleteCache(`news:${id}`);

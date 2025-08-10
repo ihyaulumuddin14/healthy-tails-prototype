@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
 export interface UserItf extends Document {
   _id: string;
@@ -44,8 +44,7 @@ const UserSchema = new Schema(
     photoUrl: {
       type: String,
       maxlength: 255,
-      default:
-        "https://qdtfpohyfsqvunddzoge.supabase.co/storage/v1/object/public/media/profile/default_pfp.jpg",
+      default: "https://qdtfpohyfsqvunddzoge.supabase.co/storage/v1/object/public/media/profile/default_pfp.jpg",
     },
     refreshToken: {
       type: String,

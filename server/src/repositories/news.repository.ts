@@ -13,10 +13,7 @@ export const createNews = async (data: Partial<NewsItf>): Promise<NewsItf> => {
   return news.save();
 };
 
-export const updateNewsById = async (
-  id: string,
-  updateData: Partial<NewsItf>
-): Promise<NewsItf | null> => {
+export const updateNewsById = async (id: string, updateData: Partial<NewsItf>): Promise<NewsItf | null> => {
   return NewsModel.findByIdAndUpdate(id, updateData, {
     new: true,
   }).exec();

@@ -1,8 +1,12 @@
-import {
-  UpdateUserRequest,
-  UpdatePasswordUserRequest,
-  UserResponse,
-} from "../domain/dto/user.dto.js";
+import bcrypt from "bcrypt";
+import { Express } from "express";
+
+import { supabase } from "../config/supabase.js";
+
+import { UpdatePasswordUserRequest, UpdateUserRequest, UserResponse } from "../domain/dto/user.dto.js";
+
+import { toUserResponse, toUserResponseArray } from "../helpers/user-mapper.js";
+
 import {
   deleteUserById,
   findAllUsers,
@@ -10,13 +14,10 @@ import {
   updateUserById,
   updateUserPassword,
 } from "../repositories/user.repository.js";
-import bcrypt from "bcrypt";
-import { Express } from "express";
+
 import { HttpError } from "../utils/http-error.js";
-import { deleteCache, getCache, setCache } from "../utils/redis.js";
-import { toUserResponse, toUserResponseArray } from "../helpers/user-mapper.js";
-import { supabase } from "../config/supabase.js";
 import logger from "../utils/logger.js";
+import { deleteCache, getCache, setCache } from "../utils/redis.js";
 
 export const getUserById = async (id: string) => {
   const cacheKey = `user:${id}`;
@@ -38,10 +39,7 @@ export const getUserById = async (id: string) => {
   return mappedUser;
 };
 
-export const updateUserService = async (
-  id: string,
-  payload: UpdateUserRequest
-) => {
+export const updateUserService = async (id: string, payload: UpdateUserRequest) => {
   const updatedUser = await updateUserById(id, payload);
   if (!updatedUser) {
     throw new HttpError(404, "User not found");
@@ -56,10 +54,7 @@ export const updateUserService = async (
   return mappedUser;
 };
 
-export const changeUserPasswordService = async (
-  id: string,
-  payload: UpdatePasswordUserRequest
-) => {
+export const changeUserPasswordService = async (id: string, payload: UpdatePasswordUserRequest) => {
   const user = await findUserById(id);
   if (!user) {
     throw new HttpError(404, "User not found");
@@ -81,10 +76,7 @@ export const changeUserPasswordService = async (
   await deleteCache(cacheKey);
 };
 
-export const uploadAvatarService = async (
-  id: string,
-  avatar: Express.Multer.File
-) => {
+export const uploadAvatarService = async (id: string, avatar: Express.Multer.File) => {
   if (!avatar) {
     throw new HttpError(400, "Avatar file is required");
   }
@@ -96,8 +88,11 @@ export const uploadAvatarService = async (
 
   if (user.photoUrl && !user.photoUrl.includes("default_pfp.jpg")) {
     try {
-      const oldFilePath = user.photoUrl.split("/media/")[1];
-      await supabase.storage.from("media").remove([oldFilePath]);
+      const urlParts = user.photoUrl.split("/media/");
+      if (urlParts.length > 1) {
+        const oldFilePath = urlParts[1];
+        await supabase.storage.from("media").remove([oldFilePath]);
+      }
     } catch (err) {
       logger.error("Failed to remove old avatar:", err);
     }
@@ -105,20 +100,16 @@ export const uploadAvatarService = async (
 
   const fileName = `profile/${id}/${Date.now()}_${avatar.originalname}`;
 
-  const { data, error } = await supabase.storage
-    .from("media")
-    .upload(fileName, avatar.buffer, {
-      cacheControl: "3600",
-      contentType: avatar.mimetype,
-    });
+  const { data, error } = await supabase.storage.from("media").upload(fileName, avatar.buffer, {
+    cacheControl: "3600",
+    contentType: avatar.mimetype,
+  });
 
   if (error) {
     throw new HttpError(500, "Failed to upload avatar");
   }
 
-  const { data: publicUrlData } = supabase.storage
-    .from("media")
-    .getPublicUrl(data.path);
+  const { data: publicUrlData } = supabase.storage.from("media").getPublicUrl(data.path);
 
   const mediaUrl = publicUrlData.publicUrl;
 
@@ -148,7 +139,10 @@ export const getAllUsers = async () => {
 };
 
 export const deleteUserService = async (id: string) => {
-  await deleteUserById(id);
+  const deletedUser = await deleteUserById(id);
+  if (!deletedUser) {
+    throw new HttpError(404, "User not found");
+  }
 
   await deleteCache(`users:all`);
   await deleteCache(`user:${id}`);
