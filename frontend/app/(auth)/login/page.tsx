@@ -5,8 +5,8 @@ import Input from '../components/Input';
 import SubmitButton from '@/components/ui/BasicButton';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginCredentials, LoginSchema } from '../schemas/AuthSchema';
-import { handleFormResponse } from '../HandleFormResponse'
+import { LoginCredentials, LoginSchema } from '../../../schema/AuthSchema';
+import { handleAuthResponse } from '../../../lib/handleAuthResponse'
 import RememberMe from './components/RememberMe';
 import { useRouter } from "next/navigation"
 
@@ -21,7 +21,7 @@ const Login = () => {
    })
 
    const handleResponseLogin = async (data: LoginCredentials) => {
-      await handleFormResponse({ authType: 'login', data, router });
+      await handleAuthResponse({ authType: 'login', data, router });
    };
 
    return (

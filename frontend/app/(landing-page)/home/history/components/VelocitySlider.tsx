@@ -30,7 +30,7 @@ export default function VelocitySlider({initDirection}: {initDirection: string})
    const x = useTransform(baseX, (v) => `${wrap((initDirection === "left" ? -50 : 0), (initDirection === "left" ? 0 : 50), v)}%`);
    const directionFactor = useRef<number>(1);
    useAnimationFrame((t, delta) => {
-      let moveBy = directionFactor.current * (initDirection === "left" ? -5 : 5) * (delta / 1000);
+      let moveBy = directionFactor.current * (initDirection === "left" ? -2 : 2) * (delta / 1000);
 
       if (velocityFactor.get() < 0) {
          directionFactor.current = -1;

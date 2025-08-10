@@ -14,8 +14,8 @@ export default function Hours () {
                className='flex-text-2'
                addLineHeight
                >
-               <span className='text-texture font-bold'>Paws Up</span>,
-               We`re Open!
+               <span className='text-texture font-bold'>PAWS UP</span>,
+               WE`RE OPEN!
             </AnimatedText>
 
 

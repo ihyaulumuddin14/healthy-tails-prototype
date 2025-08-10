@@ -5,8 +5,8 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import BasicButton from './BasicButton'
 import useStore from '@/stores/useStore'
-import { handleFormResponse } from '@/app/(auth)/HandleFormResponse'
-import { useAuthStore } from '@/hooks/useAuthStore'
+import { handleAuthResponse } from '@/lib/handleAuthResponse'
+import { useAuthStore } from '@/stores/useAuthStore'
 import { useEffect } from 'react'
 
 const MobileNav = () => {
@@ -18,7 +18,7 @@ const MobileNav = () => {
    const user = useAuthStore((state) => state.user);
 
    const handleLogout = async () => {
-      await handleFormResponse({ authType: 'logout', router })
+      await handleAuthResponse({ authType: 'logout', router })
       setIsMobileNavOpen(false)
    }
 

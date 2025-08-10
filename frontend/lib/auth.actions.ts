@@ -5,7 +5,7 @@ import {
    ResetPasswordCredentials,
    VerifyOTPCredentials,
    TokenResponse
-} from "../app/(auth)/schemas/AuthSchema";
+} from "../schema/AuthSchema";
 import axios, { AxiosError } from 'axios'
 import api from "./axiosInstance";
 

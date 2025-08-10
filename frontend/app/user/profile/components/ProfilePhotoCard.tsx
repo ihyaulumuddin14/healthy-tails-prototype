@@ -1,3 +1,5 @@
+import { DialogTrigger } from "@/components/ui/dialog"
+
 type Props = {
    imageUrl?: string
 }
@@ -9,7 +11,9 @@ export default function ProfilePhotoCard({ imageUrl }: Props) {
             <div className="w-[80%] aspect-square rounded-full bg-white"></div>
          </div>
          <div className="w-2/3 h-fit p-4 bg-[var(--color-chart-1)] absolute top-1/2 -translate-y-1/2 right-0 flex justify-end rounded-2xl">
-            <button className="text-[var(--color-tertiary-foreground)] bg-[var(--color-tertiary)] px-3 py-1 rounded-sm text-[clamp(0.7rem,1.8vw,1.3rem)] hover:scale-105 active:scale-95 cursor-pointer transition-all duration-200 ease-in-out flex items-center">Change Photo</button>
+            <DialogTrigger asChild>
+               <button className="bg-[var(--color-tertiary)] text-[var(--color-tertiary-foreground)] py-2 px-5 rounded-xl text-[clamp(0.8rem,1.8vw,1.1rem)] hover:scale-105 active:scale-95 cursor-pointer transition-all duration-200 ease-in-out flex items-center gap-2] font-semibold">Change Photo</button>
+            </DialogTrigger>
          </div>
       </div>
    )

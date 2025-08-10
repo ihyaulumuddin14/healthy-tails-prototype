@@ -7,7 +7,7 @@ import {
    RegisterCredentials,
    ResetPasswordCredentials,
    VerifyOTPCredentials,
-} from './schemas/AuthSchema'
+} from '../schema/AuthSchema'
 import {
    onSubmitLogin,
    onSubmitRegister,
@@ -20,7 +20,7 @@ import {
 import { toast } from 'sonner'
 import useVerifyStore from "@/stores/useVerifyStore";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { useAuthStore } from '@/hooks/useAuthStore';
+import { useAuthStore } from '@/stores/useAuthStore';
 import axios, { AxiosError } from 'axios';
 
 type Props = {
@@ -65,7 +65,7 @@ async function replaceBaseOnRole(accessToken: string, router: AppRouterInstance)
    }
 }
 
-export async function handleFormResponse({ authType, data, router }: Props) {
+export async function handleAuthResponse({ authType, data, router }: Props) {
    let response;
 
    switch (authType) {
@@ -103,7 +103,6 @@ export async function handleFormResponse({ authType, data, router }: Props) {
 
    if (response) {
       if (response.success) {
-
          
          toast.success(response.message, { duration: 2000 });
          

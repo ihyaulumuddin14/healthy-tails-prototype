@@ -1,17 +1,14 @@
-import { Dialog } from "@/components/ui/dialog";
+import { LenisDialog } from "@/components/ui/dialog";
 import Navbar from "../../components/ui/Navbar";
 import Main from "../../components/ui/Main";
-// import { gsap } from "gsap";
-// import { SplitText } from "gsap/SplitText";
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-// gsap.registerPlugin(SplitText, ScrollTrigger);
+import Footer from "@/components/ui/Footer";
 
 export default function LandingPageLayout({children}: {children: React.ReactNode}) {
    return (
-      <Dialog>
+      <LenisDialog>
          <Navbar />
          <Main> { children } </Main>
-      </Dialog>
+         <Footer />
+      </LenisDialog>
    );
 }

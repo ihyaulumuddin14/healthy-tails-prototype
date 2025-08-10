@@ -38,9 +38,7 @@ const useVerifyStore = create<VerifyStoreType>()(
                      throw new Error();
                   }
                   return item.value
-                  
-               // eslint-disable-next-line @typescript-eslint/no-unused-vars
-               } catch (e) {
+               } catch {
                   sessionStorage.removeItem(name)
                   toast.error("Verify session expired");
                   return null

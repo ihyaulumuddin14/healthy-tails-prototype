@@ -18,7 +18,6 @@ export default function Home() {
          <HoursSection />
          <FeedbackSection />
          <ShopSection />
-         <Footer sectionIDs={['home', 'history', 'service', 'team', 'hours', 'feedback', 'shop']} />
       </>
    );
 }

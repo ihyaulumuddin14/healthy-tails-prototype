@@ -4,8 +4,8 @@ import BasicButton from './BasicButton'
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { handleFormResponse } from '@/app/(auth)/HandleFormResponse'
-import { useAuthStore } from '@/hooks/useAuthStore';
+import { handleAuthResponse } from '@/lib/handleAuthResponse'
+import { useAuthStore } from '@/stores/useAuthStore';
 
 export function LoginButton() {
    const router = useRouter();
@@ -41,7 +41,7 @@ export function ProfileDropdown() {
 
 
    const handleLogout = async () => {
-      await handleFormResponse({ authType: 'logout', router })
+      await handleAuthResponse({ authType: 'logout', router })
    }
 
    return (
@@ -54,7 +54,7 @@ export function ProfileDropdown() {
             </div>
 
             <div className={`w-fit h-fit absolute right-0 mt-2 text-[var(--color-foreground)] grid ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"} ease-in-out duration-200`}>
-               <div className={`w-[max-content] h-full overflow-hidden ${isOpen ? "opacity-100" : "opacity-0"} ease-in-out duration-500 rounded-md shadow-lg`}>
+               <div className={`w-[max-content] h-full overflow-hidden ${isOpen ? "opacity-100" : "opacity-0"} ease-in-out duration-500 rounded-md shadow-lg  border border-border`}>
                   <ul className="h-fit flex flex-col items-end bg-[var(--color-background)] p-1 text-sm">
                      <li className='w-full h-fit flex justify-start items-center px-3 py-3 border-b-1 border-[var(--color-foreground)]/20 pointer-events-none'>
                         <svg className="w-8 h-8 text-[var(--color-foreground)]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">

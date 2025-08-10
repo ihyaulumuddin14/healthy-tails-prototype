@@ -10,8 +10,7 @@ export default function Countdown () {
    useEffect(() => {
       const email = JSON.parse(sessionStorage.getItem('email') as string);
       const expireAt = Number(email.expireAt);
-      console.log(typeof expireAt)
-      console.log(expireAt)
+      
       setCount(Math.floor(((expireAt) - Date.now()) / 1000));
 
       const interval = setInterval(() => {

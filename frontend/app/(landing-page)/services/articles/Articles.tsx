@@ -32,7 +32,7 @@ const Articles = () => {
    }, []);
 
    return (
-      <section className='w-full h-fit flex justify-center items-center bg-[var(--color-background)]/70 pt-20 mask-t-from-95%'>
+      <section className='w-full h-fit flex justify-center items-center bg-[var(--color-background)]/70 py-20 mask-y-from-95%'>
          <div className='w-full max-w-[1536px] h-full grid grid-cols-1 md:grid-cols-[1fr_2fr] px-[min(3vw,100px)] py-10 items-start justify-center gap-0 text-[var(--color-foreground)]'>
             <aside className='w-full h-fit md:sticky top-30 rounded-xl p-5 bg-[var(--color-foreground)]/5 shadow-md backdrop-blur-2xl'>
                <h2 className='text-2xl font-semibold font-inter mb-2'>Our Service</h2>

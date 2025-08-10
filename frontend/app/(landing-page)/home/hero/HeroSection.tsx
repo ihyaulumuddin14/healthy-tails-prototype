@@ -8,9 +8,9 @@ import AnimatedText from '../../components/AnimatedText'
 
 const Hero = () => {
    return (
-      <section id='home' className='w-full min-h-screen h-fit flex justify-center bg-transparent overflow-hidden relative'>
-         <div className='bg-container w-[100vw] h-full absolute z-0 top-0 left-0'>
-            <Image src={HeroImage} loading='eager' alt="Hero" className='text-[var(--color-foreground)] w-full h-full object-cover brightness-50 ease-in-out'/>
+      <section id='home' className='w-full min-h-[110vh] h-fit flex justify-center bg-transparent overflow-hidden relative mask-b-from-90%'>
+         <div className='bg-container w-[100vw] h-[110vh] absolute z-0 top-0 left-0'>
+            <Image src={HeroImage} loading='eager' alt="Hero" className='text-[var(--color-foreground)] w-full h-full object-cover brightness-50' />
          </div>
 
          <div className={`content-wrapper min-h-screen grid grid-cols-1 sm:grid-cols-[1fr_0.7fr] relative pb-[min(15vw,60px)]`}>
@@ -21,9 +21,8 @@ const Hero = () => {
                      type='h1'
                      splitBy='lines'
                      className='xl:text-8xl lg:text-7xl md:text-6xl text-5xl font-bold text-white'
-                     addLineHeight
                      >
-                        Healthy Tails
+                        HEALTHY TAILS
                   </AnimatedText>
                   <h2 className='xl:text-5xl flex-text-1 font-inter text-white'>Animal Clinic</h2>
                </span>

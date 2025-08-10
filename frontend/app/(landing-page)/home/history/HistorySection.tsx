@@ -3,9 +3,7 @@
 import dynamic from 'next/dynamic';
 import AnimatedText from '../../components/AnimatedText';
 
-const VelocitySlider = dynamic(() => import('./components/VelocitySlider'), {
-  ssr: false
-});
+const VelocitySlider = dynamic(() => import('./components/VelocitySlider'));
 
 export default function HistorySection() {
    return (

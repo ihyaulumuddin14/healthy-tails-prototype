@@ -3,11 +3,11 @@
 import AuthLayout from '../AuthLayout'
 import Input from '../components/Input'
 import SubmitButton from '@/components/ui/BasicButton'
-import { RegisterSchema, RegisterCredentials } from '../schemas/AuthSchema'
+import { RegisterSchema, RegisterCredentials } from '../../../schema/AuthSchema'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { handleFormResponse } from '../HandleFormResponse'
+import { handleAuthResponse } from '../../../lib/handleAuthResponse'
 import { useRouter } from 'next/navigation'
 
 const Register = () => {
@@ -42,7 +42,7 @@ const Register = () => {
    }, [password]);
 
    const handleResponseRegister = async (data: RegisterCredentials) => {
-      await handleFormResponse({authType: 'register', data, router});
+      await handleAuthResponse({authType: 'register', data, router});
    }
 
    return (

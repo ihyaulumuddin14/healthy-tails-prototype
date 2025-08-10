@@ -31,7 +31,20 @@
 }
 
 @layer utilities {
+   .thin-scrollbar::-webkit-scrollbar {
+      scrollbar-width: thin;
+   }
+   
+   .scrollbar-hidden::-webkit-scrollbar {
+      display: none;
+   }
+
    .dark .text-stroke {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(124, 124, 124, 0.74);
+   }
+
+   .text-stroke {
       color: transparent;
       -webkit-text-stroke: 1px rgba(124, 124, 124, 0.74);
    }
@@ -45,6 +58,14 @@
       justify-content: center;
       gap: 1rem;
       grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+      grid-template-rows: auto;
+   }
+
+   .pets-user-wrapper {
+      display: grid;
+      justify-content: center;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, 300px);
       grid-template-rows: auto;
    }
 

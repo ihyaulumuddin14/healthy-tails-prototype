@@ -5,8 +5,8 @@ import Input from "../components/Input"
 import SubmitButton from "@/components/ui/BasicButton"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ForgotPasswordCredentials, ForgotPasswordSchema } from "../schemas/AuthSchema"
-import { handleFormResponse } from "../HandleFormResponse"
+import { ForgotPasswordCredentials, ForgotPasswordSchema } from "../../../schema/AuthSchema"
+import { handleAuthResponse } from "../../../lib/handleAuthResponse"
 import { useRouter } from "next/navigation"
 
 const RequestReset = () => {
@@ -20,7 +20,7 @@ const RequestReset = () => {
    })
 
    const handleResponseRequestReset = async (data: ForgotPasswordCredentials) => {
-      await handleFormResponse({ authType: 'forgot-password', data, router });
+      await handleAuthResponse({ authType: 'forgot-password', data, router });
    };
 
    return (

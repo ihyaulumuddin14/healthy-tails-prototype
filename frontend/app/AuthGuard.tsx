@@ -1,6 +1,6 @@
 'use client'
 
-import { useAuthStore } from "@/hooks/useAuthStore";
+import { useAuthStore } from "@/stores/useAuthStore";
 import api from "@/lib/axiosInstance";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react"

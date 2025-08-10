@@ -11,6 +11,7 @@ type InputProps = {
    placeholder: string;
    name: string;
    forgotPassword?: boolean;
+   className?: string;
    error?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
@@ -22,13 +23,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
    name,
    forgotPassword = false,
    error,
+   className,
    ...props
 }, ref) => {
    const [isPasswordReveal, setIsPasswordReveal] = useState(false);
 
    return (
-      <div className='flex flex-col gap-1 mb-3 w-full relative'>
-         <header className='w-full flex justify-between items-end'>
+      <div className='flex flex-col gap-1 mb-1 w-full relative'>
+         <header className='w-full flex justify-between items-end font-bold'>
             <label htmlFor={id}>
                {label} <span className='text-red-600'>*</span>
             </label>
@@ -45,7 +47,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
                name={name}
                id={id}
                placeholder={placeholder}
-               className={`w-full border rounded-md py-3 px-4 outline-0 ${error ? 'border-pink-500' : 'border-slate-700'} backdrop-blur-3xl focus:shadow-md focus:shadow-green-200/50`}
+               className={`w-full border rounded-md py-2 px-4 ${type === 'password' ? 'pr-12' : ''} outline-0 ${error ? 'border-pink-500' : 'border-border'} backdrop-blur-3xl focus:shadow-md focus:shadow-green-200/50 shadow-sm shadow-border ${className}`}
                {...props}
             />
 
@@ -79,7 +81,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
                   <Link href="/forgot-password" className='self-end text-[var(--color-tertiary)] text-sm ease-in-out duration-100 cursor-pointer hover:scale-99'>Forgot Password?</Link>
                )}
             </div>
-
          </footer>
       </div>
    );

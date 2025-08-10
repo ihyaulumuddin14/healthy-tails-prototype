@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/hooks/useAuthStore";
+import { useAuthStore } from "@/stores/useAuthStore";
 import axios from "axios";
 
 const api = axios.create({
@@ -48,11 +48,6 @@ api.interceptors.response.use( res => res, async error => {
          });
          const newAccessToken = res.data.accessToken;
          useAuthStore.getState().setAccessToken(newAccessToken);
-
-         const { data } = await api.get('/users/me', {
-            headers: {'Authorization': `Bearer ${newAccessToken}`}
-         });
-         useAuthStore.getState().setUser(data.user);
          
          api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
          processQueue(null, newAccessToken);

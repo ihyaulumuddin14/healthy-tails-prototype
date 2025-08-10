@@ -11,6 +11,13 @@ import Lenis from "lenis"
 function Dialog({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Root>) {
+
+  return <DialogPrimitive.Root data-slot="dialog" {...props} />
+}
+
+function LenisDialog({
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Root>) {
    const [isOpen, setIsOpen] = useState(false);
    
    useEffect(() => {
@@ -22,7 +29,7 @@ function Dialog({
          lenis.start();
 
          function raf(time: number) {
-            lenis.raf(time*0.5);
+            lenis.raf(time*0.9);
             requestAnimationFrame(raf);
          }
          requestAnimationFrame(raf);
@@ -30,7 +37,7 @@ function Dialog({
    
       return () => {
          lenis.destroy();
-         lenis.start();
+         // lenis.start();
       }
    }, [isOpen]);
 
@@ -156,6 +163,7 @@ function DialogDescription({
 
 export {
   Dialog,
+  LenisDialog,
   DialogClose,
   DialogContent,
   DialogDescription,

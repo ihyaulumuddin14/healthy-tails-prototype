@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import AuthLayout from '../AuthLayout'
 import Input from '../components/Input'
-import { handleFormResponse } from '../HandleFormResponse'
+import { handleAuthResponse } from '../../../lib/handleAuthResponse'
 import { useRouter } from 'next/navigation'
 
 const VerifyOTP = () => {
@@ -15,7 +15,7 @@ const VerifyOTP = () => {
    })
 
    const handleResponseVerifyOTP = async (email: string, otp: string) => {
-      handleFormResponse({authType: 'verify-otp', data: { email, otp }, router})
+      handleAuthResponse({authType: 'verify-otp', data: { email, otp }, router})
    }
 
    useEffect(() => {
