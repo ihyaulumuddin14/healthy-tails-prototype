@@ -34,11 +34,3 @@ export const BookingResponseSchema = z.object({
 
 export type CreateBookingRequest = z.infer<typeof CreateBookingRequestSchmea>;
 export type BookingResponse = z.infer<typeof BookingResponseSchema>;
-export type BookingCreationData = {
-  pet: string;
-  owner: string;
-  service: string;
-  bookingDate: Date;
-  queueNumber: number;
-  notes?: string;
-};

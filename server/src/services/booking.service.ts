@@ -7,7 +7,6 @@ import { toBookingResponse, toBookingResponseArray } from "../helpers/booking-ma
 
 import {
   cancelBookingById,
-  createBooking,
   findAllBookingsByOwner,
   findBookingByIdAndOwner,
   findLastBookingByDate,
@@ -32,14 +31,14 @@ export const createBookingservice = async (userId: string, payload: CreateBookin
     const lastBooking = await findLastBookingByDate(date, session);
     const newQueueNumber = lastBooking ? lastBooking.queueNumber + 1 : 1;
 
-    const newBookingData = await createBooking({
+    const newBookingData = {
       pet: petId,
       owner: userId,
       service: serviceId,
       bookingDate: date,
       notes,
       queueNumber: newQueueNumber,
-    });
+    };
 
     const newBookingArray = await BookingModel.create([newBookingData], { session });
     const newBooking = newBookingArray[0];

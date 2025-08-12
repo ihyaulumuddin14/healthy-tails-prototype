@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-import { BookingCreationData } from "../domain/dto/booking.dto.js";
 import BookingModel, { BookingItf } from "../domain/entity/booking.entity.js";
 
 export const findLastBookingByDate = async (
@@ -8,14 +7,6 @@ export const findLastBookingByDate = async (
   session: mongoose.ClientSession | null = null
 ): Promise<BookingItf | null> => {
   return BookingModel.findOne({ bookingDate: date }).sort({ queueNumber: -1 }).session(session).exec();
-};
-
-export const createBooking = async (
-  data: BookingCreationData,
-  session: mongoose.ClientSession | null = null
-): Promise<BookingItf> => {
-  const booking = new BookingModel(data);
-  return booking.save({ session });
 };
 
 export const findAllBookingsByOwner = async (ownerId: string): Promise<BookingItf[]> => {
