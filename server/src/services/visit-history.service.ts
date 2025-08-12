@@ -1,7 +1,10 @@
+import mongoose from "mongoose";
+
 import { CreateVisitHistoryRequest, UpdateVisitHistoryRequest } from "../domain/dto/visit-history.dto.js";
 
 import { toVisitHistoryResponseArray, tovisitHistoryResponse } from "../helpers/visit-history-mapper.js";
 
+import { findActiveBookingForPet, updateBookingById } from "../repositories/booking.repository.js";
 import { findPetById, findPetByIdAndOwner } from "../repositories/pet.repository.js";
 import {
   createVisitHistory,
@@ -45,6 +48,16 @@ export const createVisitHistoryForPetService = async (petId: string, payload: Cr
   const dataWithPetAndOwner = { ...payload, pet: petId, owner: pet.owner._id.toString() };
 
   const visitHistory = await createVisitHistory(dataWithPetAndOwner);
+
+  const activeBooking = await findActiveBookingForPet(petId, new Date(visitHistory.visitDate));
+  if (activeBooking) {
+    const visitHistoryIdAsObject = new mongoose.Types.ObjectId(visitHistory._id);
+
+    await updateBookingById(activeBooking._id, {
+      status: "COMPLETED",
+      visitHistory: visitHistoryIdAsObject,
+    });
+  }
 
   const mappedVisitHistory = tovisitHistoryResponse(visitHistory);
 

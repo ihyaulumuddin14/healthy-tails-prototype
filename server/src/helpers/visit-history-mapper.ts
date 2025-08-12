@@ -1,4 +1,4 @@
-import { VisitHistoryItf } from "../domain/entity/visit-history.js";
+import { VisitHistoryItf } from "../domain/entity/visit-history.entity.js";
 
 export const tovisitHistoryResponse = (history: VisitHistoryItf) => {
   return {

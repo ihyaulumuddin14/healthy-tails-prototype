@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { z } from "zod";
 
-import { vaccineEnum } from "../entity/visit-history.js";
+import { vaccineEnum } from "../entity/visit-history.entity.js";
 
 const MongoIdString = z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
   message: "Invalid ID format",

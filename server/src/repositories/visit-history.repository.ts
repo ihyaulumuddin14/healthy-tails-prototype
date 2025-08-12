@@ -1,5 +1,5 @@
 import { VisitHistoryCreationData } from "../domain/dto/visit-history.dto.js";
-import VisitHistoryModel, { VisitHistoryItf } from "../domain/entity/visit-history.js";
+import VisitHistoryModel, { VisitHistoryItf } from "../domain/entity/visit-history.entity.js";
 
 export const findAllHistoriesByPetId = async (petId: string): Promise<VisitHistoryItf[]> => {
   return VisitHistoryModel.find({ pet: petId }).exec();

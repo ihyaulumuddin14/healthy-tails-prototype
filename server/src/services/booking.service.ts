@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 import { CreateBookingRequest } from "../domain/dto/booking.dto.js";
-import BookingModel from "@/domain/entity/booking.entity.js";
+import BookingModel from "../domain/entity/booking.entity.js";
 
 import { toBookingResponse, toBookingResponseArray } from "../helpers/booking-mapper.js";
 
