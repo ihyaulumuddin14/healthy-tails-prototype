@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 import redis from "../config/redis.js";
 
-import { CreateBookingRequest } from "../domain/dto/booking.dto.js";
+import { CreateBookingRequest, UpdateBookingStatusRequest } from "../domain/dto/booking.dto.js";
 import BookingModel from "../domain/entity/booking.entity.js";
 
 import { toBookingResponse, toBookingResponseArray } from "../helpers/booking-mapper.js";
@@ -11,6 +11,8 @@ import {
   cancelBookingById,
   findAllBookingsByOwner,
   findBookingByIdAndOwner,
+  findBookingsByDate,
+  updateBookingById,
 } from "../repositories/booking.repository.js";
 import { findPetByIdAndOwner } from "../repositories/pet.repository.js";
 
@@ -100,4 +102,21 @@ export const cancelBookingByIdService = async (bookingId: string, userId: string
   }
 
   await cancelBookingById(bookingId, userId);
+};
+
+export const getBookingsByDateService = async (date: Date) => {
+  const bookings = await findBookingsByDate(date);
+  const mappedBookings = toBookingResponseArray(bookings);
+  return mappedBookings;
+};
+
+export const updateBookingStatusService = async (bookingId: string, payload: UpdateBookingStatusRequest) => {
+  const updatedBooking = await updateBookingById(bookingId, payload);
+  if (!updatedBooking) {
+    throw new HttpError(404, "Booking not found");
+  }
+
+  const populatedBooking = await updatedBooking.populate(["pet", "service", "owner"]);
+  const mappedBooking = toBookingResponse(populatedBooking);
+  return mappedBooking;
 };

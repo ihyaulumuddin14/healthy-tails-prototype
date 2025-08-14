@@ -8,6 +8,21 @@ export const findBookingByIdAndOwner = async (id: string, ownerId: string): Prom
   return BookingModel.findOne({ _id: id, owner: ownerId }).populate(["pet", "service"]).exec();
 };
 
+export const findBookingsByDate = async (date: Date): Promise<BookingItf[]> => {
+  const startOfDay = new Date(date);
+  startOfDay.setUTCHours(0, 0, 0, 0);
+
+  const endOfDay = new Date(date);
+  endOfDay.setUTCHours(23, 59, 59, 999);
+
+  return BookingModel.find({
+    bookingDate: { $gte: startOfDay, $lte: endOfDay },
+  })
+    .populate(["pet", "service", "owner"])
+    .sort({ bookingDate: -1 })
+    .exec();
+};
+
 export const cancelBookingById = async (id: string, ownerId: string): Promise<BookingItf | null> => {
   return BookingModel.findOneAndUpdate({ _id: id, owner: ownerId }, { status: "CANCELLED" }, { new: true }).exec();
 };

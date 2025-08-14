@@ -20,6 +20,14 @@ export const CreateBookingRequestSchmea = z.object({
   notes: z.string().max(500).optional(),
 });
 
+export const GetBookingsByDateQuerySchema = z.object({
+  date: z.coerce.date(),
+});
+
+export const UpdateBookingStatusRequestSchema = z.object({
+  status: z.enum(statusEnum),
+});
+
 export const BookingResponseSchema = z.object({
   _id: MongoIdString,
   bookingDate: z.date(),
@@ -33,4 +41,6 @@ export const BookingResponseSchema = z.object({
 });
 
 export type CreateBookingRequest = z.infer<typeof CreateBookingRequestSchmea>;
+export type GetBookingsByDateQuery = z.infer<typeof GetBookingsByDateQuerySchema>;
+export type UpdateBookingStatusRequest = z.infer<typeof UpdateBookingStatusRequestSchema>;
 export type BookingResponse = z.infer<typeof BookingResponseSchema>;
