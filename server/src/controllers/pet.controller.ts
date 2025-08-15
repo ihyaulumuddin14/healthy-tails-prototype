@@ -30,7 +30,7 @@ export const findPetById = async (req: Request, res: Response, next: NextFunctio
 
 export const createPet = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const pet = await createPetService(req.user!.id, req.body);
+    const pet: PetResponse = await createPetService(req.user!.id, req.body);
     return res.status(201).json({ message: "Pet created successfully", pet });
   } catch (err) {
     next(err);
@@ -39,7 +39,7 @@ export const createPet = async (req: Request, res: Response, next: NextFunction)
 
 export const updatePet = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const pet = await updatePetService(req.user!.id, req.params.id, req.body);
+    const pet: PetResponse = await updatePetService(req.user!.id, req.params.id, req.body);
     return res.status(200).json({ message: "Pet updated successfully", pet });
   } catch (err) {
     next(err);

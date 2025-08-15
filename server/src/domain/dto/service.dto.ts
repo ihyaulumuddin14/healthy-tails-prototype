@@ -1,13 +1,6 @@
-import mongoose from "mongoose";
 import z from "zod";
 
-const MongoIdString = z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
-  message: "Invalid ID format",
-});
-
-export const ServiceIdParamSchema = z.object({
-  id: MongoIdString,
-});
+import { MongoIdString } from "./common.dto.js";
 
 export const CreateServiceRequestSchema = z.object({
   name: z.string().max(100, "Service name must be at most 50 characters long"),

@@ -1,0 +1,19 @@
+config:
+  phases:
+    - duration: 1
+      arrivalCount: 100
+  environments:
+    local:
+      target: "http://localhost:3000/api/v1"
+
+scenarios:
+  - flow:
+      - post:
+          url: "/bookings"
+          json:
+            petId: "{{ $env.PET_ID }}"
+            serviceId: "{{ $env.SERVICE_ID }}"
+            bookingDate: "2025-08-25T10:00:00.000Z"
+            notes: "Testing concurrency"
+          headers:
+            Authorization: "Bearer {{ $env.AUTH_TOKEN }}"

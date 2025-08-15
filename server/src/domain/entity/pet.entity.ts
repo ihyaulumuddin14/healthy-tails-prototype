@@ -1,5 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 
+import { UserItf } from "./user.entity.js";
+
 export interface PetItf extends Document {
   _id: string;
   name: string;
@@ -9,7 +11,7 @@ export interface PetItf extends Document {
   birthDate?: Date;
   age: number;
   gender: "Male" | "Female";
-  owner: mongoose.Types.ObjectId;
+  owner: UserItf;
   createdAt: Date;
   updatedAt: Date;
 }

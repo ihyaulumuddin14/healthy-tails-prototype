@@ -21,7 +21,7 @@ export const findAllHistoriesForPet = async (req: Request, res: Response, next: 
 
 export const findVisitHistoryById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const history = await getVisitHistoryByIdForUser(req.user!.id, req.params.id);
+    const history: VisitHistoryResponse = await getVisitHistoryByIdForUser(req.user!.id, req.params.id);
     return res.status(200).json({ message: "Visit history retrieved successfully", history });
   } catch (err) {
     next(err);

@@ -3,8 +3,8 @@ import { NewsItf } from "../domain/entity/news.entity.js";
 
 export const toNewsResponse = (news: NewsItf): NewsResponse => {
   return {
-    _id: news._id.toString(),
     ...news.toObject(),
+    _id: news._id.toString(),
     createdAt: news.createdAt.toISOString(),
     updatedAt: news.updatedAt.toISOString(),
   };

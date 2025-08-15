@@ -30,7 +30,7 @@ export const findNewsById = async (req: Request, res: Response, next: NextFuncti
 
 export const createNews = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const news = await createNewsService(req.body);
+    const news: NewsResponse = await createNewsService(req.body);
     return res.status(201).json({ message: "News created successfully", news });
   } catch (err) {
     next(err);
@@ -39,7 +39,7 @@ export const createNews = async (req: Request, res: Response, next: NextFunction
 
 export const updateNews = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const news = await updateNewsService(req.params.id, req.body);
+    const news: NewsResponse = await updateNewsService(req.params.id, req.body);
     return res.status(200).json({ message: "News updated successfully", news });
   } catch (err) {
     next(err);

@@ -18,3 +18,12 @@ export const validateParams = (schema: ZodSchema) => (req: Request, _res: Respon
     next(err);
   }
 };
+
+export const validateQuery = (schema: ZodSchema) => (req: Request, _res: Response, next: NextFunction) => {
+  try {
+    schema.parse(req.query);
+    next();
+  } catch (err) {
+    next(err);
+  }
+};

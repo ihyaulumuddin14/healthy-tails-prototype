@@ -1,5 +1,10 @@
 import mongoose, { Document, Schema } from "mongoose";
 
+import { PetItf } from "./pet.entity.js";
+import { ServiceItf } from "./service.entity.js";
+import { UserItf } from "./user.entity.js";
+import { VisitHistoryItf } from "./visit-history.entity.js";
+
 export const statusEnum = ["WAITING", "IN_PROGRESS", "COMPLETED", "CANCELLED"] as const;
 
 export type BookingStatus = (typeof statusEnum)[number];
@@ -10,10 +15,10 @@ export interface BookingItf extends Document {
   queueNumber: number;
   status: BookingStatus;
   notes?: string;
-  pet: mongoose.Types.ObjectId;
-  owner: mongoose.Types.ObjectId;
-  service: mongoose.Types.ObjectId;
-  visitHistory?: mongoose.Types.ObjectId;
+  pet: PetItf;
+  owner: UserItf;
+  service: ServiceItf;
+  visitHistory?: VisitHistoryItf;
   createdAt: Date;
   updatedAt: Date;
 }
