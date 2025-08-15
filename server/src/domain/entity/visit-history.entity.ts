@@ -1,5 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 
+import { PetItf } from "./pet.entity.js";
+import { UserItf } from "./user.entity.js";
+
 export const vaccineEnum = [
   "FeLV",
   "Panleucopenia",
@@ -29,8 +32,8 @@ export interface VisitHistoryItf extends Document {
   vaccinesGiven?: Vaccine[];
   injectionSite?: string;
   notes?: string;
-  pet: mongoose.Types.ObjectId;
-  owner: mongoose.Types.ObjectId;
+  pet: PetItf;
+  owner: UserItf;
   createdAt: Date;
   updatedAt: Date;
 }

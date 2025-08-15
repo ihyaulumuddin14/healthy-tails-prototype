@@ -11,6 +11,7 @@ import {
   deleteUserById,
   findAllUsers,
   findUserById,
+  updateUserAvatar,
   updateUserById,
   updateUserPassword,
 } from "../repositories/user.repository.js";
@@ -113,7 +114,7 @@ export const uploadAvatarService = async (id: string, avatar: Express.Multer.Fil
 
   const mediaUrl = publicUrlData.publicUrl;
 
-  const updatedUser = await updateUserById(id, { photoUrl: mediaUrl });
+  const updatedUser = await updateUserAvatar(id, mediaUrl);
 
   if (!updatedUser) {
     throw new HttpError(404, "User not found after update");

@@ -10,7 +10,8 @@
     "seed": "node --loader ts-node/esm src/seeders/seeder.ts",
     "lint": "eslint .",
     "format:check": "prettier --check .",
-    "format:write": "prettier --write ."
+    "format:write": "prettier --write .",
+    "test:load": "dotenv -e .env -- npx artillery run src/tests/load/booking-test.yaml --environment local"
   },
   "keywords": [],
   "author": "Ihya' Ulumuddin - Ablebil",
@@ -51,6 +52,8 @@
     "@types/otp-generator": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "^8.38.0",
+    "artillery": "^2.0.24",
+    "dotenv-cli": "^10.0.0",
     "eslint": "^9.31.0",
     "eslint-config-prettier": "^10.1.8",
     "nodemon": "^3.1.10",

@@ -1,6 +1,7 @@
 import { Router } from "express";
 
-import { UpdatePasswordUserRequestSchema, UpdateUserRequestSchema, UserIdParamSchema } from "../domain/dto/user.dto.js";
+import { IdParamSchema } from "../domain/dto/common.dto.js";
+import { UpdatePasswordUserRequestSchema, UpdateUserRequestSchema } from "../domain/dto/user.dto.js";
 
 import { adminOnly } from "../middlewares/admin-only.js";
 import { authenticate } from "../middlewares/authenticate.js";
@@ -25,6 +26,6 @@ router.delete("/me", authenticate, deleteSelf);
 router.put("/me/change-password", authenticate, validateRequest(UpdatePasswordUserRequestSchema), changeUserPassword);
 router.post("/me/avatar", authenticate, upload.single("avatar"), uploadAvatar);
 router.get("/", authenticate, adminOnly, findAllUsers);
-router.delete("/:id", authenticate, adminOnly, validateParams(UserIdParamSchema), deleteUser);
+router.delete("/:id", authenticate, adminOnly, validateParams(IdParamSchema), deleteUser);
 
 export default router;

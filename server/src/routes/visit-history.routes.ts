@@ -1,6 +1,7 @@
 import { Router } from "express";
 
-import { UpdateVisitHistoryRequestSchema, VisitHistoryIdParamSchema } from "../domain/dto/visit-history.dto.js";
+import { IdParamSchema } from "../domain/dto/common.dto.js";
+import { UpdateVisitHistoryRequestSchema } from "../domain/dto/visit-history.dto.js";
 
 import { adminOnly } from "../middlewares/admin-only.js";
 import { authenticate } from "../middlewares/authenticate.js";
@@ -14,15 +15,15 @@ import {
 
 const router = Router();
 
-router.get("/:id", authenticate, validateParams(VisitHistoryIdParamSchema), findVisitHistoryById);
+router.get("/:id", authenticate, validateParams(IdParamSchema), findVisitHistoryById);
 router.patch(
   "/:id",
   authenticate,
   adminOnly,
-  validateParams(VisitHistoryIdParamSchema),
+  validateParams(IdParamSchema),
   validateRequest(UpdateVisitHistoryRequestSchema),
   updateVisitHistory
 );
-router.delete("/:id", authenticate, adminOnly, validateParams(VisitHistoryIdParamSchema), deleteVisitHistory);
+router.delete("/:id", authenticate, adminOnly, validateParams(IdParamSchema), deleteVisitHistory);
 
 export default router;

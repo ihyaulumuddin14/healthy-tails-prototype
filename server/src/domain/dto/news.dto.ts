@@ -1,13 +1,6 @@
-import mongoose from "mongoose";
 import { z } from "zod";
 
-const MongoIdString = z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
-  message: "Invalid ID format",
-});
-
-export const NewsIdParamSchema = z.object({
-  id: MongoIdString,
-});
+import { MongoIdString } from "./common.dto.js";
 
 export const CreateNewsRequestSchema = z.object({
   title: z.string().min(1, "Title is required").max(100, "Title must be at most 100 characters long"),

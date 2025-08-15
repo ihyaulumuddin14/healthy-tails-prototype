@@ -1,26 +1,27 @@
-import { VisitHistoryCreationData } from "../domain/dto/visit-history.dto.js";
-import VisitHistoryModel, { VisitHistoryItf } from "../domain/entity/visit-history.js";
+import { UpdateVisitHistoryRequest, VisitHistoryCreationData } from "../domain/dto/visit-history.dto.js";
+import VisitHistoryModel, { VisitHistoryItf } from "../domain/entity/visit-history.entity.js";
 
 export const findAllHistoriesByPetId = async (petId: string): Promise<VisitHistoryItf[]> => {
-  return VisitHistoryModel.find({ pet: petId }).exec();
+  return VisitHistoryModel.find({ pet: petId }).populate(["pet", "owner"]).sort({ visitDate: -1 }).exec();
 };
 
 export const findHistoryById = async (historyId: string): Promise<VisitHistoryItf | null> => {
-  return VisitHistoryModel.findById(historyId).exec();
+  return VisitHistoryModel.findById(historyId).populate(["pet", "owner"]).exec();
 };
 
 export const createVisitHistory = async (data: VisitHistoryCreationData): Promise<VisitHistoryItf> => {
   const visitHistory = new VisitHistoryModel(data);
-  return visitHistory.save();
+  await visitHistory.save();
+  return visitHistory.populate(["pet", "owner"]);
 };
 
 export const updateHistoryById = async (
   historyId: string,
-  data: Partial<VisitHistoryItf>
+  data: UpdateVisitHistoryRequest
 ): Promise<VisitHistoryItf | null> => {
-  return VisitHistoryModel.findByIdAndUpdate(historyId, data, { new: true }).exec();
+  return VisitHistoryModel.findByIdAndUpdate(historyId, data, { new: true }).populate(["pet", "owner"]).exec();
 };
 
 export const deleteHistoryById = async (historyId: string): Promise<VisitHistoryItf | null> => {
-  return VisitHistoryModel.findByIdAndDelete(historyId).exec();
+  return VisitHistoryModel.findByIdAndDelete(historyId).populate(["pet", "owner"]).exec();
 };
