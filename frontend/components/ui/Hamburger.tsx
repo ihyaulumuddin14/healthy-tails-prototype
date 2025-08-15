@@ -1,12 +1,12 @@
 'use client'
 
-import useStore from '@/stores/useStore';
+import appStore from '@/stores/appStore';
 import { useRef } from 'react';
 
 
-export default function Hamburger () {
-   const setIsMobileNavOpen = useStore((state) => state.setIsMobileNavOpen);
-   const isMobileNavOpen = useStore((state) => state.isMobileNavOpen);
+export default function Hamburger() {
+   const setIsMobileNavOpen = appStore((state) => state.setIsMobileNavOpen);
+   const isMobileNavOpen = appStore((state) => state.isMobileNavOpen);
    const checkBoxRef = useRef<HTMLInputElement>(null);
 
    const handleChange = () => {
@@ -16,7 +16,7 @@ export default function Hamburger () {
 
    return (
       <div className='lg:hidden block'>
-         <input ref={checkBoxRef} type="checkbox" id="checkbox" onChange={() => handleChange()} checked={isMobileNavOpen}/>
+         <input ref={checkBoxRef} type="checkbox" id="checkbox" onChange={() => handleChange()} checked={isMobileNavOpen} />
          <label htmlFor="checkbox" className="toggle">
             <div className="bars" id="bar1" />
             <div className="bars" id="bar2" />

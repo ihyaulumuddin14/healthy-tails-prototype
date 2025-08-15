@@ -1,5 +1,3 @@
-'use client'
-
 import {
    ForgotPasswordCredentials,
    LoginCredentials,
@@ -14,25 +12,21 @@ import {
    onSubmitForgotPassword,
    onSubmitVerifyOTP,
    onSubmitResetPassword,
-   onSubmitLogout,
    onSubmitResendOTP
-} from '@/lib/auth.actions'
-import { toast } from 'sonner'
-import useVerifyStore from "@/stores/useVerifyStore";
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { useAuthStore } from '@/stores/useAuthStore';
+} from '@/api/auth.actions'
+import { showErrorToast, showSuccessToast, showLoadingToast } from './toastHelper';
+import verifyStore from "@/stores/verifyStore";
 import axios, { AxiosError } from 'axios';
 
 type Props = {
-   authType: 'login' | 'register' | 'forgot-password' | 'resend-otp' | 'verify-otp' | 'reset-password' | 'logout',
+   authType: 'login' | 'register' | 'forgot-password' | 'resend-otp' | 'verify-otp' | 'reset-password',
    data?: LoginCredentials | RegisterCredentials | ForgotPasswordCredentials | VerifyOTPCredentials | ResetPasswordCredentials | LogoutCredentials
-   router: AppRouterInstance
+   action: (arg?: string) => void
 }
 
-async function replaceBaseOnRole(accessToken: string, router: AppRouterInstance) {
-   toast.loading('Redirecting...');
+async function replaceBaseOnRole(accessToken: string, action: (arg?: string) => void) {
+   showLoadingToast('Redirecting...');
    try {
-      useAuthStore.getState().setAccessToken(accessToken);
 
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
          headers: {
@@ -41,31 +35,27 @@ async function replaceBaseOnRole(accessToken: string, router: AppRouterInstance)
       });
 
       const user = response.data.user;
-      useAuthStore.getState().setUser(user);
 
       if (user.role === 'ADMIN') {
-         router.replace('/admin/dashboard');
+         action('/admin/dashboard');
       } else if (user.role === 'USER') {
-         router.replace('/user/profile');
+         action('/user/profile');
       }
    } catch (error) {
       let errorMessage = 'An error occurred while redirecting. Please try again.';
 
       const axiosError = error as AxiosError<{ message: string }>
 
-      errorMessage = 
-            axiosError.response?.data.message || 
-            axiosError.message ||
-            'An error occurred while redirecting. Please try again.';
+      errorMessage =
+         axiosError.response?.data.message ||
+         axiosError.message ||
+         'An error occurred while redirecting. Please try again.';
 
-      toast.dismiss();
-      toast.error(errorMessage, { duration: 2000 });
-   } finally {
-      toast.dismiss();
+      showErrorToast(errorMessage);
    }
 }
 
-export async function handleAuthResponse({ authType, data, router }: Props) {
+export async function handleAuthResponse({ authType, data, action }: Props) {
    let response;
 
    switch (authType) {
@@ -80,7 +70,7 @@ export async function handleAuthResponse({ authType, data, router }: Props) {
       case 'forgot-password':
          response = await onSubmitForgotPassword(data as ForgotPasswordCredentials);
          break;
-         
+
       case 'resend-otp':
          response = await onSubmitResendOTP(data as { email: string });
          break;
@@ -92,61 +82,46 @@ export async function handleAuthResponse({ authType, data, router }: Props) {
       case 'reset-password':
          response = await onSubmitResetPassword(data as ResetPasswordCredentials);
          break;
-
-      case 'logout':
-         response = await onSubmitLogout();
-         break;
-
       default:
          break;
    }
 
    if (response) {
       if (response.success) {
-         
-         toast.success(response.message, { duration: 2000 });
-         
+         showSuccessToast(response.message as string);
+
          const redirectMap: Record<string, () => void> = {
             'login': () => {
-               replaceBaseOnRole(response.accessToken, router);
+               replaceBaseOnRole(response.accessToken, action);
             },
             'register': () => {
-               useVerifyStore.getState().setEmail({
+               verifyStore.getState().setEmail({
                   email: (data as { email: string }).email,
                   updatedAt: Date.now()
                });
-               router.push('/verify-otp')
+               action('/varify-otp')
             },
-            'forgot-password': () => {},
+            'forgot-password': () => { },
             'resend-otp': () => {
-               useVerifyStore.getState().setEmail({
+               verifyStore.getState().setEmail({
                   email: (data as { email: string }).email,
                   updatedAt: Date.now()
                });
             },
             'verify-otp': () => {
-               useVerifyStore.getState().clearEmail();
-               replaceBaseOnRole(response.accessToken, router);
+               verifyStore.getState().clearEmail();
+               replaceBaseOnRole(response.accessToken, action);
             },
             'reset-password': () => {
-               router.replace('/login')
-            },
-            'logout': () => {
-               useAuthStore.getState().logout();
-               router.replace('/')
+               action("/login");
             }
          }
 
          const doRedirect = redirectMap[authType];
-
-         if (doRedirect) {
-            setTimeout(() => {
-               doRedirect();
-            }, 2000)
-         }
+         if (doRedirect) doRedirect();
 
       } else {
-         toast.error(response.error, { duration: 2000 });
+         showErrorToast(response.message as string);
       }
    } else {
       return null

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import AuthLayout from '../AuthLayout'
 import Input from '../components/Input'
-import { handleAuthResponse } from '../../../lib/handleAuthResponse'
+import { handleAuthResponse } from '../../../helpers/handleAuthResponse'
 import { useRouter } from 'next/navigation'
 
 const VerifyOTP = () => {
@@ -15,13 +15,13 @@ const VerifyOTP = () => {
    })
 
    const handleResponseVerifyOTP = async (email: string, otp: string) => {
-      handleAuthResponse({authType: 'verify-otp', data: { email, otp }, router})
+      handleAuthResponse({ authType: 'verify-otp', data: { email, otp }, router })
    }
 
    useEffect(() => {
       const { email } = JSON.parse(sessionStorage.getItem('email') as string);
       if (email) {
-         setEmail(email) 
+         setEmail(email)
       }
    }, [])
 
@@ -30,31 +30,31 @@ const VerifyOTP = () => {
          title='Verify your email address'
          subtitle={`We emailed a six-digit otp to ${email}, \nEnter the code below to confirm`}
          type='recovery'>
-            <Input
-               onChange={(e) => {
-                  const otp = e.target.value;
-                  const otpRegex = /^[0-9]+$/;
-                  if (otp.length === 6 ) {
-                     if (otp.match(otpRegex)) {
-                        setOtpValidation({
-                           isValid: true,
-                           message: ''
-                        })
-                        handleResponseVerifyOTP(email!, otp)
-                     } else {
-                        setOtpValidation({
-                           isValid: false,
-                           message: 'Invalid OTP'
-                        })
-                     }
+         <Input
+            onChange={(e) => {
+               const otp = e.target.value;
+               const otpRegex = /^[0-9]+$/;
+               if (otp.length === 6) {
+                  if (otp.match(otpRegex)) {
+                     setOtpValidation({
+                        isValid: true,
+                        message: ''
+                     })
+                     handleResponseVerifyOTP(email!, otp)
+                  } else {
+                     setOtpValidation({
+                        isValid: false,
+                        message: 'Invalid OTP'
+                     })
                   }
-               }}
-               label='OTP'
-               type='text'
-               id='otp'
-               placeholder='Enter your 6 digit OTP'
-               name='OTP'
-               error={otpValidation.message}/>
+               }
+            }}
+            label='OTP'
+            type='text'
+            id='otp'
+            placeholder='Enter your 6 digit OTP'
+            name='OTP'
+            error={otpValidation.message} />
       </AuthLayout>
    )
 }

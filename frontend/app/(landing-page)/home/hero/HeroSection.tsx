@@ -21,8 +21,9 @@ const Hero = () => {
                      type='h1'
                      splitBy='lines'
                      className='xl:text-8xl lg:text-7xl md:text-6xl text-5xl font-bold text-white'
+                     addLineHeight
                      >
-                        HEALTHY TAILS
+                        Healthy Tails
                   </AnimatedText>
                   <h2 className='xl:text-5xl flex-text-1 font-inter text-white'>Animal Clinic</h2>
                </span>

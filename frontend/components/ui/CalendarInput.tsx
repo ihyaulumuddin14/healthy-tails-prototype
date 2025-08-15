@@ -9,9 +9,10 @@ type Props<T extends FieldValues> = {
    control: Control<T>
    label: string
    error?: string
+   optional?: boolean
 }
 
-export function CalendarInput<T extends FieldValues>({ name, control, label, error }: Props<T>) {
+export default function CalendarInput<T extends FieldValues>({ name, control, label, error, optional = false }: Props<T>) {
 
    return (
       <Controller
@@ -22,7 +23,7 @@ export function CalendarInput<T extends FieldValues>({ name, control, label, err
                <DropdownMenu>
                   <label htmlFor="date" className="w-full flex justify-start font-bold gap-1">
                      {label}
-                     <span className='text-red-600'>*</span>
+                     {optional ? (<span className="font-light">(optional)</span>) : (<span className='text-red-600'>*</span>)}
                   </label>
                   <DropdownMenuTrigger>
                      <button className="w-full text-[var(--color-foreground)] border py-2 px-4 rounded-md border-border flex items-center justify-between hover:bg-border shadow-sm shadow-border">
@@ -35,7 +36,7 @@ export function CalendarInput<T extends FieldValues>({ name, control, label, err
                         mode="single"
                         captionLayout="dropdown"
                         onSelect={(date) => {
-                           field.onChange(date)
+                           field.onChange(date);
                         }}
                      />
                   </DropdownMenuContent>

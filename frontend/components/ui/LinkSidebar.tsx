@@ -1,6 +1,6 @@
 'use client'
 
-import useStore from "@/stores/useStore"
+import appStore from "@/stores/appStore"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect } from "react"
@@ -13,7 +13,7 @@ type Props = {
 }
 
 export default function LinkSidebar({ type }: Props) {
-   const isSidebarOpen = useStore(state => state.isSidebarOpen)
+   const isSidebarOpen = appStore(state => state.isSidebarOpen)
    const pathName = usePathname();
 
    useEffect(() => {

@@ -6,12 +6,12 @@ import SubmitButton from '@/components/ui/BasicButton';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginCredentials, LoginSchema } from '../../../schema/AuthSchema';
-import { handleAuthResponse } from '../../../lib/handleAuthResponse'
+import { handleAuthResponse } from '../../../helpers/handleAuthResponse'
 import RememberMe from './components/RememberMe';
-import { useRouter } from "next/navigation"
+import { useNavigation } from '@/hooks/useNavigation';
 
 const Login = () => {
-   const router = useRouter();
+   const { goReplace } = useNavigation();
    const {
       register,
       handleSubmit,
@@ -21,7 +21,7 @@ const Login = () => {
    })
 
    const handleResponseLogin = async (data: LoginCredentials) => {
-      await handleAuthResponse({ authType: 'login', data, router });
+      await handleAuthResponse({ authType: 'login', data, action: goReplace as (arg?: string) => void });
    };
 
    return (
@@ -30,7 +30,7 @@ const Login = () => {
             title="Login"
             subtitle="Welcome back, Pawrents!"
             type="login"
-            >
+         >
             <Input
                label="Email"
                type="email"
@@ -57,7 +57,7 @@ const Login = () => {
             <SubmitButton isLoading={isSubmitting} type="submit" model="fill" width='full'>Login</SubmitButton>
          </AuthLayout>
       </form>
-  );
+   );
 };
 
 export default Login;

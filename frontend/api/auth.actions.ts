@@ -7,10 +7,10 @@ import {
    TokenResponse
 } from "../schema/AuthSchema";
 import axios, { AxiosError } from 'axios'
-import api from "./axiosInstance";
+import api from "../lib/axiosInstance";
 
 
-export async function onSubmitLogin (credential: LoginCredentials) : Promise<{
+export async function onSubmitLogin(credential: LoginCredentials): Promise<{
    success: boolean,
    message?: string,
    error?: string,
@@ -22,7 +22,7 @@ export async function onSubmitLogin (credential: LoginCredentials) : Promise<{
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
       })
-      
+
       return {
          success: true,
          message: response.data.message,
@@ -34,66 +34,66 @@ export async function onSubmitLogin (credential: LoginCredentials) : Promise<{
       if (axios.isAxiosError(error)) {
          const axiosError = error as AxiosError<{ message: string }>;
 
-         errorMessage = 
-            axiosError.response?.data.message || 
+         errorMessage =
+            axiosError.response?.data.message ||
             axiosError.message ||
-            'An error occurred while logging in. Please try again.';
+            errorMessage
       }
-      return {success: false, error: errorMessage}
+      return { success: false, error: errorMessage }
    }
 };
 
-export async function onSubmitRegister (credential: RegisterCredentials) : Promise<{
+export async function onSubmitRegister(credential: RegisterCredentials): Promise<{
    success: boolean,
    message?: string,
    error?: string
 }> {
-   
+
    try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, credential, {
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
       })
 
-      return {success: true, message: response.data.message}
+      return { success: true, message: response.data.message }
    } catch (error) {
       let errorMessage = 'An error occurred while registering. Please try again.'
-      
+
       if (axios.isAxiosError(error)) {
          const axiosError = error as AxiosError<{ message: string }>;
          errorMessage = axiosError.response?.data.message || axiosError.message || errorMessage
       }
 
-      return {success: false, error: errorMessage}
+      return { success: false, error: errorMessage }
    }
 }
 
-export async function onSubmitForgotPassword (credential: ForgotPasswordCredentials) : Promise<{
+export async function onSubmitForgotPassword(credential: ForgotPasswordCredentials): Promise<{
    success: boolean,
    message?: string,
    error?: string
 }> {
-   
+
    try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`, credential, {
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
       })
-      
-      return {success: true, message: response.data.message}
+
+      return { success: true, message: response.data.message }
    } catch (error) {
       let errorMessage = 'An error occurred while sending OTP. Please try again.'
-      
+
       if (axios.isAxiosError(error)) {
          const axiosError = error as AxiosError<{ message: string }>;
          errorMessage = axiosError.response?.data.message || axiosError.message || errorMessage
       }
-      
-      return {success: false, error: errorMessage}
+
+      return { success: false, error: errorMessage }
    }
 }
 
-export async function onSubmitResendOTP (credential: { email: string }) : Promise<{
+export async function onSubmitResendOTP(credential: { email: string }): Promise<{
    success: boolean,
    message?: string,
    error?: string
@@ -103,22 +103,22 @@ export async function onSubmitResendOTP (credential: { email: string }) : Promis
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
       })
-      
-      return {success: true, message: response.data.message}
+
+      return { success: true, message: response.data.message }
    } catch (error) {
       let errorMessage = 'An error occurred while resending OTP. Please try again.'
-      
+
       if (axios.isAxiosError(error)) {
          const axiosError = error as AxiosError<{ message: string }>;
          errorMessage = axiosError.response?.data.message || axiosError.message || errorMessage
       }
-      
-      return {success: false, error: errorMessage}
+
+      return { success: false, error: errorMessage }
    }
 }
 
 
-export async function onSubmitVerifyOTP (credential: VerifyOTPCredentials) : Promise<{
+export async function onSubmitVerifyOTP(credential: VerifyOTPCredentials): Promise<{
    success: boolean,
    message?: string,
    error?: string,
@@ -130,48 +130,48 @@ export async function onSubmitVerifyOTP (credential: VerifyOTPCredentials) : Pro
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
       })
-      
-      return {success: true, message: response.data.message}
+
+      return { success: true, message: response.data.message }
    } catch (error) {
       let errorMessage = 'An error occurred while verifying OTP. Please try again.'
-      
+
       if (axios.isAxiosError(error)) {
          const axiosError = error as AxiosError<{ message: string }>;
          errorMessage = axiosError.response?.data.message || axiosError.message || errorMessage
       }
-      
-      return {success: false, error: errorMessage}
+
+      return { success: false, error: errorMessage }
    }
 }
 
 
-export async function onSubmitResetPassword (credential: ResetPasswordCredentials) : Promise<{
+export async function onSubmitResetPassword(credential: ResetPasswordCredentials): Promise<{
    success: boolean,
    message?: string,
    error?: string
 }> {
-   
+
    try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`, credential, {
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
       })
-      
-      return {success: true, message: response.data.message}
+
+      return { success: true, message: response.data.message }
    } catch (error) {
       let errorMessage = 'An error occurred while resetting password. Please try again.'
-      
+
       if (axios.isAxiosError(error)) {
          const axiosError = error as AxiosError<{ message: string }>;
          errorMessage = axiosError.response?.data.message || axiosError.message || errorMessage
       }
-      
-      return {success: false, error: errorMessage}
+
+      return { success: false, error: errorMessage }
    }
 }
 
 
-export async function onSubmitLogout () : Promise<{
+export async function onSubmitLogout(): Promise<{
    success: boolean,
    message?: string,
    error?: string
@@ -182,27 +182,27 @@ export async function onSubmitLogout () : Promise<{
          headers: { 'Content-Type': 'application/json' },
          signal: AbortSignal.timeout(5000)
       })
-      
-      return {success: true, message: response.data.message}
+
+      return { success: true, message: response.data.message }
    } catch (error) {
       let errorMessage = 'An error occurred while logging out. Please try again.'
-      
+
       if (axios.isAxiosError(error)) {
          const axiosError = error as AxiosError<{ message: string }>;
          errorMessage = axiosError.response?.data.message || axiosError.message || errorMessage
       }
-      
-      return {success: false, error: errorMessage}
+
+      return { success: false, error: errorMessage }
    }
 }
 
-export async function refresh(): Promise<{success: boolean, accessToken?: string, error?: string}> {
+export async function refresh(): Promise<{ success: boolean, accessToken?: string, error?: string }> {
    try {
       const response = await api.post(`/auth/refresh`, {}, {
          withCredentials: true,
       })
 
-      return {success: true, accessToken: response.data.accessToken}
+      return { success: true, accessToken: response.data.accessToken }
    } catch (error) {
       let errorMessage = 'An error occurred while refreshing. Please try again.'
 
@@ -213,6 +213,6 @@ export async function refresh(): Promise<{success: boolean, accessToken?: string
          console.log(axiosError.message)
       }
 
-      return {success: false, error: errorMessage}
+      return { success: false, error: errorMessage }
    }
 }

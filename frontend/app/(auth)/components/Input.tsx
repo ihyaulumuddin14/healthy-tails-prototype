@@ -13,6 +13,8 @@ type InputProps = {
    forgotPassword?: boolean;
    className?: string;
    error?: string;
+   optional?: boolean;
+   disabled?: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input = forwardRef<HTMLInputElement, InputProps>(({
@@ -23,7 +25,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
    name,
    forgotPassword = false,
    error,
-   className,
+   optional = false,
+   disabled = false,
    ...props
 }, ref) => {
    const [isPasswordReveal, setIsPasswordReveal] = useState(false);
@@ -32,7 +35,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
       <div className='flex flex-col gap-1 mb-1 w-full relative'>
          <header className='w-full flex justify-between items-end font-bold'>
             <label htmlFor={id}>
-               {label} <span className='text-red-600'>*</span>
+               {label} {!optional ? <span className='text-red-600'>*</span> : <span className="font-light">(optional)</span>}
             </label>
 
             {id === 'otp' && (
@@ -46,8 +49,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
                type={isPasswordReveal ? 'text' : type}
                name={name}
                id={id}
+               disabled={disabled}
                placeholder={placeholder}
-               className={`w-full border rounded-md py-2 px-4 ${type === 'password' ? 'pr-12' : ''} outline-0 ${error ? 'border-pink-500' : 'border-border'} backdrop-blur-3xl focus:shadow-md focus:shadow-green-200/50 shadow-sm shadow-border ${className}`}
+               className={`w-full border rounded-md py-2 px-4 ${type === 'password' ? 'pr-12' : ''} outline-0 ${error ? 'border-pink-500' : 'border-border'} backdrop-blur-3xl focus:shadow-md focus:shadow-green-200/50 shadow-sm shadow-border ${disabled ? 'cursor-not-allowed opacity-60' : ''}`}
                {...props}
             />
 

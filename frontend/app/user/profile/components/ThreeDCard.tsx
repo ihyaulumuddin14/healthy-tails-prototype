@@ -1,7 +1,7 @@
 "use client";
 
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
-import { useDialogStore } from "@/stores/useDialogStore";
+import { dialogStore } from "@/stores/dialogStore";
 import { useRouter } from "next/navigation";
 
 type Props = {
@@ -12,19 +12,19 @@ type Props = {
 };
 
 export function ThreeDCard({ name, link, color, children }: Props) {
-   const route = useRouter();
-   const setDialogPetMode = useDialogStore((state) => state.setDialogPetMode);
+   const router = useRouter();
+   const setDialogPetMode = dialogStore((state) => state.setDialogPetMode);
 
    return (
       <CardContainer className="inter-var w-full aspect-square">
          <CardBody
             className={`bg-linear-to-br to-[var(--color-background)] to-110% relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] w-full sm:w-[30rem] h-full rounded-4xl p-6 flex flex-col justify-center items-center shadow-xl cursor-pointer active:scale-98 transition-all duration-100 ease-in-out`}
-            style={{ '--tw-gradient-from': `var(${color})` } as React.CSSProperties }
+            style={{ '--tw-gradient-from': `var(${color})` } as React.CSSProperties}
             onClick={() => {
-               route.push(link)
+               router.push(link)
                setDialogPetMode(
-                  link === '/user/profile/pets' ? 'add' :
-                  link === '/user/profile/appointments' ? 'book' : null
+                  link === '/user/profile/pets' ? 'petAdd' :
+                     link === '/user/profile/appointments' ? 'book' : null
                )
             }}
          >

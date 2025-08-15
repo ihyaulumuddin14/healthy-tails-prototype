@@ -8,13 +8,13 @@ import { useParams } from 'next/navigation'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ResetPasswordUISchema, ResetPasswordUICredentials, ResetPasswordCredentials } from '../../../../schema/AuthSchema'
-import { handleAuthResponse } from '../../../../lib/handleAuthResponse'
-import { useRouter } from 'next/navigation'
+import { handleAuthResponse } from '../../../../helpers/handleAuthResponse'
+import { useNavigation } from '@/hooks/useNavigation'
 
 const ResetPassword = () => {
    const params = useParams();
    const resetToken = params.resetToken;
-   const router = useRouter();
+   const { goReplace } = useNavigation();
 
    const [isPasswordValid, setIsPasswordValid] = useState({
       lengthValid: false,
@@ -53,7 +53,7 @@ const ResetPassword = () => {
          resetToken: resetToken as string,
          password: data.newPassword
       };
-      await handleAuthResponse({ authType: 'reset-password', data: dto, router });
+      await handleAuthResponse({ authType: 'reset-password', data: dto, action: goReplace as (arg?: string) => void });
    };
 
 
@@ -67,7 +67,7 @@ const ResetPassword = () => {
                placeholder='Enter your new password'
                {...register("newPassword")}
                error={errors.newPassword?.message}
-               />
+            />
             <Input
                label='Confirm Password'
                type='password'
@@ -75,7 +75,7 @@ const ResetPassword = () => {
                placeholder='Enter your confirm password'
                {...register("confirmPassword")}
                error={errors.confirmPassword?.message}
-               />
+            />
             <div className='flex flex-col gap-1 my-3 w-full text-xs'>
                <p className='text-sm'>Password must contain:</p>
                <p className={`opacity-80 ${isPasswordValid.lengthValid ? "text-[var(--color-tertiary)]" : "text-[var(--text)]"}`}>{isPasswordValid.lengthValid ? '✓' : '-'} At least 8 characters</p>

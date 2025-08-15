@@ -6,7 +6,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { faqData } from '@/app/constant'
-import Footer from '@/components/ui/Footer'
 
 export default function page() {
    return (

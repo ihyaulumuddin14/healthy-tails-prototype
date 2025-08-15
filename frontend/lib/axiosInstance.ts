@@ -1,4 +1,3 @@
-import { useAuthStore } from "@/stores/useAuthStore";
 import axios from "axios";
 
 const api = axios.create({
@@ -24,19 +23,19 @@ const processQueue = (error: unknown, token: string | null = null) => {
    failedQueue = [];
 }
 
-api.interceptors.response.use( res => res, async error => {
+api.interceptors.response.use(res => res, async error => {
    const originalRequest = error.config;
 
    if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
          return new Promise((resolve, reject) => {
-            failedQueue.push({resolve, reject});
+            failedQueue.push({ resolve, reject });
          })
-         .then(token => {
-            originalRequest.headers['Authorization'] = `Bearer ${token}`;
-            return api(originalRequest);
-         })
-         .catch(err => Promise.reject(err));
+            .then(token => {
+               originalRequest.headers['Authorization'] = `Bearer ${token}`;
+               return api(originalRequest);
+            })
+            .catch(err => Promise.reject(err));
       }
 
       originalRequest._retry = true;
@@ -47,13 +46,12 @@ api.interceptors.response.use( res => res, async error => {
             withCredentials: true
          });
          const newAccessToken = res.data.accessToken;
-         useAuthStore.getState().setAccessToken(newAccessToken);
-         
+
          api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
          processQueue(null, newAccessToken);
-         
+
          return api(originalRequest);
-         
+
       } catch (err) {
 
          processQueue(err, null);

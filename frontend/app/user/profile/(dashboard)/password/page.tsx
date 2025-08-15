@@ -1,13 +1,14 @@
 'use client'
 
 import Input from "@/app/(auth)/components/Input"
-import { changeUserPassword } from "@/lib/user.actions"
 import { UpdatePasswordUserCredentials, UpdatePasswordUserSchema } from "@/schema/UserSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import SubmitButton from '@/components/ui/BasicButton';
 import { useEffect, useState } from "react"
 import DashboardContent from "@/components/ui/DashboardContent"
+import { changeUserPassword } from "@/api/user.actions"
+import { showErrorToast, showSuccessToast } from "@/helpers/toastHelper"
 
 
 export default function ChangePasswordPage() {
@@ -19,36 +20,39 @@ export default function ChangePasswordPage() {
    } = useForm<UpdatePasswordUserCredentials>({
       resolver: zodResolver(UpdatePasswordUserSchema)
    })
+   const [isPasswordValid, setIsPasswordValid] = useState({
+      lengthValid: false,
+      upperCaseValid: false,
+      lowerCaseValid: false,
+      specialCharValid: false,
+      numberValid: false
+   });
+   const newPassword = watch("newPassword");
 
+   useEffect(() => {
+      if (newPassword || newPassword === "") {
+         setIsPasswordValid({
+            lengthValid: newPassword.length >= 8,
+            upperCaseValid: /[A-Z]/.test(newPassword),
+            lowerCaseValid: /[a-z]/.test(newPassword),
+            specialCharValid: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(newPassword),
+            numberValid: /[0-9]/.test(newPassword)
+         });
+      }
+   }, [newPassword]);
+   
    const handleResponseChangePassword = async (data: UpdatePasswordUserCredentials) => {
       const response = await changeUserPassword(data);
-      console.log(response.message || response.error);
+      if (response.success) {
+         showSuccessToast(response.message)
+      } else {
+         showErrorToast(response.error as string)
+      }
    }
 
-   const [isPasswordValid, setIsPasswordValid] = useState({
-         lengthValid: false,
-         upperCaseValid: false,
-         lowerCaseValid: false,
-         specialCharValid: false,
-         numberValid: false
-      });
-      const newPassword = watch("newPassword");
-   
-      useEffect(() => {
-         if (newPassword || newPassword === "") {
-            setIsPasswordValid({
-               lengthValid: newPassword.length >= 8,
-               upperCaseValid: /[A-Z]/.test(newPassword),
-               lowerCaseValid: /[a-z]/.test(newPassword),
-               specialCharValid: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(newPassword),
-               numberValid: /[0-9]/.test(newPassword)
-            });
-         }
-      }, [newPassword]);
-
    return (
-      <DashboardContent type="user">
-         <div className="w-full max-w-[1400px] bg-[var(--color-muted)] p-4 sm:p-8 rounded-2xl">
+      <DashboardContent type="user" subtitle="Secure your account by updating your password regularly.">
+         <div className="w-full bg-[var(--color-muted)] p-4 sm:p-8 rounded-2xl">
             <form action="" className="flex flex-col items-end" onSubmit={handleSubmit(handleResponseChangePassword)}>
                <Input
                   type="password"
@@ -59,7 +63,7 @@ export default function ChangePasswordPage() {
                   error={errors.oldPassword?.message}
                />
 
-               <Input 
+               <Input
                   type="password"
                   label="New Password"
                   id="newPassword"
@@ -67,7 +71,7 @@ export default function ChangePasswordPage() {
                   {...register('newPassword')}
                   error={errors.newPassword?.message}
                />
-               
+
                <div className='flex flex-col gap-1 my-3 w-full text-xs'>
                   <p className='text-sm'>Password must contain:</p>
                   <p className={`opacity-80 ${isPasswordValid.lengthValid ? "text-[var(--color-tertiary)]" : "text-[var(--text)]"}`}>{isPasswordValid.lengthValid ? '✓' : '-'} At least 8 characters</p>

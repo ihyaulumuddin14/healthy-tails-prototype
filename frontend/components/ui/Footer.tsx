@@ -9,7 +9,7 @@ import { navbarLink } from "@/app/constant";
 
 export default function Footer () {
    return (
-      <section className='w-full h-fit relative z-1 overflow-hidden mb-[1vw]'>
+      <section className='w-full h-fit relative z-1 overflow-hidden m-[1vw]'>
          <div className="w-[98%] bg-[var(--color-accent)] rounded-4xl pt-20 flex justify-center items-center">
             <div className='content-wrapper items-center p-[min(7vw,100px)] grid lg:grid-cols-2 grid-cols-1 gap-10 '>
                {/* left */}

@@ -1,16 +1,14 @@
+'use client'
+
 import Image from "next/image";
 import AnimatedText from "../components/AnimatedText";
 import PromoBanner from "@/public/images/promo.webp";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { DialogTrigger } from "@/components/ui/dialog";
 import PromoModal from "./components/PromoModal";
-import { Suspense } from "react";
 import Cards from "./components/Cards";
-import SkeletonCard from "./components/SkeletonCard";
-import Footer from "@/components/ui/Footer";
 
 export default function Daily () {
-
    return (
       <section id="daily" className='w-full h-fit flex justify-center items-center relative'>
          <div className='w-full max-w-[1536px] h-fit flex-col justify-center items-center p-[min(7vw,100px)] text-[var(--text-color)] mt-18'>
@@ -57,13 +55,7 @@ export default function Daily () {
 
                {/* news */}
                <div className="w-full h-[max-content] news-wrapper pt-5 ">
-                  <Suspense fallback={
-                     [...Array(10)].map((i) => {
-                        return <SkeletonCard key={i}/>
-                     })
-                  }>
-                     <Cards/>
-                  </Suspense>
+                  <Cards/>
                </div>
             </main>
          </div>      

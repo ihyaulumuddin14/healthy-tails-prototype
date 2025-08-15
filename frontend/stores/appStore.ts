@@ -1,9 +1,9 @@
+import { News } from '@/type/type'
 import { create } from 'zustand'
 
-type StoreState = {
-   isLoading: boolean,
-   setIsLoading: (arg: boolean) => void,
-   error: string | null,
+type AppStoreType = {
+   news: News[] | null,
+   setNews: (arg: News[] | null) => void,
    isMobile: undefined | boolean,
    setIsMobile: (arg: boolean) => void,
    isMobileNavOpen: undefined | boolean,
@@ -12,10 +12,9 @@ type StoreState = {
    setIsSidebarOpen: (arg: boolean) => void
 }
 
-const useStore = create<StoreState>((set) => ({
-   isLoading: false,
-   setIsLoading: (arg: boolean) => set({ isLoading: arg }),
-   error: null,
+const appStore = create<AppStoreType>((set) => ({
+   news: null,
+   setNews: (arg: News[] | null) => set({ news: arg }),
    isMobile: false,
    setIsMobile: (arg: boolean) => set({ isMobile: arg }),
    isMobileNavOpen: false,
@@ -24,4 +23,4 @@ const useStore = create<StoreState>((set) => ({
    setIsSidebarOpen: (arg: boolean) => set({ isSidebarOpen: arg }),
 }))
 
-export default useStore;
+export default appStore;

@@ -1,39 +1,49 @@
-import Input from "@/app/(auth)/components/Input";
 import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { showSuccessToast, showErrorToast } from "@/helpers/toastHelper";
+import { EditPetCredentials, EditPetSchema } from "@/schema/PetSchema";
 import { Pet } from "@/type/type";
 import { useEffect } from "react";
-import SubmitButton from '@/components/ui/BasicButton';
+import { dialogStore } from "@/stores/dialogStore";
+import { editPet } from "@/api/pet.actions";
 import { useForm } from "react-hook-form";
-import { PetCredentials, PetSchema } from "@/schema/PetSchema";
 import { zodResolver } from "@hookform/resolvers/zod"
+import Input from "@/app/(auth)/components/Input";
+import SubmitButton from '@/components/ui/BasicButton';
 import DropdownInput from "@/components/ui/DropdownInput";
-import { CalendarInput } from "@/components/ui/CalendarInput";
-import { useDialogStore } from "@/stores/useDialogStore";
-
+import CalendarInput from "@/components/ui/CalendarInput";
+import usePets from "@/hooks/usePets";
 
 export default function PetEditDialog() {
-   const pet = useDialogStore((state) => state.pet)
+   const { mutatePets } = usePets();
+   const pet = dialogStore((state) => state.pet)
    const {
       register,
       handleSubmit,
       control,
       setValue,
       formState: { errors, isSubmitting },
-   } = useForm<PetCredentials>({
-      resolver: zodResolver(PetSchema)
+   } = useForm<Partial<EditPetCredentials>>({
+      resolver: zodResolver(EditPetSchema)
    })
 
-   // const pet: Pet = await fetchPetData(_id)
-   const pet1: Pet = {
-      _id: '1',
-      name: "Mocky",
-      type: "Cat",
-      race: "Persia",
-      color: "Brown",
-      birthDate: new Date(),
-      age: 1,
-      gender: "Male",
-      owner: "John Doe"
+   const handleSubmitData = async (data: EditPetCredentials) => {
+      if (!pet) return
+      const response = await editPet((pet as Pet)._id as string, data);
+
+      if (response.success) {
+         showSuccessToast(response.message)
+         mutatePets(
+            (prev: {success: string, message: string, pets: Pet[]}) => ({
+               ...prev,
+               pets: prev.pets.map(p => (
+                  p._id === response.pet._id ? response.pet : p
+               ))
+            }),
+            false
+         )
+      } else {
+         showErrorToast(response.error as string)
+      }
    }
 
    useEffect(() => {
@@ -42,21 +52,19 @@ export default function PetEditDialog() {
          setValue('type', pet.type as 'Cat' | 'Dog')
          setValue('race', pet.race)
          setValue('color', pet.color)
-         setValue('birthDate', pet.birthDate)
+         setValue('birthDate', new Date(pet.birthDate as string))
          setValue('age', pet.age)
          setValue('gender', pet.gender as 'Male' | 'Female')
-         setValue('owner', pet.owner)
       }
    }, [])
 
    return (
       <DialogContent>
-         <form action="" onSubmit={handleSubmit((data) => console.log(data))}>
+         <form action="" onSubmit={handleSubmit(handleSubmitData)}>
             <DialogHeader>
                <DialogTitle>Edit Pet Data</DialogTitle>
             </DialogHeader>
 
-            {pet === null && <div>Loading...</div>}
             {pet && (
                <div className="w-full max-w-[1400px] h-[400px] overflow-y-auto [scrollbar-width:thin] bg-[var(--color-muted)] p-1 sm:p-4 rounded-2xl my-4">
                   <Input label="Name" type="text" id="name" placeholder="Enter your pet name" {...register('name')} error={errors.name?.message} />
@@ -65,22 +73,21 @@ export default function PetEditDialog() {
                         options={[
                            { value: 'Cat', label: 'Cat' },
                            { value: 'Dog', label: 'Dog' },
-                        ]}/>
+                        ]} />
                      <DropdownInput name="gender" control={control} label="Gender" error={errors.gender?.message}
                         options={[
                            { value: 'Male', label: 'Male' },
                            { value: 'Female', label: 'Female' }
-                        ]}/>
+                        ]} />
                      <Input label="Race" type="text" id="race" placeholder="Enter your pet race" {...register('race')} error={errors.race?.message} />
                      <Input label="Color" type="text" id="color" placeholder="Enter your pet color" {...register('color')} error={errors.color?.message} />
-                     <CalendarInput label="Birth Date" name="birthDate" control={control} error={errors.birthDate?.message}/>
+                     <CalendarInput label="Birth Date" name="birthDate" control={control} error={errors.birthDate?.message} />
                      <Input label="Age" type="number" id="age" placeholder="Enter your pet age" {...register('age', { valueAsNumber: true })} error={errors.age?.message} />
                   </div>
-                  <Input label="Owner" type="text" id="owner" placeholder="Enter your pet owner" {...register('owner')} error={errors.owner?.message} />
                </div>
             )}
             <DialogFooter>
-               <SubmitButton type="submit" model="fill" width='auto'>Change</SubmitButton>
+               <SubmitButton isLoading={isSubmitting} type="submit" model="fill" width='auto'>Change</SubmitButton>
             </DialogFooter>
          </form>
       </DialogContent>

@@ -28,14 +28,17 @@ const secondaryVariant = {
 export const FileUpload = ({
   onChange,
 }: {
-  onChange?: (files: File[]) => void;
+  onChange?: (files: File | null) => void;
 }) => {
-  const [files, setFiles] = useState<File[]>([]);
+  const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = (newFiles: File[]) => {
-    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-    onChange && onChange(newFiles);
+  const handleFileChange = (newFiles: File | File[] | null) => {
+    if (!newFiles) return;
+    const selectedFile = Array.isArray(newFiles) ? newFiles[0] : newFiles;
+
+    setFile(selectedFile);
+    onChange && onChange(selectedFile);
   };
 
   const handleClick = () => {
@@ -62,7 +65,7 @@ export const FileUpload = ({
           ref={fileInputRef}
           id="file-upload-handle"
           type="file"
-          onChange={(e) => handleFileChange(Array.from(e.target.files || []))}
+          onChange={(e) => handleFileChange(e.target.files![0])}
           className="hidden"
         />
         <div className="flex flex-col items-center justify-center">
@@ -73,11 +76,9 @@ export const FileUpload = ({
             Drag or drop your files here or click to upload
           </p>
           <div className="relative w-full max-w-xl mx-auto">
-            {files.length > 0 &&
-              files.map((file, idx) => (
+            {file && (
                 <motion.div
-                  key={"file" + idx}
-                  layoutId={idx === 0 ? "file-upload" : "file-upload-" + idx}
+                  // layoutId={idx === 0 ? "file-upload" : "file-upload-" + idx}
                   className={cn(
                     "relative overflow-hidden z-40 bg-white dark:bg-neutral-900 flex flex-col items-start justify-start md:h-24 p-4 mt-4 w-full mx-auto rounded-md",
                     "shadow-sm"
@@ -88,7 +89,7 @@ export const FileUpload = ({
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       layout
-                      className="text-base text-neutral-700 dark:text-neutral-300 truncate max-w-xs"
+                      className="hidden sm:block text-base text-neutral-700 dark:text-neutral-300 truncate max-w-xs"
                     >
                       {file.name}
                     </motion.p>
@@ -122,8 +123,8 @@ export const FileUpload = ({
                     </motion.p>
                   </div>
                 </motion.div>
-              ))}
-            {!files.length && (
+              )}
+            {!file && (
               <motion.div
                 layoutId="file-upload"
                 variants={mainVariant}
@@ -152,10 +153,10 @@ export const FileUpload = ({
               </motion.div>
             )}
 
-            {!files.length && (
+            {!file && (
               <motion.div
                 variants={secondaryVariant}
-                className="absolute opacity-0 border border-dashed border-[var(--color-accent)] inset-0 z-30 bg-transparent flex items-center justify-center h-32 mt-4 w-full max-w-[8rem] mx-auto rounded-md"
+                className="absolute opacity-0 border border-dashed border-[var(--color-accent)] inset-0 z-30 bg-transparent flex items-center justify-center h-32 mt-4 w-full max-w-[rem] mx-auto rounded-md"
               ></motion.div>
             )}
           </div>

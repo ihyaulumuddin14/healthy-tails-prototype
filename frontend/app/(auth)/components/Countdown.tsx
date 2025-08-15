@@ -1,16 +1,16 @@
 'use client'
 
-import useVerifyStore from "@/stores/useVerifyStore";
+import verifyStore from "@/stores/verifyStore";
 import { useEffect, useState } from "react";
 
-export default function Countdown () {
+export default function Countdown() {
    const [count, setCount] = useState(0);
-   const updatedAt = useVerifyStore((state) => state.updatedAt);
-   
+   const updatedAt = verifyStore((state) => state.updatedAt);
+
    useEffect(() => {
       const email = JSON.parse(sessionStorage.getItem('email') as string);
       const expireAt = Number(email.expireAt);
-      
+
       setCount(Math.floor(((expireAt) - Date.now()) / 1000));
 
       const interval = setInterval(() => {

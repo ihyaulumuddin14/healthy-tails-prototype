@@ -2,27 +2,47 @@ import Input from "@/app/(auth)/components/Input";
 import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import SubmitButton from '@/components/ui/BasicButton';
 import { useForm } from "react-hook-form";
-import { PetCredentials, PetSchema } from "@/schema/PetSchema";
+import { CreatePetCredentials, CreatePetSchema } from "@/schema/PetSchema";
 import { zodResolver } from "@hookform/resolvers/zod"
 import DropdownInput from "@/components/ui/DropdownInput";
-import { CalendarInput } from "@/components/ui/CalendarInput";
-import { useDialogStore } from "@/stores/useDialogStore";
+import CalendarInput from "@/components/ui/CalendarInput";
+import { createPet } from "@/api/pet.actions";
+import { showErrorToast, showSuccessToast } from "@/helpers/toastHelper";
+import usePets from "@/hooks/usePets";
+import { Pet } from "@/type/type";
 
 
-export default function PetEditDialog() {
-   const pet = useDialogStore((state) => state.pet)
+export default function PetAddDialog() {
+   const { mutatePets } = usePets();
    const {
       register,
       handleSubmit,
       control,
       formState: { errors, isSubmitting },
-   } = useForm<PetCredentials>({
-      resolver: zodResolver(PetSchema)
+   } = useForm<CreatePetCredentials>({
+      resolver: zodResolver(CreatePetSchema)
    })
+
+   const handleSubmitData = async (data: CreatePetCredentials) => {
+      const response = await createPet(data as CreatePetCredentials);
+
+      if (response.success) {
+         showSuccessToast(response.message)
+         mutatePets(
+            (prev: {success: string, message: string, pets: Pet[]}) => ({
+               ...prev,
+               pets: [...prev.pets, response.pet]
+            }),
+            false
+         );
+      } else {
+         showErrorToast(response.error as string)
+      }
+   }
 
    return (
       <DialogContent>
-         <form action="" onSubmit={handleSubmit((data) => console.log(data))}>
+         <form action="" onSubmit={handleSubmit(handleSubmitData)}>
             <DialogHeader>
                <DialogTitle>Add New Pet</DialogTitle>
             </DialogHeader>
@@ -34,22 +54,21 @@ export default function PetEditDialog() {
                      options={[
                         { value: 'Cat', label: 'Cat' },
                         { value: 'Dog', label: 'Dog' },
-                     ]}/>
+                     ]} />
                   <DropdownInput name="gender" control={control} label="Gender" error={errors.gender?.message}
                      options={[
                         { value: 'Male', label: 'Male' },
                         { value: 'Female', label: 'Female' }
-                     ]}/>
+                     ]} />
                   <Input label="Race" type="text" id="race" placeholder="Enter your pet race" {...register('race')} error={errors.race?.message} />
                   <Input label="Color" type="text" id="color" placeholder="Enter your pet color" {...register('color')} error={errors.color?.message} />
-                  <CalendarInput label="Birth Date" name="birthDate" control={control} error={errors.birthDate?.message}/>
+                  <CalendarInput label="Birth Date" name="birthDate" control={control} error={errors.birthDate?.message} optional/>
                   <Input label="Age" type="number" id="age" placeholder="Enter your pet age" {...register('age', { valueAsNumber: true })} error={errors.age?.message} />
                </div>
-               <Input label="Owner" type="text" id="owner" placeholder="Enter your pet owner" {...register('owner')} error={errors.owner?.message} />
             </div>
 
             <DialogFooter>
-               <SubmitButton type="submit" model="fill" width='auto'>Add Pet</SubmitButton>
+               <SubmitButton isLoading={isSubmitting} type="submit" model="fill" width='auto'>Add Pet</SubmitButton>
             </DialogFooter>
          </form>
       </DialogContent>

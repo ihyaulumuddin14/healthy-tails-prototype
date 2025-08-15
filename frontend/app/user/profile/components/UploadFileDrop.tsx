@@ -3,8 +3,10 @@
 import { FileUpload } from "@/components/ui/file-upload";
 
 export function UploadFileDrop({ handleChangePhoto }: { handleChangePhoto: (url: string, file: File) => void }) {
-   const handleFileUpload = (files: File[]) => {
-      handleChangePhoto(URL.createObjectURL(files[0]), files[0]);
+   const handleFileUpload = (file: File | null) => {
+      if (file) {
+         handleChangePhoto(URL.createObjectURL(file), file);
+      }
    };
 
    return (

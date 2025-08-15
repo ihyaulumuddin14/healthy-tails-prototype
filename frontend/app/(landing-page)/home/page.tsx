@@ -5,7 +5,6 @@ import HoursSection from "./hours/HoursSection";
 import ServiceSection from "./service/ServiceSection";
 import HistorySection from "./history/HistorySection";
 import FeedbackSection from "./feedback/FeedbackSection";
-import Footer from "@/components/ui/Footer";
 
 export default function Home() {
 

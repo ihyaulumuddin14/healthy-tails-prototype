@@ -432,15 +432,136 @@ export const faqData = [
   }
 ];
 
+export const services = [
+  {
+    _id: "1",
+    name: "Physical Exam",
+    estimatedDurationMinutes: 30,
+    isActive: true,
+  },
+  {
+    _id: "2",
+    name: "Vaccination",
+    estimatedDurationMinutes: 15,
+    isActive: true,
+  },
+  {
+    _id: "3",
+    name: "Ward Unit",
+    estimatedDurationMinutes: 60,
+    isActive: true,
+  },
+  {
+    _id: "4",
+    name: "Surgery / Sterilization",
+    estimatedDurationMinutes: 120,
+    isActive: true,
+  },
+  {
+    _id: "5",
+    name: "Therapeutic Diet",
+    estimatedDurationMinutes: 20,
+    isActive: true,
+  },
+] satisfies {
+  _id: string;
+  name: string;
+  estimatedDurationMinutes: number;
+  isActive: boolean;
+}[];
 
-export const pet1 = {
-   _id: '1',
-   name: "Mocky",
-   type: "Cat",
-   race: "Persia",
-   color: "Brown",
-   birthDate: new Date(),
-   age: 1,
-   gender: "Male",
-   owner: "John Doe"
-}
+
+export const bookings = [{
+  _id: "bk123456789",
+  bookingDate: new Date("2025-08-20T10:00:00Z"),
+  queueNumber: 12,
+  status: "CANCELLED",
+  pet: {
+    _id: "pet987654321",
+    name: "Buddy",
+    type: "Dog",
+    race: "Golden Retriever",
+    color: "Golden",
+    age: 3,
+    gender: "Male",
+    birthDate: "2022-06-15"
+  },
+  service: {
+    _id: "srv111222333",
+    name: "Full Grooming",
+    estimatedDurationMinutes: 90,
+    isActive: true
+  },
+  createdAt: "2025-08-10T08:45:00Z",
+  updatedAt: "2025-08-10T08:45:00Z",
+  notes: "Please be careful with his paws."
+},
+{
+  _id: "bk123456789",
+  bookingDate: new Date("2025-08-20T10:00:00Z"),
+  queueNumber: 12,
+  status: "COMPLETED",
+  pet: {
+    _id: "pet987654321",
+    name: "Buddy",
+    type: "Dog",
+    race: "Golden Retriever",
+    color: "Golden",
+    age: 3,
+    gender: "Male",
+    birthDate: "2022-06-15"
+  },
+  service: {
+    _id: "srv111222333",
+    name: "Full Grooming",
+    estimatedDurationMinutes: 90,
+    isActive: true
+  },
+  createdAt: "2025-08-10T08:45:00Z",
+  updatedAt: "2025-08-10T08:45:00Z",
+  notes: "Please be careful with his paws."
+}];
+
+
+export const pets = [
+      {
+         _id: '1',
+         name: "Mocky",
+         type: "Cat",
+         race: "Persia",
+         color: "Brown",
+         birthDate: '2023-01-01',
+         age: 1,
+         gender: "Male"
+      },
+      {
+         _id: '2',
+         name: "Luna",
+         type: "Dog",
+         race: "Bulldog",
+         color: "White",
+         birthDate: '2022-06-15',
+         age: 3,
+         gender: "Female"
+      },
+      {
+         _id: '3',
+         name: "Max",
+         type: "Cat",
+         race: "Dutch",
+         color: "Black",
+         birthDate: '2023-03-10',
+         age: 2,
+         gender: "Male"
+      }
+   ]
+
+
+  export const user = {
+      _id: '1',
+      name: 'Yuyun',
+      email: 'Yuyunilham@gmail.com',
+      role: "USER",
+      verified: true,
+      photoUrl: 'https://qdtfpohyfsqvunddzoge.supabase.co/storage/v1/object/public/media/profile/default_pfp.jpg'
+   }

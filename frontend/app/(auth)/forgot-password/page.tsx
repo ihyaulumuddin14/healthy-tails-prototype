@@ -6,7 +6,7 @@ import SubmitButton from "@/components/ui/BasicButton"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ForgotPasswordCredentials, ForgotPasswordSchema } from "../../../schema/AuthSchema"
-import { handleAuthResponse } from "../../../lib/handleAuthResponse"
+import { handleAuthResponse } from "../../../helpers/handleAuthResponse"
 import { useRouter } from "next/navigation"
 
 const RequestReset = () => {
@@ -29,15 +29,15 @@ const RequestReset = () => {
             title="Forgot Password"
             subtitle="Please input a registered email to receive the OTP"
             type="email-reset">
-               <Input
-                  label="Email"
-                  type="email"
-                  id="email"
-                  placeholder="Enter your phone email"
-                  {...register('email')}
-                  error={errors.email?.message}
-                  />
-               <SubmitButton isLoading={isSubmitting} type="submit" width="full" model="fill">Send OTP</SubmitButton>
+            <Input
+               label="Email"
+               type="email"
+               id="email"
+               placeholder="Enter your phone email"
+               {...register('email')}
+               error={errors.email?.message}
+            />
+            <SubmitButton isLoading={isSubmitting} type="submit" width="full" model="fill">Send OTP</SubmitButton>
          </AuthLayout>
       </form>
    )

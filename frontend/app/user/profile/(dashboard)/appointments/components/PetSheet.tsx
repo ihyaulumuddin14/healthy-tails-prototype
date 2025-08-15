@@ -1,12 +1,10 @@
-
-
 import { Sheet } from "@/components/ui/sheet";
-import { useDialogStore } from "@/stores/useDialogStore";
+import { dialogStore } from "@/stores/dialogStore";
 import { AppointmentSheet } from "./AppointmentSheet";
 
-export default function PetDialog() {
-   const dialogPetMode = useDialogStore((state) => state.dialogPetMode)
-   const setDialogPetMode = useDialogStore((state) => state.setDialogPetMode)
+export default function PetSheet() {
+   const dialogPetMode = dialogStore((state) => state.dialogPetMode)
+   const setDialogPetMode = dialogStore((state) => state.setDialogPetMode)
 
    return (
       <Sheet open={dialogPetMode === 'book'} onOpenChange={(open) => {
@@ -14,7 +12,7 @@ export default function PetDialog() {
             setDialogPetMode(null)
          }
       }}>
-         {dialogPetMode === 'book' && <AppointmentSheet/>}
+         {dialogPetMode === 'book' && <AppointmentSheet />}
       </Sheet>
    )
 }

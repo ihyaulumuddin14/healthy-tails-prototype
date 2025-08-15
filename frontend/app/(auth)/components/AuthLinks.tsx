@@ -1,15 +1,15 @@
 'use client'
 
 import Link from 'next/link'
-import { handleAuthResponse } from '../../../lib/handleAuthResponse';
-import useVerifyStore from '@/stores/useVerifyStore';
+import { handleAuthResponse } from '../../../helpers/handleAuthResponse';
+import verifyStore from '@/stores/verifyStore';
 import { useRouter } from 'next/navigation';
 
 const AuthLinks = ({ type }: { type: string }) => {
-   const email = useVerifyStore((state) => state.email);
+   const email = verifyStore((state) => state.email);
    const router = useRouter();
 
-   const handleResponseResendOTP = async() => {
+   const handleResponseResendOTP = async () => {
       await handleAuthResponse({ authType: 'resend-otp', data: { email }, router });
    }
 

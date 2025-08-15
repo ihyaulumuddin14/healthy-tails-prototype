@@ -1,0 +1,44 @@
+import { showErrorToast } from "@/helpers/toastHelper";
+import api from "@/lib/axiosInstance";
+import { User } from "@/type/type";
+import axios, { AxiosError } from "axios";
+import useSWR from "swr";
+
+const fetcher = (url: string) =>
+   api.get(url)
+      .then(res => res.data)
+      .catch(error => {
+         let errorMessage = 'An error occurred while fetching user data. Please try again.'
+
+         if (axios.isAxiosError(error)) {
+            const axiosError = error as AxiosError<{ message: string }>;
+            errorMessage = axiosError.response?.data.message || axiosError.message || errorMessage
+         }
+
+         throw new Error(errorMessage);
+      })
+
+export default function useUser() {
+   const { data, error, isLoading, mutate } = useSWR(
+      '/users/me',
+      fetcher,
+      {
+         revalidateOnFocus: false,
+         revalidateOnReconnect: true,
+         revalidateOnMount: true,
+         refreshInterval: 1000 * 60 * 10,
+         dedupingInterval: 1000 * 60 * 5,
+         shouldRetryOnError: false,
+         onError: (err) => {
+            showErrorToast(err.message);
+         }
+      }
+   )
+
+   return { 
+      user: data?.user as User,
+      error,
+      isLoading,
+      mutateUser: mutate
+   }
+}

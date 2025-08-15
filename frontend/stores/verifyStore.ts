@@ -1,15 +1,15 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { toast } from "sonner"
+import { showErrorToast } from '@/helpers/toastHelper'
 
 type VerifyStoreType = {
    email: string,
-   setEmail: (arg: {  email: string, updatedAt: number }) => void,
+   setEmail: (arg: { email: string, updatedAt: number }) => void,
    clearEmail: () => void,
    updatedAt: number
 }
 
-const useVerifyStore = create<VerifyStoreType>()(
+const verifyStore = create<VerifyStoreType>()(
    persist(
       (set) => ({
          email: '',
@@ -40,7 +40,7 @@ const useVerifyStore = create<VerifyStoreType>()(
                   return item.value
                } catch {
                   sessionStorage.removeItem(name)
-                  toast.error("Verify session expired");
+                  showErrorToast('Session expired. Please login again.');
                   return null
                }
             },
@@ -62,4 +62,4 @@ const useVerifyStore = create<VerifyStoreType>()(
 )
 
 
-export default useVerifyStore;
+export default verifyStore;

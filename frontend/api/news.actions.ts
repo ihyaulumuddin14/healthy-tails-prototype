@@ -1,6 +1,6 @@
-import { NewsCredentials } from './../schema/NewsSchema';
+import { NewsCredentials } from '../schema/NewsSchema';
 import axios, { AxiosError } from "axios";
-import api from './axiosInstance';
+import api from '../lib/axiosInstance';
 
 function newAbortSignal(timeoutMs: number) {
    const abortController = new AbortController();
@@ -19,22 +19,22 @@ export async function getAllNews() {
    }
 }
 
-export async function getNewsById(credentials: { _id: string }) {
+export async function getNewsById(credentials: { id: string }) {
    try {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/news/${credentials._id}`, {
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/news/${credentials.id}`, {
          signal: newAbortSignal(5000),
       });
       return { success: true, message: data.message, news: data.news };
    } catch (error) {
-      let errorMessage = 'An error occurred while logging in. Please try again.';
+      let errorMessage = 'An error occurred while get news. Please try again.';
 
       if (axios.isAxiosError(error)) {
          const axiosError = error as AxiosError<{ message: string }>;
 
-         errorMessage = 
-            axiosError.response?.data.message || 
+         errorMessage =
+            axiosError.response?.data.message ||
             axiosError.message ||
-            'An error occurred while logging in. Please try again.';
+            errorMessage
       }
       return { success: false, error: errorMessage }
    }
@@ -45,53 +45,53 @@ export async function createNews(credentials: NewsCredentials) {
       const { data } = await api.post('/news/', credentials);
       return { success: true, message: data.message };
    } catch (error) {
-      let errorMessage = 'An error occurred while logging in. Please try again.';
+      let errorMessage = 'An error occurred while create news. Please try again.';
 
       if (axios.isAxiosError(error)) {
          const axiosError = error as AxiosError<{ message: string }>;
 
-         errorMessage = 
-            axiosError.response?.data.message || 
+         errorMessage =
+            axiosError.response?.data.message ||
             axiosError.message ||
-            'An error occurred while logging in. Please try again.';
+            errorMessage
       }
       return { success: false, error: errorMessage }
    }
 }
 
-export async function editNews(credentials: { _id: string, news: NewsCredentials }) {
+export async function editNews(credentials: { id: string, news: NewsCredentials }) {
    try {
-      const { data } = await api.put(`/news/${credentials._id}`, credentials.news);
-      return { success: true, message: data.message };
-  } catch (error) {
-      let errorMessage = 'An error occurred while logging in. Please try again.';
-
-      if (axios.isAxiosError(error)) {
-         const axiosError = error as AxiosError<{ message: string }>;
-
-         errorMessage = 
-            axiosError.response?.data.message || 
-            axiosError.message ||
-            'An error occurred while logging in. Please try again.';
-      }
-      return { success: false, error: errorMessage }
-   }
-}
-
-export async function deleteNews(credentials: { _id: string }) {
-   try {
-      const { data } = await api.delete(`/news/${credentials._id}`);
+      const { data } = await api.patch(`/news/${credentials.id}`, credentials.news);
       return { success: true, message: data.message };
    } catch (error) {
-      let errorMessage = 'An error occurred while logging in. Please try again.';
+      let errorMessage = 'An error occurred while edit news. Please try again.';
 
       if (axios.isAxiosError(error)) {
          const axiosError = error as AxiosError<{ message: string }>;
 
-         errorMessage = 
-            axiosError.response?.data.message || 
+         errorMessage =
+            axiosError.response?.data.message ||
             axiosError.message ||
-            'An error occurred while logging in. Please try again.';
+            errorMessage
+      }
+      return { success: false, error: errorMessage }
+   }
+}
+
+export async function deleteNews(credentials: { id: string }) {
+   try {
+      const { data } = await api.delete(`/news/${credentials.id}`);
+      return { success: true, message: data.message };
+   } catch (error) {
+      let errorMessage = 'An error occurred while delete news. Please try again.';
+
+      if (axios.isAxiosError(error)) {
+         const axiosError = error as AxiosError<{ message: string }>;
+
+         errorMessage =
+            axiosError.response?.data.message ||
+            axiosError.message ||
+            errorMessage
       }
       return { success: false, error: errorMessage }
    }
