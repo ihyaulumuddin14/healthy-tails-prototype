@@ -1,6 +1,7 @@
 import { Router } from "express";
 
-import { CreateNewsRequestSchema, NewsIdParamSchema, UpdateNewsRequestSchema } from "../domain/dto/news.dto.js";
+import { IdParamSchema } from "../domain/dto/common.dto.js";
+import { CreateNewsRequestSchema, UpdateNewsRequestSchema } from "../domain/dto/news.dto.js";
 
 import { adminOnly } from "../middlewares/admin-only.js";
 import { authenticate } from "../middlewares/authenticate.js";
@@ -11,16 +12,16 @@ import { createNews, deleteNews, findAllNews, findNewsById, updateNews } from ".
 const router = Router();
 
 router.get("/", findAllNews);
-router.get("/:id", validateParams(NewsIdParamSchema), findNewsById);
+router.get("/:id", validateParams(IdParamSchema), findNewsById);
 router.post("/", authenticate, adminOnly, validateRequest(CreateNewsRequestSchema), createNews);
 router.patch(
   "/:id",
   authenticate,
   adminOnly,
-  validateParams(NewsIdParamSchema),
+  validateParams(IdParamSchema),
   validateRequest(UpdateNewsRequestSchema),
   updateNews
 );
-router.delete("/:id", authenticate, adminOnly, validateParams(NewsIdParamSchema), deleteNews);
+router.delete("/:id", authenticate, adminOnly, validateParams(IdParamSchema), deleteNews);
 
 export default router;

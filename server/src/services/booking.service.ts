@@ -54,9 +54,12 @@ export const createBookingservice = async (userId: string, payload: CreateBookin
 
     await session.commitTransaction();
 
-    const populatedBooking = await newBooking.populate(["pet", "service"]);
-    const mappedBooking = toBookingResponse(populatedBooking);
+    const savedBooking = await findBookingByIdAndOwner(newBooking._id, userId);
+    if (!savedBooking) {
+      throw new HttpError(500, "Failed to retrieve created booking after transaction");
+    }
 
+    const mappedBooking = toBookingResponse(savedBooking!);
     return mappedBooking;
   } catch (dbErr) {
     logger.error("Error creating booking:", dbErr);
@@ -116,7 +119,6 @@ export const updateBookingStatusService = async (bookingId: string, payload: Upd
     throw new HttpError(404, "Booking not found");
   }
 
-  const populatedBooking = await updatedBooking.populate(["pet", "service", "owner"]);
-  const mappedBooking = toBookingResponse(populatedBooking);
+  const mappedBooking = toBookingResponse(updatedBooking);
   return mappedBooking;
 };

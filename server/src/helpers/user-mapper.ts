@@ -1,13 +1,16 @@
 import { UserItf } from "../domain/entity/user.entity.js";
 
 export const toUserResponse = (user: UserItf) => {
+  const userObject = user.toObject();
   return {
     _id: user._id.toString(),
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    verified: user.verified,
-    photoUrl: user.photoUrl,
+    name: userObject.name,
+    email: userObject.email,
+    role: userObject.role,
+    verified: userObject.verified,
+    photoUrl: userObject.photoUrl,
+    createdAt: user.createdAt.toISOString(),
+    updatedAt: user.updatedAt.toISOString(),
   };
 };
 

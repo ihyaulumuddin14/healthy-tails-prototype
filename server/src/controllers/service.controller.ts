@@ -15,7 +15,7 @@ export const findAllServices = async (_req: Request, res: Response, next: NextFu
 
 export const createService = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const service = await addService(req.body);
+    const service: ServiceResponse = await addService(req.body);
     return res.status(201).json({ message: "Service created successfully", service });
   } catch (err) {
     next(err);
@@ -24,7 +24,7 @@ export const createService = async (req: Request, res: Response, next: NextFunct
 
 export const updateService = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const service = await editService(req.params.id, req.body);
+    const service: ServiceResponse = await editService(req.params.id, req.body);
     return res.status(200).json({ message: "Service updated successfully", service });
   } catch (err) {
     next(err);

@@ -3,8 +3,8 @@ import { ServiceItf } from "../domain/entity/service.entity.js";
 
 export const toServiceResponse = (services: ServiceItf): ServiceResponse => {
   return {
-    _id: services._id.toString(),
     ...services.toObject(),
+    _id: services._id.toString(),
   };
 };
 

@@ -1,11 +1,13 @@
+import { RegisterRequest } from "../domain/dto/auth.dto.js";
+import { UpdateUserRequest } from "../domain/dto/user.dto.js";
 import UserModel, { UserItf } from "../domain/entity/user.entity.js";
 
 export const findAllUsers = async (): Promise<UserItf[]> => {
-  return UserModel.find().exec();
+  return UserModel.find().select("-password").exec();
 };
 
 export const findUserById = async (id: string): Promise<UserItf | null> => {
-  return UserModel.findById(id).exec();
+  return UserModel.findById(id).select("-password").exec();
 };
 
 export const findUserByEmail = async (email: string): Promise<UserItf | null> => {
@@ -16,15 +18,21 @@ export const findUserByRefreshToken = async (refreshToken: string): Promise<User
   return UserModel.findOne({ refreshToken }).exec();
 };
 
-export const createUser = async (data: Partial<UserItf>): Promise<UserItf> => {
+export const createUser = async (data: RegisterRequest): Promise<UserItf> => {
   const user = new UserModel(data);
   return user.save();
 };
 
-export const updateUserById = async (id: string, updateData: Partial<UserItf>): Promise<UserItf | null> => {
+export const updateUserById = async (id: string, updateData: UpdateUserRequest): Promise<UserItf | null> => {
   return UserModel.findByIdAndUpdate(id, updateData, {
     new: true,
-  }).exec();
+  })
+    .select("-password")
+    .exec();
+};
+
+export const updateUserAvatar = async (id: string, photoUrl: string): Promise<UserItf | null> => {
+  return UserModel.findByIdAndUpdate(id, { photoUrl }, { new: true }).exec();
 };
 
 export const updateUserPassword = async (id: string, password: string): Promise<UserItf | null> => {

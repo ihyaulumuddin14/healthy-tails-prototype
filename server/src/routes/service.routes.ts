@@ -1,10 +1,7 @@
 import { Router } from "express";
 
-import {
-  CreateServiceRequestSchema,
-  ServiceIdParamSchema,
-  UpdateServiceRequestSchema,
-} from "../domain/dto/service.dto.js";
+import { IdParamSchema } from "../domain/dto/common.dto.js";
+import { CreateServiceRequestSchema, UpdateServiceRequestSchema } from "../domain/dto/service.dto.js";
 
 import { adminOnly } from "../middlewares/admin-only.js";
 import { authenticate } from "../middlewares/authenticate.js";
@@ -20,7 +17,7 @@ router.patch(
   "/:id",
   authenticate,
   adminOnly,
-  validateParams(ServiceIdParamSchema),
+  validateParams(IdParamSchema),
   validateRequest(UpdateServiceRequestSchema),
   updateService
 );

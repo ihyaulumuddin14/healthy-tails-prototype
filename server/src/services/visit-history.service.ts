@@ -1,8 +1,6 @@
-import mongoose from "mongoose";
-
 import { CreateVisitHistoryRequest, UpdateVisitHistoryRequest } from "../domain/dto/visit-history.dto.js";
 
-import { toVisitHistoryResponseArray, tovisitHistoryResponse } from "../helpers/visit-history-mapper.js";
+import { toVisitHistoryResponse, toVisitHistoryResponseArray } from "../helpers/visit-history-mapper.js";
 
 import { findActiveBookingForPet, updateBookingById } from "../repositories/booking.repository.js";
 import { findPetById, findPetByIdAndOwner } from "../repositories/pet.repository.js";
@@ -34,7 +32,7 @@ export const getVisitHistoryByIdForUser = async (userId: string, historyId: stri
     throw new HttpError(404, "Visit history not found or you do not have access");
   }
 
-  const mappedVisitHistory = tovisitHistoryResponse(visitHistory);
+  const mappedVisitHistory = toVisitHistoryResponse(visitHistory);
 
   return mappedVisitHistory;
 };
@@ -45,21 +43,19 @@ export const createVisitHistoryForPetService = async (petId: string, payload: Cr
     throw new HttpError(404, "Pet not found");
   }
 
-  const dataWithPetAndOwner = { ...payload, pet: petId, owner: pet.owner._id.toString() };
+  const dataWithPetAndOwner = { ...payload, pet: petId, owner: pet.owner.toString() };
 
   const visitHistory = await createVisitHistory(dataWithPetAndOwner);
 
   const activeBooking = await findActiveBookingForPet(petId, new Date(visitHistory.visitDate));
   if (activeBooking) {
-    const visitHistoryIdAsObject = new mongoose.Types.ObjectId(visitHistory._id);
-
     await updateBookingById(activeBooking._id, {
       status: "COMPLETED",
-      visitHistory: visitHistoryIdAsObject,
+      visitHistory,
     });
   }
 
-  const mappedVisitHistory = tovisitHistoryResponse(visitHistory);
+  const mappedVisitHistory = toVisitHistoryResponse(visitHistory);
 
   return mappedVisitHistory;
 };
@@ -69,7 +65,7 @@ export const updateHistoryService = async (historyId: string, payload: UpdateVis
   if (!updatedHistory) {
     throw new HttpError(404, "Visit history not found");
   }
-  const mappedVisitHistory = tovisitHistoryResponse(updatedHistory);
+  const mappedVisitHistory = toVisitHistoryResponse(updatedHistory);
 
   return mappedVisitHistory;
 };
