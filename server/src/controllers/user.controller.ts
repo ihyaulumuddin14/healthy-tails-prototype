@@ -11,6 +11,8 @@ import {
   uploadAvatarService,
 } from "../services/user.service.js";
 
+import logger from "../utils/logger.js";
+
 export const findUserById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user: UserResponse = await getUserById(req.user!.id);
@@ -43,6 +45,7 @@ export const changeUserPassword = async (req: Request, res: Response, next: Next
     await changeUserPasswordService(req.user!.id, req.body);
     return res.status(200).json({ message: "Password changed successfully" });
   } catch (err) {
+    logger.error("An error occured:", err);
     next(err);
   }
 };
