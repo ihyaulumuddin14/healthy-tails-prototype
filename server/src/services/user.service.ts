@@ -5,12 +5,15 @@ import { supabase } from "../config/supabase.js";
 
 import { UpdatePasswordUserRequest, UpdateUserRequest, UserResponse } from "../domain/dto/user.dto.js";
 
+import { sanitizeFilename } from "../helpers/filename-sanitizer.js";
+import { extractFilePathFromUrl } from "../helpers/filepath-extractor.js";
 import { toUserResponse, toUserResponseArray } from "../helpers/user-mapper.js";
 
 import {
   deleteUserById,
   findAllUsers,
   findUserById,
+  findUserByIdWithPassword,
   updateUserAvatar,
   updateUserById,
   updateUserPassword,
@@ -56,7 +59,7 @@ export const updateUserService = async (id: string, payload: UpdateUserRequest) 
 };
 
 export const changeUserPasswordService = async (id: string, payload: UpdatePasswordUserRequest) => {
-  const user = await findUserById(id);
+  const user = await findUserByIdWithPassword(id);
   if (!user) {
     throw new HttpError(404, "User not found");
   }
@@ -88,22 +91,31 @@ export const uploadAvatarService = async (id: string, avatar: Express.Multer.Fil
   }
 
   if (user.photoUrl && !user.photoUrl.includes("default_pfp.jpg")) {
-    try {
-      const urlParts = user.photoUrl.split("/media/");
-      if (urlParts.length > 1) {
-        const oldFilePath = urlParts[1];
-        await supabase.storage.from("media").remove([oldFilePath]);
+    const oldFilePath = extractFilePathFromUrl(user.photoUrl);
+
+    if (oldFilePath) {
+      try {
+        const { error: deleteError } = await supabase.storage.from("media").remove([oldFilePath]);
+
+        if (deleteError) {
+          logger.error("Failed to remove old avatar:", deleteError);
+        } else {
+          logger.info("Old avatar removed successfully");
+        }
+      } catch (err) {
+        logger.error("Failed to remove old avatar:", err);
       }
-    } catch (err) {
-      logger.error("Failed to remove old avatar:", err);
     }
   }
 
-  const fileName = `profile/${id}/${Date.now()}_${avatar.originalname}`;
+  const cleanOriginalName = sanitizeFilename(avatar.originalname);
+  const timestamp = Date.now();
+  const fileName = `profile/${id}/${timestamp}_${cleanOriginalName}`;
 
   const { data, error } = await supabase.storage.from("media").upload(fileName, avatar.buffer, {
     cacheControl: "3600",
     contentType: avatar.mimetype,
+    upsert: false,
   });
 
   if (error) {
@@ -115,12 +127,12 @@ export const uploadAvatarService = async (id: string, avatar: Express.Multer.Fil
   const mediaUrl = publicUrlData.publicUrl;
 
   const updatedUser = await updateUserAvatar(id, mediaUrl);
-
   if (!updatedUser) {
     throw new HttpError(404, "User not found after update");
   }
 
-  return toUserResponse(updatedUser);
+  const mappedUser = toUserResponse(updatedUser);
+  return mappedUser;
 };
 
 export const getAllUsers = async () => {
