@@ -18,6 +18,10 @@ export const findUserByRefreshToken = async (refreshToken: string): Promise<User
   return UserModel.findOne({ refreshToken }).exec();
 };
 
+export const findUserByIdWithPassword = async (id: string): Promise<UserItf | null> => {
+  return UserModel.findById(id).exec();
+};
+
 export const createUser = async (data: RegisterRequest): Promise<UserItf> => {
   const user = new UserModel(data);
   return user.save();

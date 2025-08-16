@@ -13,6 +13,7 @@ import {
   deleteUserById,
   findAllUsers,
   findUserById,
+  findUserByIdWithPassword,
   updateUserAvatar,
   updateUserById,
   updateUserPassword,
@@ -58,7 +59,7 @@ export const updateUserService = async (id: string, payload: UpdateUserRequest) 
 };
 
 export const changeUserPasswordService = async (id: string, payload: UpdatePasswordUserRequest) => {
-  const user = await findUserById(id);
+  const user = await findUserByIdWithPassword(id);
   if (!user) {
     throw new HttpError(404, "User not found");
   }
