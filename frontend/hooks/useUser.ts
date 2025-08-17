@@ -1,4 +1,5 @@
 import api from "@/lib/axiosInstance";
+import useGlobalLoading from "@/stores/loadingStore";
 import { userStore } from "@/stores/userStore";
 import { User } from "@/type/type";
 import { useEffect, useState } from "react";
@@ -8,6 +9,11 @@ export default function useUser() {
    const setUser = userStore((state) => state.setUser);
    const [isLoading, setIsLoading] = useState(user ? false : true);
    const [isError, setIsError] = useState(false);
+   const setFetching = useGlobalLoading((state) => state.setFetching);
+
+   useEffect(() => {
+      setFetching(isLoading)  
+   }, [isLoading, setFetching])
 
    useEffect(() => {
       if (user) return;

@@ -1,7 +1,6 @@
 'use client'
 
 import RedirectButton from "@/app/(landing-page)/components/RedirectButton";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -11,7 +10,6 @@ type Props = {
 }
 
 export default function ServiceCard({ title, summary, link }: Props) {
-   const router = useRouter();
    const [isMobile, setIsMobile] = useState(false);
 
    useEffect(() => {
@@ -28,7 +26,7 @@ export default function ServiceCard({ title, summary, link }: Props) {
             <RedirectButton
                transition={!isMobile}
                label="See Details" 
-               onClick={() => {if (link) router.push(link)}}
+               link={link || "#"}
                position="right"/>
          </main>
       </li>

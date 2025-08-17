@@ -57,6 +57,10 @@
    @media screen and (max-width: 450px) {
    }
 
+   #main {
+      will-change: transform, opacity;
+   }
+
    .thin-scrollbar::-webkit-scrollbar {
       scrollbar-width: thin;
    }

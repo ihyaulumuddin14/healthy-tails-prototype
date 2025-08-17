@@ -6,7 +6,7 @@ import appStore from "@/stores/appStore";
 import { useEffect } from "react";
 import LinkSidebar from "@/components/ui/LinkSidebar";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import loading from "../loading";
+import loading from "../LoadingScreen";
 import AuthGuard from "../AuthGuard";
 import ForbiddenPage from "../forbidden";
 

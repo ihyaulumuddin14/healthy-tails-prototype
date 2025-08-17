@@ -9,7 +9,7 @@ type AppStoreType = {
    isMobileNavOpen: undefined | boolean,
    setIsMobileNavOpen: (arg: boolean) => void,
    isSidebarOpen: undefined | boolean,
-   setIsSidebarOpen: (arg: boolean) => void
+   setIsSidebarOpen: (arg: boolean) => void,
 }
 
 const appStore = create<AppStoreType>((set) => ({

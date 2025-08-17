@@ -1,17 +1,21 @@
-'use client'
+
+export const metadata: Metadata = {
+   title: 'Profile'
+}
 
 import Main from "@/components/ui/Main";
 import Navbar from "@/components/ui/Navbar";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import AuthGuard from "../AuthGuard";
-import loading from "../loading";
+import LoadingScreen from "../LoadingScreen";
 import UnauthorizedPage from "../unauthorized";
+import { Metadata } from "next";
 
 export default function UserLayout({ children }: { children: React.ReactNode }) {
 
    return (
       <AuthGuard
-         skeleton={loading()}
+         skeleton={<LoadingScreen />}
          fallback={<UnauthorizedPage />}
          role="USER"
       >
