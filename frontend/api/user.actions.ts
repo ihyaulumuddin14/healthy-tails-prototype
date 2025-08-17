@@ -25,7 +25,7 @@ export async function updateUser(credential: UpdateUserCredentials) {
 
 export async function changeUserPassword(credential: UpdatePasswordUserCredentials) {
    try {
-      const { data } = await api.put('users/me/change-password', credential)
+      const { data } = await api.put('/users/me/change-password', credential)
 
       return { success: true, message: data.message }
    } catch (error) {

@@ -1,7 +1,6 @@
 'use client'
 
 import Input from "@/app/(auth)/components/Input"
-import BasicButton from "@/components/ui/BasicButton"
 import Divider from "@/components/ui/Divider"
 import DropdownInput from "@/components/ui/DropdownInput"
 import {
@@ -27,6 +26,7 @@ import useUser from "@/hooks/useUser"
 import { createBooking } from "@/api/booking.actions"
 import { showErrorToast, showSuccessToast } from "@/helpers/toastHelper"
 import { Booking } from "@/type/type"
+import AnimateFillButton from "@/components/ui/AnimateFillButton"
 
 const fetcher = (url: string) => api.get(url).then(res => res.data);
 
@@ -167,9 +167,9 @@ export function AppointmentSheet() {
          </div>
 
          <SheetFooter>
-            <BasicButton form="appointment-form" isLoading={isSubmitting} type="submit" model="fill" width="full">Book</BasicButton>
+            <AnimateFillButton form="appointment-form" isLoading={isSubmitting} type="submit" model="fill" width="full">Book</AnimateFillButton>
             <SheetClose asChild>
-               <BasicButton model='outline' type="button" width="full">Cancel</BasicButton>
+               <AnimateFillButton model='outline' type="button" width="full">Cancel</AnimateFillButton>
             </SheetClose>
          </SheetFooter>
       </SheetContent>

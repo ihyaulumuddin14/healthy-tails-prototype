@@ -1,30 +1,33 @@
 'use client'
 
 import { DialogTrigger } from "@/components/ui/dialog"
-import ProfilePhotoDialog from "@/app/user/profile/components/PhotoDialog"
+import PhotoDialog from "@/app/user/profile/components/PhotoDialog"
 import { UpdateUserCredentials, UpdateUserSchema } from "@/schema/UserSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from 'react-hook-form';
 import Image from "next/image"
 import Input from "@/app/(auth)/components/Input"
-import SubmitButton from '@/components/ui/BasicButton';
 import DashboardContent from "@/components/ui/DashboardContent"
 import { useNavigation } from "@/hooks/useNavigation"
-import BasicButton from "@/components/ui/BasicButton"
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { AlertConfirmation } from "@/components/ui/AlertConfirmation"
 import { deleteMe, updateUser } from "@/api/user.actions"
 import { showErrorToast, showLoadingToast, showSuccessToast } from "@/helpers/toastHelper"
 import useUser from "@/hooks/useUser"
 import { User } from "@/type/type"
+import { useEffect } from "react"
+import { userStore } from "@/stores/userStore"
+import AnimateFillButton from "@/components/ui/AnimateFillButton"
 
 export default function AccountInfoPage() {
-   const { mutateUser, user } = useUser();
+   const { user } = useUser();
+   const setUser = userStore((state) => state.setUser);
    const { goReplace } = useNavigation();
 
    const {
       register,
       handleSubmit,
+      setValue,
       formState: { isSubmitting, errors }
    } = useForm<UpdateUserCredentials>({
       resolver: zodResolver(UpdateUserSchema)
@@ -35,16 +38,7 @@ export default function AccountInfoPage() {
 
       if (response.success) {
          showSuccessToast(response.message)
-         mutateUser(
-            (prev: {success: string, message: string, user: User}) => ({
-               ...prev,
-               user: {
-                  ...prev.user,
-                  name: response.user.name,
-               }
-            }),
-            false
-         );
+         setUser(response.user as User);
       } else {
          showErrorToast(response.error as string)
       }
@@ -57,11 +51,17 @@ export default function AccountInfoPage() {
       if (response.success) {
          showSuccessToast(response.message)
          goReplace('/home');
-         mutateUser(null, false);
+         setUser(null);
       } else {
          showErrorToast(response.error as string)
       }
    }
+
+   useEffect(() => {
+      if (user.name) {
+         setValue('name', user.name);
+      }
+   }, [setValue, user, user.name])
 
    return (
       <DashboardContent type="user" subtitle="Here’s where you can check and update your personal details.">
@@ -72,8 +72,8 @@ export default function AccountInfoPage() {
                   <h1 className="w-full flex justify-start text-[var(--color-foreground)] text-2xl">Profile Photo</h1>
 
                   <div className="w-full h-full flex edit-photo-wrapper items-center">
-                     <div className="relative h-full max-h-[200px] w-fit aspect-square">
-                        <Image src='https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250' width={100} height={100} alt="Profile" className="w-full h-full rounded-full" />
+                     <div className="relative h-[150px] xl:h-[200px] w-fit aspect-square">
+                        <Image src={user.photoUrl} width={200} height={200} alt="Profile" className="w-full h-full rounded-full object-cover object-top" />
                         <DialogTrigger asChild>
                            <div className="edit-photo-badge">
                               <svg className="w-5 h-5 text-[var(--color-background)]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -83,7 +83,7 @@ export default function AccountInfoPage() {
                         </DialogTrigger>
                      </div>
                      <DialogTrigger asChild>
-                        <button className="edit-photo-button w-fit h-fit bg-[var(--color-tertiary)] text-[var(--color-tertiary-foreground)] py-2 px-5 rounded-xl text-[clamp(0.8rem,1.8vw,1.1rem)] hover:scale-105 active:scale-95 cursor-pointer transition-all duration-200 ease-in-out flex items-center font-semibold shrink-0">Change Photo</button>
+                        <button className="edit-photo-button w-fit h-fit bg-[var(--color-tertiary)] text-[var(--color-tertiary-foreground)] py-2 px-5 rounded-full text-[clamp(0.8rem,1.8vw,1.1rem)] hover:scale-105 active:scale-95 cursor-pointer transition-all duration-200 ease-in-out flex items-center font-semibold shrink-0">Change Photo</button>
                      </DialogTrigger>
                   </div>
                </div>
@@ -96,7 +96,6 @@ export default function AccountInfoPage() {
                         type="text"
                         id="name"
                         placeholder={user?.name || ''}
-                        value={user?.name || ''}
                         {...register('name')}
                         error={errors.name?.message}
                      />
@@ -111,21 +110,21 @@ export default function AccountInfoPage() {
                         disabled
                      />
 
-                     <SubmitButton isLoading={isSubmitting} type="submit" model="fill" width='auto'>Change</SubmitButton>
+                     <AnimateFillButton isLoading={isSubmitting} type="submit" model="fill" width='auto'>Change</AnimateFillButton>
                   </form>
                </div>
 
                <AlertDialogTrigger className="xl:col-start-2 justify-self-end mt-10">
-                  <BasicButton type="button" model="danger" width='auto'>
+                  <AnimateFillButton type="button" model="danger" width='auto'>
                      <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
                      </svg>
                      Delete Account
-                  </BasicButton>
+                  </AnimateFillButton>
                </AlertDialogTrigger>
             </div>
 
-            <ProfilePhotoDialog user={user!} />
+            <PhotoDialog/>
             <AlertConfirmation heading="Delete Account" description="Are you sure you want to delete your account?" submitLabel="Delete" onSubmit={handleResponseDeleteUser} />
          </AlertDialog>
       </DashboardContent>

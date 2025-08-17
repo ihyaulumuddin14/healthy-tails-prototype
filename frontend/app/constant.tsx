@@ -31,13 +31,13 @@ export const quickAccessList = [
       name: 'Edit Profile',
       link: '/user/profile/info',
       color: '--color-chart-2',
-      icons: <svg className="w-15 h-15 text-[var(--color-foreground)]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="square" strokeLinejoin="round" strokeWidth="1" d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"/></svg>
+      icons: <svg className="w-15 h-15" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="square" strokeLinejoin="round" strokeWidth="2" d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"/></svg>
    },
    {
       name: 'Live Queue',
       link: '/user/profile/queue',
       color: '--color-chart-1',
-      icons: <svg className="w-15 h-15 text-[var(--color-foreground)]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M11 9H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h6m0-6v6m0-6 5.419-3.87A1 1 0 0 1 18 5.942v12.114a1 1 0 0 1-1.581.814L11 15m7 0a3 3 0 0 0 0-6M6 15h3v5H6v-5Z"/></svg>
+      icons: <svg className="w-15 h-15" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 9H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h6m0-6v6m0-6 5.419-3.87A1 1 0 0 1 18 5.942v12.114a1 1 0 0 1-1.581.814L11 15m7 0a3 3 0 0 0 0-6M6 15h3v5H6v-5Z"/></svg>
    },
    {
       name: 'Add Pet',
@@ -432,136 +432,136 @@ export const faqData = [
   }
 ];
 
-export const services = [
-  {
-    _id: "1",
-    name: "Physical Exam",
-    estimatedDurationMinutes: 30,
-    isActive: true,
-  },
-  {
-    _id: "2",
-    name: "Vaccination",
-    estimatedDurationMinutes: 15,
-    isActive: true,
-  },
-  {
-    _id: "3",
-    name: "Ward Unit",
-    estimatedDurationMinutes: 60,
-    isActive: true,
-  },
-  {
-    _id: "4",
-    name: "Surgery / Sterilization",
-    estimatedDurationMinutes: 120,
-    isActive: true,
-  },
-  {
-    _id: "5",
-    name: "Therapeutic Diet",
-    estimatedDurationMinutes: 20,
-    isActive: true,
-  },
-] satisfies {
-  _id: string;
-  name: string;
-  estimatedDurationMinutes: number;
-  isActive: boolean;
-}[];
+// export const services = [
+//   {
+//     _id: "1",
+//     name: "Physical Exam",
+//     estimatedDurationMinutes: 30,
+//     isActive: true,
+//   },
+//   {
+//     _id: "2",
+//     name: "Vaccination",
+//     estimatedDurationMinutes: 15,
+//     isActive: true,
+//   },
+//   {
+//     _id: "3",
+//     name: "Ward Unit",
+//     estimatedDurationMinutes: 60,
+//     isActive: true,
+//   },
+//   {
+//     _id: "4",
+//     name: "Surgery / Sterilization",
+//     estimatedDurationMinutes: 120,
+//     isActive: true,
+//   },
+//   {
+//     _id: "5",
+//     name: "Therapeutic Diet",
+//     estimatedDurationMinutes: 20,
+//     isActive: true,
+//   },
+// ] satisfies {
+//   _id: string;
+//   name: string;
+//   estimatedDurationMinutes: number;
+//   isActive: boolean;
+// }[];
 
 
-export const bookings = [{
-  _id: "bk123456789",
-  bookingDate: new Date("2025-08-20T10:00:00Z"),
-  queueNumber: 12,
-  status: "CANCELLED",
-  pet: {
-    _id: "pet987654321",
-    name: "Buddy",
-    type: "Dog",
-    race: "Golden Retriever",
-    color: "Golden",
-    age: 3,
-    gender: "Male",
-    birthDate: "2022-06-15"
-  },
-  service: {
-    _id: "srv111222333",
-    name: "Full Grooming",
-    estimatedDurationMinutes: 90,
-    isActive: true
-  },
-  createdAt: "2025-08-10T08:45:00Z",
-  updatedAt: "2025-08-10T08:45:00Z",
-  notes: "Please be careful with his paws."
-},
-{
-  _id: "bk123456789",
-  bookingDate: new Date("2025-08-20T10:00:00Z"),
-  queueNumber: 12,
-  status: "COMPLETED",
-  pet: {
-    _id: "pet987654321",
-    name: "Buddy",
-    type: "Dog",
-    race: "Golden Retriever",
-    color: "Golden",
-    age: 3,
-    gender: "Male",
-    birthDate: "2022-06-15"
-  },
-  service: {
-    _id: "srv111222333",
-    name: "Full Grooming",
-    estimatedDurationMinutes: 90,
-    isActive: true
-  },
-  createdAt: "2025-08-10T08:45:00Z",
-  updatedAt: "2025-08-10T08:45:00Z",
-  notes: "Please be careful with his paws."
-}];
+// export const bookings = [{
+//   _id: "bk123456789",
+//   bookingDate: new Date("2025-08-20T10:00:00Z"),
+//   queueNumber: 12,
+//   status: "CANCELLED",
+//   pet: {
+//     _id: "pet987654321",
+//     name: "Buddy",
+//     type: "Dog",
+//     race: "Golden Retriever",
+//     color: "Golden",
+//     age: 3,
+//     gender: "Male",
+//     birthDate: "2022-06-15"
+//   },
+//   service: {
+//     _id: "srv111222333",
+//     name: "Full Grooming",
+//     estimatedDurationMinutes: 90,
+//     isActive: true
+//   },
+//   createdAt: "2025-08-10T08:45:00Z",
+//   updatedAt: "2025-08-10T08:45:00Z",
+//   notes: "Please be careful with his paws."
+// },
+// {
+//   _id: "bk123456789",
+//   bookingDate: new Date("2025-08-20T10:00:00Z"),
+//   queueNumber: 12,
+//   status: "COMPLETED",
+//   pet: {
+//     _id: "pet987654321",
+//     name: "Buddy",
+//     type: "Dog",
+//     race: "Golden Retriever",
+//     color: "Golden",
+//     age: 3,
+//     gender: "Male",
+//     birthDate: "2022-06-15"
+//   },
+//   service: {
+//     _id: "srv111222333",
+//     name: "Full Grooming",
+//     estimatedDurationMinutes: 90,
+//     isActive: true
+//   },
+//   createdAt: "2025-08-10T08:45:00Z",
+//   updatedAt: "2025-08-10T08:45:00Z",
+//   notes: "Please be careful with his paws."
+// }];
 
 
-export const pets = [
-      {
-         _id: '1',
-         name: "Mocky",
-         type: "Cat",
-         race: "Persia",
-         color: "Brown",
-         birthDate: '2023-01-01',
-         age: 1,
-         gender: "Male"
-      },
-      {
-         _id: '2',
-         name: "Luna",
-         type: "Dog",
-         race: "Bulldog",
-         color: "White",
-         birthDate: '2022-06-15',
-         age: 3,
-         gender: "Female"
-      },
-      {
-         _id: '3',
-         name: "Max",
-         type: "Cat",
-         race: "Dutch",
-         color: "Black",
-         birthDate: '2023-03-10',
-         age: 2,
-         gender: "Male"
-      }
-   ]
+// export const pets = [
+//       {
+//          _id: '1',
+//          name: "Mocky",
+//          type: "Cat",
+//          race: "Persia",
+//          color: "Brown",
+//          birthDate: '2023-01-01',
+//          age: 1,
+//          gender: "Male"
+//       },
+//       {
+//          _id: '2',
+//          name: "Luna",
+//          type: "Dog",
+//          race: "Bulldog",
+//          color: "White",
+//          birthDate: '2022-06-15',
+//          age: 3,
+//          gender: "Female"
+//       },
+//       {
+//          _id: '3',
+//          name: "Max",
+//          type: "Cat",
+//          race: "Dutch",
+//          color: "Black",
+//          birthDate: '2023-03-10',
+//          age: 2,
+//          gender: "Male"
+//       }
+//    ]
 
 
-  export const user = {
-      _id: '1',
-      name: 'Yuyun',
-      email: 'Yuyunilham@gmail.com',
-      role: "USER",
-      verified: true,
-      photoUrl: 'https://qdtfpohyfsqvunddzoge.supabase.co/storage/v1/object/public/media/profile/default_pfp.jpg'
-   }
+//   export const user = {
+//       _id: '1',
+//       name: 'Yuyun',
+//       email: 'Yuyunilham@gmail.com',
+//       role: "USER",
+//       verified: true,
+//       photoUrl: 'https://qdtfpohyfsqvunddzoge.supabase.co/storage/v1/object/public/media/profile/default_pfp.jpg'
+//    }

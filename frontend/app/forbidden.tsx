@@ -1,6 +1,6 @@
 'use client'
 
-import BasicButton from "@/components/ui/BasicButton";
+import AnimateFillButton from "@/components/ui/AnimateFillButton";
 import { useRouter } from "next/navigation";
 
 export default function ForbiddenPage() {
@@ -13,7 +13,7 @@ export default function ForbiddenPage() {
             <span className="text-stroke">FORBIDDEN</span>
          </h1>
          <p className="text-md sm:text-xl text-[var(--color-foreground)]">Access Restricted, You don`t have permission to access this page</p>
-         <BasicButton model='outline' onClick={() => router.replace('/')}>Back to Home</BasicButton>
+         <AnimateFillButton model='outline' onClick={() => router.replace('/')}>Back to Home</AnimateFillButton>
       </section>
    )
 }

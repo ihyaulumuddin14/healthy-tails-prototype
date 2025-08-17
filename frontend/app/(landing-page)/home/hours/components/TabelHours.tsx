@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { openHours } from "@/app/constant";
-import BasicButton from "@/components/ui/BasicButton";
+import AnimateFillButton from "@/components/ui/AnimateFillButton";
 
 export default function TabelHours() {
 
@@ -12,7 +12,7 @@ export default function TabelHours() {
    useEffect(() => {
       const now = new Date();
       const dayNow = now.toLocaleDateString('en-US', { weekday: 'long' });
-      
+
       setDay(dayNow);
    }, [])
 
@@ -29,21 +29,16 @@ export default function TabelHours() {
             </div>
          </div>
 
-         <BasicButton
-            model="fill"
-            width='auto'
-            type="button"
-            onClick={() => setSeeAll(!seeAll)}
-            >
+         <AnimateFillButton model="fill" width='auto' type="button" onClick={() => setSeeAll(!seeAll)} >
             {seeAll ? "See Less" : "See All"}
-         </BasicButton>
+         </AnimateFillButton>
       </div>
    )
 }
 
 
 
-function HoursList () {
+function HoursList() {
    return (
       <ul className='w-full h-fit flex flex-col items-center'>
          {openHours.map((schedule, index) => (
@@ -60,11 +55,11 @@ type HourListProps = {
    day: string,
    open: string,
    close: string,
-   index:number,
+   index: number,
    special?: boolean
 }
 
-function HourList ({ day, open, close, index, special = false }: HourListProps) {
+function HourList({ day, open, close, index, special = false }: HourListProps) {
    return (
       <div key={index} className={`w-full h-fit flex items-center justify-between rounded-lg p-5 ${special ? "border border-[var(--color-tertiary)] bg-[var(--color-foreground)]/20" : ""} ${index !== openHours.length - 1 ? "border-b border-[var(--color-tertiary)]" : ""}`}>
          <span className='flex items-center gap-2'>

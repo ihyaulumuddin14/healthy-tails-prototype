@@ -26,9 +26,9 @@ export default function PetCard({ pet }: PetCardProps) {
       if (response.success) {
          showSuccessToast(response.message)
          mutatePets(
-            (prev: {success: string, message: string, pets: Pet[]}) => ({
-            ...prev,
-            pets: prev.pets.filter((p) => p._id !== pet._id)
+            (prev: { success: boolean, message: string, pets: Pet[] }) => ({
+               ...prev,
+               pets: prev.pets.filter((p) => p._id !== pet._id)
             }),
             false
          );
@@ -102,7 +102,7 @@ export default function PetCard({ pet }: PetCardProps) {
                   <div className="w-full overflow-hidden">
                      <div className="mb-1">
                         <h2 className="text-gray-400 text-xs font-semibold">Birthdate</h2>
-                        <h3 className="text-[var(--color-foreground)] text-sm font-semibold">{pet?.birthDate || "-"}</h3>
+                        <h3 className="text-[var(--color-foreground)] text-sm font-semibold">{pet?.birthDate?.split("T")[0] || "-"}</h3>
                      </div>
                      <div className="mb-1">
                         <h2 className="text-gray-400 text-xs font-semibold">Age</h2>

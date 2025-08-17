@@ -1,12 +1,11 @@
 import api from "@/lib/axiosInstance";
 import { BookingCredentials } from "@/schema/PetSchema";
 import axios, { AxiosError } from "axios";
-import { bookings } from '@/app/constant';
 
 export async function createBooking(data: BookingCredentials) {
    try {
       const response = await api.post('/bookings/', data);
-      return { success: true, message: response.data.message, booking: bookings[0] }
+      return { success: true, message: response.data.message, booking: response.data.booking };
    } catch (error) {
       let errorMessage = 'An error occurred while create booking. Please try again.';
 
@@ -18,6 +17,6 @@ export async function createBooking(data: BookingCredentials) {
             axiosError.message ||
             errorMessage
       }
-      return { success: false, error: errorMessage, booking: bookings[0] }
+      return { success: false, error: errorMessage }
    }
 }

@@ -1,6 +1,5 @@
 import Input from "@/app/(auth)/components/Input";
 import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import SubmitButton from '@/components/ui/BasicButton';
 import { useForm } from "react-hook-form";
 import { CreatePetCredentials, CreatePetSchema } from "@/schema/PetSchema";
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -10,6 +9,7 @@ import { createPet } from "@/api/pet.actions";
 import { showErrorToast, showSuccessToast } from "@/helpers/toastHelper";
 import usePets from "@/hooks/usePets";
 import { Pet } from "@/type/type";
+import AnimateFillButton from "@/components/ui/AnimateFillButton";
 
 
 export default function PetAddDialog() {
@@ -29,7 +29,7 @@ export default function PetAddDialog() {
       if (response.success) {
          showSuccessToast(response.message)
          mutatePets(
-            (prev: {success: string, message: string, pets: Pet[]}) => ({
+            (prev: { success: boolean, message: string, pets: Pet[] }) => ({
                ...prev,
                pets: [...prev.pets, response.pet]
             }),
@@ -62,13 +62,13 @@ export default function PetAddDialog() {
                      ]} />
                   <Input label="Race" type="text" id="race" placeholder="Enter your pet race" {...register('race')} error={errors.race?.message} />
                   <Input label="Color" type="text" id="color" placeholder="Enter your pet color" {...register('color')} error={errors.color?.message} />
-                  <CalendarInput label="Birth Date" name="birthDate" control={control} error={errors.birthDate?.message} optional/>
+                  <CalendarInput label="Birth Date" name="birthDate" control={control} error={errors.birthDate?.message} optional />
                   <Input label="Age" type="number" id="age" placeholder="Enter your pet age" {...register('age', { valueAsNumber: true })} error={errors.age?.message} />
                </div>
             </div>
 
             <DialogFooter>
-               <SubmitButton isLoading={isSubmitting} type="submit" model="fill" width='auto'>Add Pet</SubmitButton>
+               <AnimateFillButton isLoading={isSubmitting} type="submit" model="fill" width='auto'>Add Pet</AnimateFillButton>
             </DialogFooter>
          </form>
       </DialogContent>

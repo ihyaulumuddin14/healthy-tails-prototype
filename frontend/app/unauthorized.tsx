@@ -1,6 +1,6 @@
 'use client'
 
-import BasicButton from "@/components/ui/BasicButton";
+import AnimateFillButton from "@/components/ui/AnimateFillButton";
 import { useRouter } from "next/navigation";
 
 
@@ -15,8 +15,8 @@ export default function UnauthorizedPage() {
          </h1>
          <p className="text-md sm:text-xl text-[var(--color-muted-foreground)]">Access Denied, What you want to do next?</p>
          <div className="flex gap-5">
-            <BasicButton model='outline' onClick={() => router.replace('/')}>Back to Home</BasicButton>
-            <BasicButton model='fill' onClick={() => router.replace('/login')}>Login</BasicButton>
+            <AnimateFillButton model='outline' onClick={() => router.replace('/')}>Back to Home</AnimateFillButton>
+            <AnimateFillButton model='fill' onClick={() => router.replace('/login')}>Login</AnimateFillButton>
          </div>
       </section>
    )

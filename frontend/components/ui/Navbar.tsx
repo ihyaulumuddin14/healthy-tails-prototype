@@ -4,10 +4,8 @@ import MobileNav from './MobileNav'
 import Hamburger from './Hamburger'
 import ThemeToggle from './ThemeToggle'
 import LinkNavbar from './LinkNavbar'
-import { LoginButton, ProfileDropdown } from './ClientUserButton'
+import ClientUserButton from './ClientUserButton'
 import LinkHomeLogo from './LinkHomeLogo'
-import AuthGuard from '@/app/AuthGuard'
-import { Skeleton } from '@/components/ui/skeleton'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 
@@ -57,12 +55,7 @@ const Navbar = () => {
             <div className="flex items-center gap-5">
                <LinkNavbar />
                <ThemeToggle />
-               <AuthGuard
-                  role="BOTH"
-                  skeleton={<Skeleton className="w-10 h-10 hidden lg:block" />}
-                  fallback={<LoginButton />}>
-                     <ProfileDropdown />
-               </AuthGuard>
+               <ClientUserButton />
                <Hamburger />
             </div>
          </nav>

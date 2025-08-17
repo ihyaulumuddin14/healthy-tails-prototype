@@ -2,7 +2,7 @@
 
 import AuthLayout from '../../AuthLayout'
 import Input from '../../components/Input'
-import SubmitButton from '@/components/ui/BasicButton'
+import SubmitButton from '@/components/ui/AnimateFillButton'
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { useForm } from 'react-hook-form';

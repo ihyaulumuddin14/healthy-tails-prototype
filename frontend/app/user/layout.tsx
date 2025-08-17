@@ -10,18 +10,16 @@ import UnauthorizedPage from "../unauthorized";
 export default function UserLayout({ children }: { children: React.ReactNode }) {
 
    return (
-      // <AuthGuard
-      //    skeleton={loading()}
-      //    fallback={<UnauthorizedPage />}
-      //    role="USER"
-      //    >
-      <>
+      <AuthGuard
+         skeleton={loading()}
+         fallback={<UnauthorizedPage />}
+         role="USER"
+      >
          <Navbar />
          <Main>
             <Breadcrumbs />
             {children}
          </Main>
-      </>
-      // {/* </AuthGuard> */}
+      </AuthGuard>
    )
 }

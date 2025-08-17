@@ -130,13 +130,13 @@
    }
 
    .dark .gradient-background {
-      background: linear-gradient(300deg,#000000,#30423e,#000000,#30423e);
+      background: linear-gradient(300deg,#191919,#30423e,#191919,#30423e);
       background-size: 120% 120%;
       animation: gradient-animation 10s ease infinite;
    }
 
    .gradient-background {
-      background: linear-gradient(153deg,#f6f6f6,#f6f6f6, #f6f6f6, #e9faf0f3, #f6f6f6,#f6f6f6, #f6f6f6);
+      background: linear-gradient(153deg,#ececec,#ececec, #ececec, #e9faf0f3, #ececec,#ececec, #ececec);
       background-size: 240% 240%;
       animation: gradient-animation 10s ease infinite;
    }
@@ -417,14 +417,14 @@
 
 :root {
    --radius : 0.625rem;
-   --background : oklch(1 0 0);
-   --foreground : oklch(0.141 0.005 285.823);
+   --background : #ececec;
+   --foreground : #191919;
    --card : oklch(1 0 0);
    --card-foreground : oklch(0.141 0.005 285.823);
    --popover : oklch(1 0 0);
    --popover-foreground : oklch(0.141 0.005 285.823);
-   --primary : oklch(0.21 0.006 285.885);
-   --primary-foreground : oklch(0.985 0 0);
+   --primary : #191919;
+   --primary-foreground : #ececec;
    --secondary : oklch(0.967 0.001 286.375);
    --secondary-foreground : oklch(0.21 0.006 285.885);
    --tertiary : #3a9b7e;
@@ -453,14 +453,14 @@
 }
 
 .dark {
-   --background : oklch(0.141 0.005 285.823);
-   --foreground : oklch(0.985 0 0);
+   --background : #191919;
+   --foreground : #ececec;
    --card : oklch(0.21 0.006 285.885);
    --card-foreground : oklch(0.985 0 0);
    --popover : oklch(0.21 0.006 285.885);
    --popover-foreground : oklch(0.985 0 0);
-   --primary : oklch(0.92 0.004 286.32);
-   --primary-foreground : oklch(0.21 0.006 285.885);
+   --primary : #ececec;
+   --primary-foreground : #191919;
    --secondary : oklch(0.274 0.006 286.033);
    --secondary-foreground : oklch(0.985 0 0);
    --muted : oklch(0.274 0.006 286.033);

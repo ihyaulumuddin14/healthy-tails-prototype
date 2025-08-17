@@ -18,8 +18,7 @@ export function ThreeDCard({ name, link, color, children }: Props) {
    return (
       <CardContainer className="inter-var w-full aspect-square">
          <CardBody
-            className={`bg-linear-to-br to-[var(--color-background)] to-110% relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] w-full sm:w-[30rem] h-full rounded-4xl p-6 flex flex-col justify-center items-center shadow-xl cursor-pointer active:scale-98 transition-all duration-100 ease-in-out`}
-            style={{ '--tw-gradient-from': `var(${color})` } as React.CSSProperties}
+            className={`bg-linear-to-br from-[var(--color-muted)] to-[var(--color-tertiary)] to-400% hover:to-100% relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] w-full sm:w-[30rem] h-full rounded-4xl p-6 flex flex-col justify-center items-center shadow-xl cursor-pointer active:scale-98 transition-all duration-500 ease-in-out`}
             onClick={() => {
                router.push(link)
                setDialogPetMode(
@@ -30,7 +29,7 @@ export function ThreeDCard({ name, link, color, children }: Props) {
          >
             <CardItem
                translateZ="100"
-               className="text-xl font-bold"
+               className="text-xl text-[var(--color-foreground)] font-bold"
             >
                {children}
             </CardItem>

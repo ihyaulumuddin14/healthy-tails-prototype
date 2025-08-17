@@ -14,33 +14,26 @@ import {
    onSubmitResetPassword,
    onSubmitResendOTP
 } from '@/api/auth.actions'
-import { showErrorToast, showSuccessToast, showLoadingToast } from './toastHelper';
+import { showErrorToast, showSuccessToast } from './toastHelper';
 import verifyStore from "@/stores/verifyStore";
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
+import api from '@/lib/axiosInstance';
+import { userStore } from '@/stores/userStore';
 
 type Props = {
    authType: 'login' | 'register' | 'forgot-password' | 'resend-otp' | 'verify-otp' | 'reset-password',
    data?: LoginCredentials | RegisterCredentials | ForgotPasswordCredentials | VerifyOTPCredentials | ResetPasswordCredentials | LogoutCredentials
-   action: (arg?: string) => void
+   action?: (arg?: string) => void
 }
 
 async function replaceBaseOnRole(accessToken: string, action: (arg?: string) => void) {
-   showLoadingToast('Redirecting...');
    try {
-
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
-         headers: {
-            Authorization: `Bearer ${accessToken}`
-         }
-      });
+      api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      const response = await api.get('/users/me');
 
       const user = response.data.user;
-
-      if (user.role === 'ADMIN') {
-         action('/admin/dashboard');
-      } else if (user.role === 'USER') {
-         action('/user/profile');
-      }
+      userStore.getState().setUser(user);
+      action(user.role === 'ADMIN' ? '/admin/dashboard' : '/user/profile');
    } catch (error) {
       let errorMessage = 'An error occurred while redirecting. Please try again.';
 
@@ -92,14 +85,14 @@ export async function handleAuthResponse({ authType, data, action }: Props) {
 
          const redirectMap: Record<string, () => void> = {
             'login': () => {
-               replaceBaseOnRole(response.accessToken, action);
+               replaceBaseOnRole(response.accessToken, action!);
             },
             'register': () => {
                verifyStore.getState().setEmail({
                   email: (data as { email: string }).email,
                   updatedAt: Date.now()
                });
-               action('/varify-otp')
+               action!('/verify-otp')
             },
             'forgot-password': () => { },
             'resend-otp': () => {
@@ -110,18 +103,20 @@ export async function handleAuthResponse({ authType, data, action }: Props) {
             },
             'verify-otp': () => {
                verifyStore.getState().clearEmail();
-               replaceBaseOnRole(response.accessToken, action);
+               replaceBaseOnRole(response.accessToken, action!);
             },
             'reset-password': () => {
-               action("/login");
+               action!("/login");
             }
          }
 
          const doRedirect = redirectMap[authType];
-         if (doRedirect) doRedirect();
+         if (doRedirect) {
+            setTimeout(() => doRedirect(), 1500);
+         }
 
       } else {
-         showErrorToast(response.message as string);
+         showErrorToast(response.error as string);
       }
    } else {
       return null

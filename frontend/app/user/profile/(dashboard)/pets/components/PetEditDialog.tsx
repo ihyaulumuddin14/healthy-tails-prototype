@@ -8,10 +8,10 @@ import { editPet } from "@/api/pet.actions";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import Input from "@/app/(auth)/components/Input";
-import SubmitButton from '@/components/ui/BasicButton';
 import DropdownInput from "@/components/ui/DropdownInput";
 import CalendarInput from "@/components/ui/CalendarInput";
 import usePets from "@/hooks/usePets";
+import AnimateFillButton from "@/components/ui/AnimateFillButton";
 
 export default function PetEditDialog() {
    const { mutatePets } = usePets();
@@ -33,7 +33,7 @@ export default function PetEditDialog() {
       if (response.success) {
          showSuccessToast(response.message)
          mutatePets(
-            (prev: {success: string, message: string, pets: Pet[]}) => ({
+            (prev: { success: boolean, message: string, pets: Pet[] }) => ({
                ...prev,
                pets: prev.pets.map(p => (
                   p._id === response.pet._id ? response.pet : p
@@ -52,7 +52,7 @@ export default function PetEditDialog() {
          setValue('type', pet.type as 'Cat' | 'Dog')
          setValue('race', pet.race)
          setValue('color', pet.color)
-         setValue('birthDate', new Date(pet.birthDate as string))
+         if (pet.birthDate) setValue('birthDate', new Date(pet.birthDate as string))
          setValue('age', pet.age)
          setValue('gender', pet.gender as 'Male' | 'Female')
       }
@@ -81,13 +81,13 @@ export default function PetEditDialog() {
                         ]} />
                      <Input label="Race" type="text" id="race" placeholder="Enter your pet race" {...register('race')} error={errors.race?.message} />
                      <Input label="Color" type="text" id="color" placeholder="Enter your pet color" {...register('color')} error={errors.color?.message} />
-                     <CalendarInput label="Birth Date" name="birthDate" control={control} error={errors.birthDate?.message} />
+                     <CalendarInput label="Birth Date" name="birthDate" control={control} error={errors.birthDate?.message} optional/>
                      <Input label="Age" type="number" id="age" placeholder="Enter your pet age" {...register('age', { valueAsNumber: true })} error={errors.age?.message} />
                   </div>
                </div>
             )}
             <DialogFooter>
-               <SubmitButton isLoading={isSubmitting} type="submit" model="fill" width='auto'>Change</SubmitButton>
+               <AnimateFillButton isLoading={isSubmitting} type="submit" model="fill" width='auto'>Change</AnimateFillButton>
             </DialogFooter>
          </form>
       </DialogContent>

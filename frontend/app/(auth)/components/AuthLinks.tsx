@@ -3,14 +3,12 @@
 import Link from 'next/link'
 import { handleAuthResponse } from '../../../helpers/handleAuthResponse';
 import verifyStore from '@/stores/verifyStore';
-import { useRouter } from 'next/navigation';
 
 const AuthLinks = ({ type }: { type: string }) => {
    const email = verifyStore((state) => state.email);
-   const router = useRouter();
 
    const handleResponseResendOTP = async () => {
-      await handleAuthResponse({ authType: 'resend-otp', data: { email }, router });
+      await handleAuthResponse({ authType: 'resend-otp', data: { email } });
    }
 
    return (

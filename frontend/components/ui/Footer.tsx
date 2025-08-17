@@ -5,9 +5,14 @@ import Link from "next/link"
 import LogoImage from '@/public/images/logo.webp'
 import ContrastButton from "./ContrastButton";
 import { navbarLink } from "@/app/constant";
+import { dialogStore } from "@/stores/dialogStore";
+import { useNavigation } from "@/hooks/useNavigation";
 
 
 export default function Footer () {
+   const { goPush } = useNavigation();
+   const setDialogPetMode = dialogStore(state => state.setDialogPetMode);
+
    return (
       <section className='w-full h-fit relative z-1 overflow-hidden m-[1vw]'>
          <div className="w-[98%] bg-[var(--color-accent)] rounded-4xl pt-20 flex justify-center items-center">
@@ -26,7 +31,12 @@ export default function Footer () {
                   </address>
 
                   <div className='flex justify-start items-center w-full max-w-[300px] h-fit gap-5'>
-                     <ContrastButton model='fill' >Book a Visit</ContrastButton>
+                     <ContrastButton model='fill' onClick={() => {
+                        goPush('/user/profile/appointments')
+                        setDialogPetMode('book')
+                     }}>
+                        Book a Visit
+                     </ContrastButton>
                      <ContrastButton model='fill' >Contact Us</ContrastButton>
                   </div>
                </div>

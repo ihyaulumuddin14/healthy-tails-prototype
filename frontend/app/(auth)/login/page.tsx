@@ -2,7 +2,7 @@
 
 import AuthLayout from '../AuthLayout';
 import Input from '../components/Input';
-import SubmitButton from '@/components/ui/BasicButton';
+import SubmitButton from '@/components/ui/AnimateFillButton';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginCredentials, LoginSchema } from '../../../schema/AuthSchema';

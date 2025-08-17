@@ -5,15 +5,16 @@ import { UploadFileDrop } from "@/app/user/profile/components/UploadFileDrop";
 import { showErrorToast, showLoadingToast, showSuccessToast } from "@/helpers/toastHelper";
 import { useState } from "react";
 import { postAvatar } from "@/api/user.actions";
-import { User } from "@/type/type"
 import Image, { StaticImageData } from "next/image"
 import useUser from "@/hooks/useUser";
-import BasicButton from "../../../../components/ui/BasicButton";
 import ImageDefault from "@/public/images/default_avatar.png";
+import { userStore } from "@/stores/userStore";
+import AnimateFillButton from "@/components/ui/AnimateFillButton";
 
-export default function PhotoDialog({ user }: { user: User }) {
-   const { mutateUser } = useUser();
-   const [preview, setPreview] = useState<string | StaticImageData>(user?.photoUrl || ImageDefault);
+export default function PhotoDialog() {
+   const { user } = useUser();
+   const setUser = userStore((state) => state.setUser);
+   const [preview, setPreview] = useState<string | StaticImageData>(user?.photoUrl);
    const [file, setFile] = useState<File | null>(null);
 
    const handleChangePhoto = (url: string, file: File | null) => {
@@ -31,16 +32,7 @@ export default function PhotoDialog({ user }: { user: User }) {
 
       if (response.success) {
          showSuccessToast(response.message)
-         mutateUser(
-            (prev: {success: string, message: string, user: User}) => ({
-               ...prev,
-               user: {
-                  ...prev.user,
-                  photoUrl: response.user.photoUrl
-               }
-            }),
-            false
-         );
+         setUser(response.user)
       } else {
          showErrorToast(response.error as string)
       }
@@ -69,7 +61,7 @@ export default function PhotoDialog({ user }: { user: User }) {
          <UploadFileDrop handleChangePhoto={handleChangePhoto} />
 
          <DialogFooter className="flex w-full justify-end gap-5">
-            <BasicButton onClick={() => { handleResponseChangeAvatar() }} model='fill' width="auto">Save</BasicButton>
+            <AnimateFillButton onClick={() => { handleResponseChangeAvatar() }} model='fill' width="auto">Save</AnimateFillButton>
          </DialogFooter>
       </DialogContent>
    )

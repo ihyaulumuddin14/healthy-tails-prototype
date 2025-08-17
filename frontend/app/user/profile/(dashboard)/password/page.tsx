@@ -4,11 +4,11 @@ import Input from "@/app/(auth)/components/Input"
 import { UpdatePasswordUserCredentials, UpdatePasswordUserSchema } from "@/schema/UserSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import SubmitButton from '@/components/ui/BasicButton';
 import { useEffect, useState } from "react"
 import DashboardContent from "@/components/ui/DashboardContent"
 import { changeUserPassword } from "@/api/user.actions"
 import { showErrorToast, showSuccessToast } from "@/helpers/toastHelper"
+import AnimateFillButton from "@/components/ui/AnimateFillButton"
 
 
 export default function ChangePasswordPage() {
@@ -42,6 +42,7 @@ export default function ChangePasswordPage() {
    }, [newPassword]);
    
    const handleResponseChangePassword = async (data: UpdatePasswordUserCredentials) => {
+      console.log(data)
       const response = await changeUserPassword(data);
       if (response.success) {
          showSuccessToast(response.message)
@@ -81,7 +82,7 @@ export default function ChangePasswordPage() {
                   <p className={`opacity-80 ${isPasswordValid.numberValid ? "text-[var(--color-tertiary)]" : "text-[var(--text)]"}`}>{isPasswordValid.numberValid ? '✓' : '-'} One number</p>
                </div>
 
-               <SubmitButton isLoading={isSubmitting} type="submit" model="fill" width='auto'>Change</SubmitButton>
+               <AnimateFillButton isLoading={isSubmitting} type="submit" model="fill" width='auto'>Change</AnimateFillButton>
             </form>
          </div>
       </DashboardContent>

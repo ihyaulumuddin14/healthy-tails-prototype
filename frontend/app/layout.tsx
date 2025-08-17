@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} antialiased text-[var(--color-foreground)] overflow-x-hidden`}
+        className={`${inter.className} antialiased text-[var(--color-foreground)] overflow-x-hidden selection:bg-accent selection:text-accent-foreground`}
       >
          <AppThemeProvider>
             <Toaster position="top-center" />

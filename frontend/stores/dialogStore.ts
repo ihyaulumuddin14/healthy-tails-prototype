@@ -1,6 +1,5 @@
 import { Pet, Booking } from '@/type/type'
 import { create } from 'zustand'
-import { bookings } from '@/app/constant'
 
 type DialogStore = {
    dialogPetMode: 'userPhoto' | 'petData' | 'petPhoto' | 'petAdd' | 'book' | 'booked' | null

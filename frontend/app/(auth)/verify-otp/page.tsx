@@ -4,18 +4,18 @@ import { useEffect, useState } from 'react'
 import AuthLayout from '../AuthLayout'
 import Input from '../components/Input'
 import { handleAuthResponse } from '../../../helpers/handleAuthResponse'
-import { useRouter } from 'next/navigation'
+import { useNavigation } from '@/hooks/useNavigation'
 
 const VerifyOTP = () => {
    const [email, setEmail] = useState<string>('')
-   const router = useRouter()
+   const { goReplace } = useNavigation();
    const [otpValidation, setOtpValidation] = useState({
       isValid: true,
       message: ''
    })
 
    const handleResponseVerifyOTP = async (email: string, otp: string) => {
-      handleAuthResponse({ authType: 'verify-otp', data: { email, otp }, router })
+      handleAuthResponse({ authType: 'verify-otp', data: { email, otp }, action: () => goReplace });
    }
 
    useEffect(() => {

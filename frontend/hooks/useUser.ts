@@ -1,44 +1,38 @@
-import { showErrorToast } from "@/helpers/toastHelper";
 import api from "@/lib/axiosInstance";
+import { userStore } from "@/stores/userStore";
 import { User } from "@/type/type";
-import axios, { AxiosError } from "axios";
-import useSWR from "swr";
-
-const fetcher = (url: string) =>
-   api.get(url)
-      .then(res => res.data)
-      .catch(error => {
-         let errorMessage = 'An error occurred while fetching user data. Please try again.'
-
-         if (axios.isAxiosError(error)) {
-            const axiosError = error as AxiosError<{ message: string }>;
-            errorMessage = axiosError.response?.data.message || axiosError.message || errorMessage
-         }
-
-         throw new Error(errorMessage);
-      })
+import { useEffect, useState } from "react";
 
 export default function useUser() {
-   const { data, error, isLoading, mutate } = useSWR(
-      '/users/me',
-      fetcher,
-      {
-         revalidateOnFocus: false,
-         revalidateOnReconnect: true,
-         revalidateOnMount: true,
-         refreshInterval: 1000 * 60 * 10,
-         dedupingInterval: 1000 * 60 * 5,
-         shouldRetryOnError: false,
-         onError: (err) => {
-            showErrorToast(err.message);
+   const user = userStore((state) => state.user);
+   const setUser = userStore((state) => state.setUser);
+   const [isLoading, setIsLoading] = useState(user ? false : true);
+   const [isError, setIsError] = useState(false);
+
+   useEffect(() => {
+      if (user) return;
+
+      const fetchUser = async () => {
+         try {
+            const { data } = await api.get('/users/me', {
+               headers: {
+
+               }
+            });
+            setUser(data.user);
+         } catch {
+            setIsError(true);
+         } finally {
+            setIsLoading(false);
          }
       }
-   )
+
+      fetchUser();
+   }, [])
 
    return { 
-      user: data?.user as User,
-      error,
+      user: user as User ?? null,
+      error: isError,
       isLoading,
-      mutateUser: mutate
    }
 }

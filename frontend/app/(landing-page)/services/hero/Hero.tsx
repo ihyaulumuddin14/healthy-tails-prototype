@@ -1,4 +1,4 @@
-import BasicButton from "@/components/ui/BasicButton"
+import AnimateFillButton from "@/components/ui/AnimateFillButton"
 import AnimatedText from "../../components/AnimatedText"
 
 const Hero = () => {
@@ -10,16 +10,16 @@ const Hero = () => {
                   type='h1'
                   splitBy='lines'
                   triggerWrapper="#home"
-                  className="font-bold text-[clamp(3.5rem,5vw,8rem)] font-inter leading-tight text-center sm:text-left"                  
+                  className="font-bold text-[clamp(3.5rem,5vw,8rem)] font-inter leading-tight text-center sm:text-left"
                >
                   Complete <br />
                   Cat Care <br />
                   <span className='text-texture text-shadow-xs'>Service</span>
                </AnimatedText>
             </div>
-            <div className={`w-full h-full flex flex-col items-center md:items-start gap-10 justify-start md:justify-center`}>
-               <p className='paragraph text-[clamp(1rem,1.5vw,2rem)] font-inter text-left'>Whether it`s routine checkups or complex procedures, our services are thoughtfully designed to support your feline friend’s health and happiness—at every whiskered milestone.</p>
-               <BasicButton model='fill' type="button" >Get an Appointment</BasicButton>
+            <div className={`w-full h-full flex flex-col sm:flex-row md:flex-col items-center md:items-start gap-10 justify-start md:justify-center`}>
+               <p className='paragraph text-[clamp(1rem,1.5vw,2rem)] font-inter text-center sm:text-left'>Whether it`s routine checkups or complex procedures, our services are thoughtfully designed to support your feline friend’s health and happiness—at every whiskered milestone.</p>
+               <AnimateFillButton model='fill' type="button" >Get an Appointment</AnimateFillButton>
             </div>
          </div>
       </section>

@@ -40,10 +40,10 @@ export default function AppointmentsList({ selectedFilter }: { selectedFilter: s
                         <td className='px-6 py-4 whitespace-nowrap'>{booking.queueNumber}</td>
                         <td className='px-6 py-4 whitespace-nowrap'>{booking.pet.name}</td>
                         <td className='px-6 py-4 whitespace-nowrap'>
-                           {booking.bookingDate.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' })} <br />
-                           <span className='text-[var(--color-muted-foreground)] text-xs'>
-                              {booking.bookingDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' })}
-                           </span>
+                           {booking.bookingDate.toLocaleString().split('T')[0]} <br />
+                           {/* <span className='text-[var(--color-muted-foreground)] text-xs'>
+                              {booking.bookingDate.toLocaleString()}
+                           </span> */}
                         </td>
                         <td className='px-6 py-4 whitespace-nowrap'>
                            <Badge

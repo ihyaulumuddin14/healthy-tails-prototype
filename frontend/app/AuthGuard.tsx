@@ -1,6 +1,5 @@
 'use client'
 
-import { showErrorToast } from "@/helpers/toastHelper";
 import useUser from "@/hooks/useUser";
 
 type Props = React.PropsWithChildren<{
@@ -22,7 +21,6 @@ export default function AuthGuard({ fallback, skeleton, children, useToast = fal
    }
 
    if (error) {
-      if (useToast) showErrorToast(error.message);
       return (
          <>
             {fallback}
@@ -32,7 +30,7 @@ export default function AuthGuard({ fallback, skeleton, children, useToast = fal
 
    return (
       <>
-         {user.role === role && children}
+         {(user?.role === role || role === 'BOTH') && children}
       </>
    )
 }

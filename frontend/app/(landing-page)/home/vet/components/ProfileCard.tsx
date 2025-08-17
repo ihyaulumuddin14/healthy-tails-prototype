@@ -18,7 +18,7 @@ type Props = {
 const ProfileCard = ( {id, srcImg, name, no, footer, redirectLabel, onClick = () => {}}: Props ) => {
    return (
       <DialogTrigger asChild>
-         <div className="w-[250px] aspect-4/6 overflow-hidden rounded-2xl relative shrink-0 flex flex-col items-center p-5 border-5 border-[var(--color-tertiary)] group cursor-pointer shadow-md" onClick={() => onClick(id)}>
+         <div className="w-[300px] aspect-4/6 overflow-hidden rounded-2xl relative shrink-0 flex flex-col items-center p-5 border-5 border-border group cursor-pointer shadow-md" onClick={() => onClick(id)}>
             <Image loading="lazy" aria-hidden="true" src={srcImg} alt="bg-vet" width={250} height={375} className="w-full h-full object-cover absolute top-0 z-0 brightness-20 group-hover:scale-110 group-hover:brightness-100 ease-in-out duration-500"/>
 
             <div className="w-[50%] aspect-square overflow-hidden rounded-full relative z-1 group-hover:-translate-y-50 ease-in-out duration-500">

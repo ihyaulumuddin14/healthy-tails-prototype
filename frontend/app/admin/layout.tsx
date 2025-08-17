@@ -25,8 +25,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
          skeleton={loading()}
          fallback={<ForbiddenPage />}
          role="ADMIN"
-         >
-      {/* <> */}
+      >
          <Navbar />
          <Main>
             <Breadcrumbs />
@@ -49,7 +48,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                </div>
             </section>
          </Main>
-      {/* </> */}
       </AuthGuard>
    )
 }
