@@ -1,8 +1,15 @@
+import mongoose from "mongoose";
+
 import { CreateVisitHistoryRequest, UpdateVisitHistoryRequest } from "../domain/dto/visit-history.dto.js";
 
 import { toVisitHistoryResponse, toVisitHistoryResponseArray } from "../helpers/visit-history-mapper.js";
 
-import { findInProgressBookingForPet, updateBookingById } from "../repositories/booking.repository.js";
+import {
+  clearVisitHistoryReference,
+  findBookingByVisitHistory,
+  findInProgressBookingForPet,
+  updateBookingById,
+} from "../repositories/booking.repository.js";
 import { findPetById, findPetByIdAndOwner } from "../repositories/pet.repository.js";
 import {
   createVisitHistory,
@@ -71,8 +78,23 @@ export const updateHistoryService = async (historyId: string, payload: UpdateVis
 };
 
 export const deleteVisitHistoryService = async (historyId: string) => {
-  const deletedHistory = await deleteHistoryById(historyId);
-  if (!deletedHistory) {
-    throw new HttpError(404, "Visit history not found");
+  const session = await mongoose.startSession();
+
+  try {
+    await session.withTransaction(async () => {
+      const visitHistory = await findHistoryById(historyId);
+      if (!visitHistory) {
+        throw new HttpError(404, "Visit history not found");
+      }
+
+      await clearVisitHistoryReference(historyId, session);
+
+      const deletedHistory = await deleteHistoryById(historyId);
+      if (!deletedHistory) {
+        throw new HttpError(404, "Visit history not found");
+      }
+    });
+  } finally {
+    await session.endSession();
   }
 };

@@ -25,3 +25,11 @@ export const updateHistoryById = async (
 export const deleteHistoryById = async (historyId: string): Promise<VisitHistoryItf | null> => {
   return VisitHistoryModel.findByIdAndDelete(historyId).populate(["pet", "owner"]).exec();
 };
+
+export const deleteVisitHistoriesByOwner = async (ownerId: string): Promise<void> => {
+  await VisitHistoryModel.deleteMany({ owner: ownerId }).exec();
+};
+
+export const deleteVisitHistoriesByPet = async (petId: string): Promise<void> => {
+  await VisitHistoryModel.deleteMany({ pet: petId }).exec();
+};
