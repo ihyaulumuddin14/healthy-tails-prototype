@@ -30,3 +30,7 @@ export const updatePetById = async (id: string, updateData: UpdatePetRequest): P
 export const deletePetById = async (id: string): Promise<PetItf | null> => {
   return PetModel.findByIdAndDelete(id).populate("owner").exec();
 };
+
+export const deletePetsByOwner = async (ownerId: string): Promise<void> => {
+  await PetModel.deleteMany({ owner: ownerId }).exec();
+};

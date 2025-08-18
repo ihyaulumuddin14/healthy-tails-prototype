@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
 
 import { HttpError } from "../utils/http-error.js";
+import logger from "../utils/logger.js";
 
 export const errorHandler = (err: unknown, _req: Request, res: Response, _next: NextFunction) => {
   let statusCode = 500;
@@ -18,6 +19,7 @@ export const errorHandler = (err: unknown, _req: Request, res: Response, _next: 
     errors = err.format();
   }
 
+  logger.error("Error occurred:", err);
   res.status(statusCode).json({
     status: "error",
     message,

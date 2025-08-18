@@ -1,8 +1,14 @@
+import mongoose from "mongoose";
+
 import { CreateVisitHistoryRequest, UpdateVisitHistoryRequest } from "../domain/dto/visit-history.dto.js";
 
 import { toVisitHistoryResponse, toVisitHistoryResponseArray } from "../helpers/visit-history-mapper.js";
 
-import { findActiveBookingForPet, updateBookingById } from "../repositories/booking.repository.js";
+import {
+  clearVisitHistoryReference,
+  findInProgressBookingForPet,
+  updateBookingById,
+} from "../repositories/booking.repository.js";
 import { findPetById, findPetByIdAndOwner } from "../repositories/pet.repository.js";
 import {
   createVisitHistory,
@@ -43,20 +49,20 @@ export const createVisitHistoryForPetService = async (petId: string, payload: Cr
     throw new HttpError(404, "Pet not found");
   }
 
-  const dataWithPetAndOwner = { ...payload, pet: petId, owner: pet.owner.toString() };
+  const ownerId = typeof pet.owner === "object" ? pet.owner._id.toString() : pet.owner;
+  const dataWithPetAndOwner = { ...payload, pet: petId, owner: ownerId };
 
   const visitHistory = await createVisitHistory(dataWithPetAndOwner);
 
-  const activeBooking = await findActiveBookingForPet(petId, new Date(visitHistory.visitDate));
-  if (activeBooking) {
-    await updateBookingById(activeBooking._id, {
+  const inProgressBooking = await findInProgressBookingForPet(petId);
+  if (inProgressBooking) {
+    await updateBookingById(inProgressBooking._id, {
       status: "COMPLETED",
-      visitHistory,
+      visitHistory: visitHistory._id,
     });
   }
 
   const mappedVisitHistory = toVisitHistoryResponse(visitHistory);
-
   return mappedVisitHistory;
 };
 
@@ -71,8 +77,23 @@ export const updateHistoryService = async (historyId: string, payload: UpdateVis
 };
 
 export const deleteVisitHistoryService = async (historyId: string) => {
-  const deletedHistory = await deleteHistoryById(historyId);
-  if (!deletedHistory) {
-    throw new HttpError(404, "Visit history not found");
+  const session = await mongoose.startSession();
+
+  try {
+    await session.withTransaction(async () => {
+      const visitHistory = await findHistoryById(historyId);
+      if (!visitHistory) {
+        throw new HttpError(404, "Visit history not found");
+      }
+
+      await clearVisitHistoryReference(historyId, session);
+
+      const deletedHistory = await deleteHistoryById(historyId);
+      if (!deletedHistory) {
+        throw new HttpError(404, "Visit history not found");
+      }
+    });
+  } finally {
+    await session.endSession();
   }
 };

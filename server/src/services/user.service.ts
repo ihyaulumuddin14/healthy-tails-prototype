@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { Express } from "express";
+import mongoose from "mongoose";
 
 import { supabase } from "../config/supabase.js";
 
@@ -9,6 +10,8 @@ import { sanitizeFilename } from "../helpers/filename-sanitizer.js";
 import { extractFilePathFromUrl } from "../helpers/filepath-extractor.js";
 import { toUserResponse, toUserResponseArray } from "../helpers/user-mapper.js";
 
+import { deleteBookingsByOwner } from "../repositories/booking.repository.js";
+import { deletePetsByOwner } from "../repositories/pet.repository.js";
 import {
   deleteUserById,
   findAllUsers,
@@ -18,6 +21,7 @@ import {
   updateUserById,
   updateUserPassword,
 } from "../repositories/user.repository.js";
+import { deleteVisitHistoriesByOwner } from "../repositories/visit-history.repository.js";
 
 import { HttpError } from "../utils/http-error.js";
 import logger from "../utils/logger.js";
@@ -152,11 +156,28 @@ export const getAllUsers = async () => {
 };
 
 export const deleteUserService = async (id: string) => {
-  const deletedUser = await deleteUserById(id);
-  if (!deletedUser) {
-    throw new HttpError(404, "User not found");
-  }
+  const session = await mongoose.startSession();
 
-  await deleteCache(`users:all`);
-  await deleteCache(`user:${id}`);
+  try {
+    await session.withTransaction(async () => {
+      const user = await findUserById(id);
+      if (!user) {
+        throw new HttpError(404, "User not found");
+      }
+
+      await deleteVisitHistoriesByOwner(id);
+      await deleteBookingsByOwner(id);
+      await deletePetsByOwner(id);
+
+      const deletedUser = await deleteUserById(id);
+      if (!deletedUser) {
+        throw new HttpError(404, "User not found");
+      }
+    });
+
+    await deleteCache(`users:all`);
+    await deleteCache(`user:${id}`);
+  } finally {
+    await session.endSession();
+  }
 };

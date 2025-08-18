@@ -1,7 +1,10 @@
+import mongoose from "mongoose";
+
 import { CreatePetRequest, UpdatePetRequest } from "../domain/dto/pet.dto.js";
 
 import { toPetResponse, toPetResponseArray } from "../helpers/pet-mapper.js";
 
+import { deleteBookingsByPet } from "../repositories/booking.repository.js";
 import {
   createPet,
   deletePetById,
@@ -9,6 +12,7 @@ import {
   findPetByIdAndOwner,
   updatePetById,
 } from "../repositories/pet.repository.js";
+import { deleteVisitHistoriesByPet } from "../repositories/visit-history.repository.js";
 
 import { HttpError } from "../utils/http-error.js";
 
@@ -53,13 +57,24 @@ export const updatePetService = async (userId: string, petId: string, payload: U
 };
 
 export const deletePetService = async (userId: string, petId: string) => {
-  const pet = await findPetByIdAndOwner(userId, petId);
-  if (!pet) {
-    throw new HttpError(404, "Pet not found or you do not have access");
-  }
+  const session = await mongoose.startSession();
 
-  const deletedPet = await deletePetById(petId);
-  if (!deletedPet) {
-    throw new HttpError(404, "Pet not found or you do not have access");
+  try {
+    await session.withTransaction(async () => {
+      const pet = await findPetByIdAndOwner(userId, petId);
+      if (!pet) {
+        throw new HttpError(404, "Pet not found or you do not have access");
+      }
+
+      await deleteVisitHistoriesByPet(petId);
+      await deleteBookingsByPet(petId);
+    });
+
+    const deletedPet = await deletePetById(petId);
+    if (!deletedPet) {
+      throw new HttpError(404, "Pet not found or you do not have access");
+    }
+  } finally {
+    await session.endSession();
   }
 };
