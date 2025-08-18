@@ -68,7 +68,7 @@ export default function PetCard({ pet }: PetCardProps) {
             </DropdownMenuContent>
          </DropdownMenu>
 
-         <Image src="/images/bg-hero.webp" loading="eager" alt="Hero" width={300} height={300} className="w-full h-full object-cover absolute top-0 left-0 mask-b-from-80% brightness-50 hover:scale-110 hover:brightness-100 ease-in-out duration-300 cursor-pointer sm:cursor-default" />
+         <Image src={pet.type === 'Dog' ? '/images/flat_dog.webp' : '/images/flat_cat.webp'} loading="eager" alt="Hero" width={300} height={300} className="w-full h-full object-cover absolute top-0 left-0 mask-b-from-80% brightness-50 hover:scale-110 hover:brightness-100 ease-in-out duration-300 cursor-pointer sm:cursor-default" />
 
          <h1 className="relative z-1 flex-text-1 font-bold text-white text-center mb-5">{pet?.name}</h1>
          <div className={`details relative z-1 w-full h-fit grid ${detailsOpen ? "grid-rows-[50px_1fr]" : "grid-rows-[50px_0fr]"} bg-[var(--color-muted)] gap-5 rounded-xl transition-all duration-400 ease-in-out`}>

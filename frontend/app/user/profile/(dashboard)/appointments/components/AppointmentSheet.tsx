@@ -27,12 +27,14 @@ import { createBooking } from "@/api/booking.actions"
 import { showErrorToast, showSuccessToast } from "@/helpers/toastHelper"
 import { Booking } from "@/type/type"
 import AnimateFillButton from "@/components/ui/AnimateFillButton"
+import useBookings from "@/hooks/useBookings"
 
 const fetcher = (url: string) => api.get(url).then(res => res.data);
 
 export function AppointmentSheet() {
    const { pets } = usePets();
    const { user } = useUser();
+   const { bookings, mutateBookings } = useBookings();
    const { goPush } = useNavigation()
    const services = userStore((state) => state.services)
    const setServices = userStore((state) => state.setServices)
@@ -97,6 +99,17 @@ export function AppointmentSheet() {
          showSuccessToast(response.message)
          setBooking(response.booking as Booking)
          setDialogPetMode('booked')
+
+         mutateBookings(
+            (prev: {message: string, bookings: Booking[]}) => ({
+               ...prev,
+               bookings: [
+                  ...prev.bookings,
+                  response.booking
+               ]}
+            ),
+            true
+         )
       } else {
          showErrorToast(response.error as string)
       }
@@ -130,7 +143,12 @@ export function AppointmentSheet() {
                <Divider>Pet</Divider>
                <div className="w-full grid sm:grid-cols-2 gap-4 items-start">
                   <DropdownInput name="petId" label="Name" control={control} error={errors.petId?.message}
-                     options={pets ? pets.map((pet) => ({ value: pet._id, label: pet.name })) : []}
+                     options={
+                        pets ? pets.filter(pet => {
+                           if (bookings.some(booking => booking.pet._id === pet._id && (booking.status === 'COMPLETED' || booking.status === 'CANCELLED'))) return pet
+                           else if (!bookings.some(booking => booking.pet._id === pet._id)) return pet
+                        }).map((pet) => ({ value: pet._id, label: pet.name })) : []
+                     }
                   />
                   <Input label="Pet Name" type="text" id="petName" placeholder="Enter your Pet Name" {...disableForm.register('petName')} disabled error={disableForm.formState.errors.petName?.message} />
                   <DropdownInput name="type" label="Type" control={disableForm.control} disabled error={disableForm.formState.errors.type?.message}

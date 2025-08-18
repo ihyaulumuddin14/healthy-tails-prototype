@@ -2,10 +2,9 @@
 
 import AnimateFillButton from '@/components/ui/AnimateFillButton'
 import { dialogStore } from '@/stores/dialogStore';
-import { useNavigation } from '@/hooks/useNavigation';
+import Link from 'next/link';
 
 export default function Offering() {
-   const { goPush } = useNavigation();
    const setDialogPetMode = dialogStore((state) => state.setDialogPetMode);
 
    return (
@@ -17,10 +16,11 @@ export default function Offering() {
 
          <div className='w0-full h-fit flex flex-col gap-5 px-[min(7vw,100px)] py-10 justify-center'>
             <AnimateFillButton model="fill" width='full' type="button" onClick={() => {
-               goPush('/user/profile/appointments')
                setDialogPetMode('book')
             }}>
-               Schedule an Appointment
+               <Link href={'/user/profile/appointments'}>
+                  Schedule an Appointment
+               </Link>
             </AnimateFillButton>
 
             <AnimateFillButton model="outline" width='full' type="button" onClick={() => {}}>

@@ -20,3 +20,23 @@ export async function createBooking(data: BookingCredentials) {
       return { success: false, error: errorMessage }
    }
 }
+
+
+export async function getBookingById(data: { id: string }) {
+   try {
+      const response = await api.get(`/bookings/${data.id}`);
+      return { success: true, message: response.data.message, booking: response.data.booking };
+   } catch (error) {
+      let errorMessage = 'An error occurred while get booking. Please try again.';
+
+      if (axios.isAxiosError(error)) {
+         const axiosError = error as AxiosError<{ message: string }>;
+
+         errorMessage =
+            axiosError.response?.data.message ||
+            axiosError.message ||
+            errorMessage
+      }
+      return { success: false, error: errorMessage }
+   }
+}

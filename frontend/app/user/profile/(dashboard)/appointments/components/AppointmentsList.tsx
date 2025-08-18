@@ -2,9 +2,12 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import useBookings from '@/hooks/useBookings';
 import TableSkeleton from './TableSkeleton';
+import { useNavigation } from '@/hooks/useNavigation';
+import { getBookingById } from '@/api/booking.actions';
 
 export default function AppointmentsList({ selectedFilter }: { selectedFilter: string }) {
    const { bookings, isLoading, error } = useBookings();
+   const { goPush } = useNavigation();
 
    if (isLoading) {
       return (
@@ -59,7 +62,9 @@ export default function AppointmentsList({ selectedFilter }: { selectedFilter: s
                         </td>
                         <td className='px-6 py-4 whitespace-nowrap'>{booking.service.name}</td>
                         <td className='px-6 py-4 flex gap-3'>
-                           <Button variant={"secondary"}>Details</Button>
+                           <Button variant={"secondary"} onClick={() => {
+                              goPush(`/user/profile/appointments/booking/${booking._id}`)
+                           }}>Details</Button>
                            <Button variant={"default"} disabled={booking.status !== "COMPLETED"}>Visit Result</Button>
                         </td>
                      </tr>

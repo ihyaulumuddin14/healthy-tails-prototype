@@ -16,16 +16,25 @@ export default function Breadcrumbs() {
             <Breadcrumb>
                <BreadcrumbList>
                   {breadcrumbList.map((breadcrumb, index) => {
-                     if (index === 0) return null
-                     if (index !== breadcrumbList.length - 1) {
+                     if (index === 0 || /\d/.test(breadcrumb)) return null
+                     if (index === breadcrumbList.length - 1) {
                         return (
                            <Fragment key={index}>
                               <BreadcrumbLink>
                                  <Link href={`/${breadcrumbList.slice(0, index + 1).join('/')}`}>
-                                       {breadcrumb.charAt(0).toUpperCase() + breadcrumb.slice(1)}
+                                    {breadcrumb.charAt(0).toUpperCase() + breadcrumb.slice(1)}
                                  </Link>
                               </BreadcrumbLink>
-                              <BreadcrumbSeparator />
+                           </Fragment>
+                        )
+                     } else if (breadcrumb === 'booking' || breadcrumb === 'history') {
+                        return (
+                           <Fragment key={index}>
+                              <BreadcrumbLink>
+                                 <Link href={`/${breadcrumbList.join('/')}`}>
+                                    {breadcrumb.charAt(0).toUpperCase() + breadcrumb.slice(1)}
+                                 </Link>
+                              </BreadcrumbLink>
                            </Fragment>
                         )
                      } else {
@@ -36,6 +45,7 @@ export default function Breadcrumbs() {
                                     {breadcrumb.charAt(0).toUpperCase() + breadcrumb.slice(1)}
                                  </Link>
                               </BreadcrumbLink>
+                              <BreadcrumbSeparator />
                            </Fragment>
                         )
                      }
