@@ -6,7 +6,6 @@ import { toVisitHistoryResponse, toVisitHistoryResponseArray } from "../helpers/
 
 import {
   clearVisitHistoryReference,
-  findBookingByVisitHistory,
   findInProgressBookingForPet,
   updateBookingById,
 } from "../repositories/booking.repository.js";
