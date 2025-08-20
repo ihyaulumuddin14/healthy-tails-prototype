@@ -2,18 +2,11 @@
 
 import LinkSidebar from "@/components/ui/LinkSidebar";
 import appStore from "@/stores/appStore";
-import { useEffect } from "react";
 
 export default function UserDashboardLayout({ children }: { children: React.ReactNode }) {
 
    const isSidebarOpen = appStore(state => state.isSidebarOpen)
    const setIsSidebarOpen = appStore(state => state.setIsSidebarOpen)
-
-   useEffect(() => {
-      return () => {
-         setIsSidebarOpen(false)
-      }
-   }, [])
 
    return (
       <section className={`w-full h-[calc(100vh-128px)] grid ${isSidebarOpen ? "grid-cols-[300px_1fr]" : "grid-cols-[55px_1fr]"} transisiton-all duration-400 ease-in-out relative top-32 overflow-hidden gap-2`}>

@@ -8,6 +8,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { deletePet } from "@/api/pet.actions"
 import { showErrorToast, showLoadingToast, showSuccessToast } from "@/helpers/toastHelper"
 import usePets from "@/hooks/usePets"
+import useBookings from "@/hooks/useBookings"
+import { useNavigation } from "@/hooks/useNavigation"
 
 type PetCardProps = {
    pet: Pet
@@ -15,6 +17,8 @@ type PetCardProps = {
 
 export default function PetCard({ pet }: PetCardProps) {
    const { mutatePets } = usePets()
+   const { mutateBookings } = useBookings();
+   const { goPush } = useNavigation();
    const [detailsOpen, setDetailsOpen] = useState(false)
    const setDialogPetMode = dialogStore((state) => state.setDialogPetMode)
    const setPet = dialogStore((state) => state.setPet)
@@ -32,6 +36,7 @@ export default function PetCard({ pet }: PetCardProps) {
             }),
             false
          );
+         mutateBookings();
       } else {
          showErrorToast(response.error as string)
       }
@@ -42,8 +47,12 @@ export default function PetCard({ pet }: PetCardProps) {
       setDialogPetMode('petData')
    }
 
+   const handleVisitHistory = () => {
+      goPush(`/user/profile/pets/history/${pet._id}`)
+   }
+
    return (
-      <div className="w-full h-[300px] sm:h-[400px] rounded-xl overflow-hidden relative border-2 border-border flex flex-col justify-end">
+      <div className="w-full h-[300px] sm:h-[400px] rounded-xl overflow-hidden relative border-2 border-border flex flex-col justify-end bg-linear-to-br from-[var(--color-muted)] to-[var(--color-tertiary)] to-300%">
          <DropdownMenu>
             <DropdownMenuTrigger asChild>
                <button className="absolute top-3 right-3 z-1 p-2 bg-transparent backdrop-blur-xs rounded-2xl cursor-pointer border border-border/30">
@@ -53,6 +62,12 @@ export default function PetCard({ pet }: PetCardProps) {
                </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-35">
+               <DropdownMenuItem onClick={handleVisitHistory}>
+                  <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3M3.22302 14C4.13247 18.008 7.71683 21 12 21c4.9706 0 9-4.0294 9-9 0-4.97056-4.0294-9-9-9-3.72916 0-6.92858 2.26806-8.29409 5.5M7 9H3V5"/>
+                  </svg>
+                  Visit History
+               </DropdownMenuItem>
                <DropdownMenuItem onClick={handleEditPet}>
                   <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z" />
@@ -102,7 +117,7 @@ export default function PetCard({ pet }: PetCardProps) {
                   <div className="w-full overflow-hidden">
                      <div className="mb-1">
                         <h2 className="text-gray-400 text-xs font-semibold">Birthdate</h2>
-                        <h3 className="text-[var(--color-foreground)] text-sm font-semibold">{pet?.birthDate?.split("T")[0] || "-"}</h3>
+                        <h3 className="text-[var(--color-foreground)] text-sm font-semibold">{pet?.birthDate ? new Date(pet?.birthDate).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "N/A"}</h3>
                      </div>
                      <div className="mb-1">
                         <h2 className="text-gray-400 text-xs font-semibold">Age</h2>

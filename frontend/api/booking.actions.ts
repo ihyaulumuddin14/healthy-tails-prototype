@@ -40,3 +40,22 @@ export async function getBookingById(data: { id: string }) {
       return { success: false, error: errorMessage }
    }
 }
+
+export async function cancelBookingById(data: { id: string }) {
+   try {
+      const response = await api.patch(`/bookings/${data.id}/cancel`);
+      return { success: true, message: response.data.message }
+   } catch (error) {
+      let errorMessage = 'An error occurred while cancel booking. Please try again.';
+
+      if (axios.isAxiosError(error)) {
+         const axiosError = error as AxiosError<{ message: string }>;
+
+         errorMessage =
+            axiosError.response?.data.message ||
+            axiosError.message ||
+            errorMessage
+      }
+      return { success: false, error: errorMessage }
+   }
+}

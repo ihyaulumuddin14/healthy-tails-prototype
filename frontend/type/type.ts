@@ -60,3 +60,41 @@ export interface Service {
    estimatedDurationMinutes: number;
    isActive: boolean;
 }
+
+export interface History {
+   _id: string;
+   visitDate: string;
+   bodyWeight: number;
+   temperature: number;
+   symptoms: string;
+   pet: {
+      _id: string;
+      type: "Dog" | "Cat";
+      name: string;
+      createdAt: string;
+      updatedAt: string;
+      race: string;
+      color: string;
+      age: number;
+      gender: "Male" | "Female";
+      birthDate?: string | undefined;
+   };
+   owner: {
+      _id: string;
+      name: string;
+      email: string;
+      role: "USER" | "ADMIN";
+      verified: boolean;
+      photoUrl: string;
+      createdAt: string;
+      updatedAt: string;
+   };
+   createdAt: string;
+   updatedAt: string;
+   nextVisitDate?: string | undefined;
+   diagnosis?: string | undefined;
+   treatments?: string | undefined;
+   vaccinesGiven?: string[] | undefined;
+   injectionSite?: string | undefined;
+   notes?: string | undefined;
+}

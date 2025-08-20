@@ -35,7 +35,7 @@ export default function Profile() {
 
                   <div className="quick-access w-full h-full grid grid-cols-2 gap-2">
                      {quickAccessList.map((item, index) => (
-                        <ThreeDCard key={index} name={item.name} link={item.link} color={item.color}>
+                        <ThreeDCard key={index} name={item.name} link={item.link}>
                            {item.icons}
                         </ThreeDCard>
                      ))}

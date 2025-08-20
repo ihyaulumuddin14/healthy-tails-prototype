@@ -9,16 +9,17 @@ type Props = {
    onClick?: () => void
    className?: string
    form?: string
+   disabled?: boolean
 }
 
-export default function AnimateFillButton({ model, children, type, isLoading, width, onClick, className, form }: Props) {
+export default function AnimateFillButton({ disabled, model, children, type, isLoading, width, onClick, className, form }: Props) {
    return (
       <button
          form={form}
-         disabled={isLoading}
+         disabled={isLoading || disabled}
          type={type}
          className={`
-            shrink-0 relative z-0 flex items-center gap-2 py-3 px-5 rounded-4xl hover:rounded-sm font-semibold transition-all duration-400 ease-in-out cursor-pointer group overflow-hidden
+            shrink-0 relative z-0 flex items-center gap-2 py-3 px-5 rounded-4xl hover:rounded-sm font-semibold transition-all duration-400 ease-in-out ${disabled ? "cursor-not-allowed" : "cursor-pointer" } group overflow-hidden
             hover:text-[var(--color-background)] justify-center
             ${width === 'full' ? 'w-full' : 'w-fit'} ${className}
             ${model === 'fill' ? 'bg-[var(--color-accent)] text-[var(--color-accent-foreground)]' : model === 'danger' ? 'bg-red-500 text-[var(--color-background)]' : 'border border-[var(--color-tertiary)] text-[var(--color-tertiary)]'}`

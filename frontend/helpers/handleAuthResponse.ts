@@ -14,7 +14,7 @@ import {
    onSubmitResetPassword,
    onSubmitResendOTP
 } from '@/api/auth.actions'
-import { showErrorToast, showSuccessToast } from './toastHelper';
+import { showErrorToast, showLoadingToast, showSuccessToast } from './toastHelper';
 import verifyStore from "@/stores/verifyStore";
 import { AxiosError } from 'axios';
 import api from '@/lib/axiosInstance';
@@ -27,6 +27,7 @@ type Props = {
 }
 
 async function replaceBaseOnRole(accessToken: string, action: (arg?: string) => void) {
+   showLoadingToast('Redirecting...');
    try {
       api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       console.log(accessToken)
@@ -34,6 +35,7 @@ async function replaceBaseOnRole(accessToken: string, action: (arg?: string) => 
 
       const user = response.data.user;
       userStore.getState().setUser(user);
+      showSuccessToast(`Welcome to Healthy Tails, ${user.name}!!`);
       action(user.role === 'ADMIN' ? '/admin/dashboard' : '/user/profile');
    } catch (error) {
       let errorMessage = 'An error occurred while redirecting. Please try again.';

@@ -11,7 +11,7 @@ export default function Pets({ selectedFilter }: { selectedFilter: string }) {
 
    const filteredPets: Pet[] = useMemo(() => {
       const petsRaw = pets ?? [];
-      if (!selectedFilter) return petsRaw;
+      if (selectedFilter === 'All') return petsRaw;
       return petsRaw.filter((pet: Pet) => pet.type === selectedFilter);
    }, [selectedFilter, pets])
 

@@ -77,3 +77,23 @@ export async function deletePet(credentials: { _id: string }) {
       return { success: false, error: errorMessage }
    }
 }
+
+export async function getHistoryOfPet(data: { id: string }) {
+   try {
+      const response = await api.get(`/pets/${data.id}/history`);
+      return { success: true, histories: response.data.history };
+   } catch (error) {
+      let errorMessage = 'An error occurred while get history of pet. Please try again.';
+
+      if (axios.isAxiosError(error)) {
+         const axiosError = error as AxiosError<{ message: string }>;
+
+         errorMessage =
+            axiosError.response?.data.message ||
+            axiosError.message ||
+            errorMessage
+      }
+
+      return { success: false, error: errorMessage }
+   }
+}

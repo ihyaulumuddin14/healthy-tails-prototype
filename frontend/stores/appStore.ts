@@ -19,7 +19,7 @@ const appStore = create<AppStoreType>((set) => ({
    setIsMobile: (arg: boolean) => set({ isMobile: arg }),
    isMobileNavOpen: false,
    setIsMobileNavOpen: (arg: boolean) => set({ isMobileNavOpen: arg }),
-   isSidebarOpen: false,
+   isSidebarOpen: window.innerWidth > 1024 ? true : false,
    setIsSidebarOpen: (arg: boolean) => set({ isSidebarOpen: arg }),
 }))
 

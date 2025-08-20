@@ -1,4 +1,4 @@
-import { Service, User } from '@/type/type'
+import { Service, User, History } from '@/type/type'
 import { create } from 'zustand'
 
 type UserStoreType = {
@@ -6,6 +6,8 @@ type UserStoreType = {
    setUser: (arg: User | null) => void,
    services: Service[] | null,
    setServices: (arg: Service[] | null) => void,
+   histories: History[] | null,
+   setHistories: (arg: History[] | null) => void
 }
 
 export const userStore = create<UserStoreType>((set) => ({
@@ -13,4 +15,6 @@ export const userStore = create<UserStoreType>((set) => ({
    setUser: (arg: User | null) => set({ user: arg }),
    services: null,
    setServices: (arg: Service[] | null) => set({ services: arg }),
+   histories: null,
+   setHistories: (arg: History[] | null) => set({ histories: arg })
 }))

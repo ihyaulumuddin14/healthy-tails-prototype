@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import useBookings from '@/hooks/useBookings';
 import TableSkeleton from './TableSkeleton';
 import { useNavigation } from '@/hooks/useNavigation';
-import { getBookingById } from '@/api/booking.actions';
 
 export default function AppointmentsList({ selectedFilter }: { selectedFilter: string }) {
    const { bookings, isLoading, error } = useBookings();
@@ -43,10 +42,7 @@ export default function AppointmentsList({ selectedFilter }: { selectedFilter: s
                         <td className='px-6 py-4 whitespace-nowrap'>{booking.queueNumber}</td>
                         <td className='px-6 py-4 whitespace-nowrap'>{booking.pet.name}</td>
                         <td className='px-6 py-4 whitespace-nowrap'>
-                           {booking.bookingDate.toLocaleString().split('T')[0]} <br />
-                           {/* <span className='text-[var(--color-muted-foreground)] text-xs'>
-                              {booking.bookingDate.toLocaleString()}
-                           </span> */}
+                           {booking.bookingDate ? new Date(booking.bookingDate).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "N/A"}<br />
                         </td>
                         <td className='px-6 py-4 whitespace-nowrap'>
                            <Badge

@@ -3,7 +3,6 @@
 import Main from "@/components/ui/Main";
 import Navbar from "@/components/ui/Navbar";
 import appStore from "@/stores/appStore";
-import { useEffect } from "react";
 import LinkSidebar from "@/components/ui/LinkSidebar";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import loading from "../LoadingScreen";
@@ -13,12 +12,6 @@ import ForbiddenPage from "../forbidden";
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
    const isSidebarOpen = appStore(state => state.isSidebarOpen)
    const setIsSidebarOpen = appStore(state => state.setIsSidebarOpen)
-
-   useEffect(() => {
-      return () => {
-         setIsSidebarOpen(false)
-      }
-   }, [])
 
    return (
       <AuthGuard

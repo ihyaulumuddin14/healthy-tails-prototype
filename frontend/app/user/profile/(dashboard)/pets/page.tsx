@@ -8,7 +8,7 @@ import AddButton from "../../../../../components/ui/AddButton";
 import DashboardContent from "@/components/ui/DashboardContent";
 
 export default function PetsPage() {
-   const [selectedFilter, setSelectedFilter] = useState('');
+   const [selectedFilter, setSelectedFilter] = useState('All');
 
    return (
       <DashboardContent type="user" subtitle="Manage and update information about your beloved pets.">
@@ -35,6 +35,7 @@ export default function PetsPage() {
                   <DropdownMenuContent className="w-20 border-[var(--color-muted)]">
                      <DropdownMenuLabel>Type</DropdownMenuLabel>
                      <DropdownMenuRadioGroup value={selectedFilter} onValueChange={setSelectedFilter}>
+                        <DropdownMenuRadioItem value="All">All</DropdownMenuRadioItem>
                         <DropdownMenuRadioItem value="Cat">Cat</DropdownMenuRadioItem>
                         <DropdownMenuRadioItem value="Dog">Dog</DropdownMenuRadioItem>
                      </DropdownMenuRadioGroup>

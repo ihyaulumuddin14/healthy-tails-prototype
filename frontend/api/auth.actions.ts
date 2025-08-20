@@ -131,7 +131,7 @@ export async function onSubmitVerifyOTP(credential: VerifyOTPCredentials): Promi
          signal: AbortSignal.timeout(5000)
       })
 
-      return { success: true, message: response.data.message }
+      return { success: true, message: response.data.message, accessToken: response.data.accessToken }
    } catch (error) {
       let errorMessage = 'An error occurred while verifying OTP. Please try again.'
 

@@ -28,6 +28,10 @@
    .content-wrapper {
       @apply w-full max-w-[1536px] h-fit;
    }
+
+   .gradient-card {
+      @apply bg-linear-to-br from-[var(--color-muted)] to-[var(--color-tertiary)] to-300%
+   }
 }
 
 @layer utilities {
@@ -423,7 +427,7 @@
    --radius : 0.625rem;
    --background : #ececec;
    --foreground : #191919;
-   --card : oklch(1 0 0);
+   --card : white;
    --card-foreground : oklch(0.141 0.005 285.823);
    --popover : oklch(1 0 0);
    --popover-foreground : oklch(0.141 0.005 285.823);
@@ -459,7 +463,7 @@
 .dark {
    --background : #191919;
    --foreground : #ececec;
-   --card : oklch(0.21 0.006 285.885);
+   --card : black;
    --card-foreground : oklch(0.985 0 0);
    --popover : oklch(0.21 0.006 285.885);
    --popover-foreground : oklch(0.985 0 0);
