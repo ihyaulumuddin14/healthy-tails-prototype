@@ -3,10 +3,27 @@ import { Button } from '@/components/ui/button';
 import useBookings from '@/hooks/useBookings';
 import TableSkeleton from './TableSkeleton';
 import { useNavigation } from '@/hooks/useNavigation';
+import { useMemo } from 'react';
 
-export default function AppointmentsList({ selectedFilter }: { selectedFilter: string }) {
+export default function AppointmentsList({ searchTerm, selectedFilter }: { searchTerm: string, selectedFilter: string }) {
    const { bookings, isLoading, error } = useBookings();
    const { goPush } = useNavigation();
+
+   const filteredBookings = useMemo(() => {
+      let result = bookings ?? [];
+      
+      result = result.filter(booking => {
+         if (selectedFilter === "ALL") return true
+         else if (selectedFilter === "UPCOMING") return booking.status === "WAITING" || booking.status === "IN_PROGRESS" || booking.status === "CANCELLED"
+         else if (selectedFilter === "COMPLETED") return booking.status === "COMPLETED"
+      })
+      
+      if (searchTerm !== '') {
+         result = result.filter(booking => booking.pet.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      }
+      
+      return result;
+   }, [searchTerm, selectedFilter, bookings])
 
    if (isLoading) {
       return (
@@ -25,7 +42,7 @@ export default function AppointmentsList({ selectedFilter }: { selectedFilter: s
                <thead>
                   <tr className='text-xs text-[var(--color-muted-foreground)] border-b-2 border-border bg-muted'>
                      <th scope='col' className='px-6 py-4 whitespace-nowrap'>Queue</th>
-                     <th scope='col' className='px-6 py-4 whitespace-nowrap'>Pet Name</th>
+                     <th scope='col' className='px-6 py-4 whitespace-nowrap'>Pet`s Name</th>
                      <th scope='col' className='px-6 py-4 whitespace-nowrap'>Date</th>
                      <th scope='col' className='px-6 py-4 whitespace-nowrap'>Status</th>
                      <th scope='col' className='px-6 py-4 whitespace-nowrap'>Service Type</th>
@@ -33,11 +50,7 @@ export default function AppointmentsList({ selectedFilter }: { selectedFilter: s
                   </tr>
                </thead>
                <tbody>
-                  {bookings?.filter(booking => {
-                     if (selectedFilter === "ALL") return true
-                     else if (selectedFilter === "UPCOMING") return booking.status === "WAITING" || booking.status === "IN_PROGRESS" || booking.status === "CANCELLED"
-                     else if (selectedFilter === "COMPLETED") return booking.status === "COMPLETED"
-                  }).map((booking, index) => (
+                  {filteredBookings.map((booking, index) => (
                      <tr key={index} className='hover:bg-[var(--color-muted)]'>
                         <td className='px-6 py-4 whitespace-nowrap'>{booking.queueNumber}</td>
                         <td className='px-6 py-4 whitespace-nowrap'>{booking.pet.name}</td>

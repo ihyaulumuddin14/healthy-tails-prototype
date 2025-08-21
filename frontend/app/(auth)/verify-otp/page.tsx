@@ -15,7 +15,7 @@ const VerifyOTP = () => {
    })
 
    const handleResponseVerifyOTP = async (email: string, otp: string) => {
-      handleAuthResponse({ authType: 'verify-otp', data: { email, otp }, action: () => goReplace });
+      handleAuthResponse({ authType: 'verify-otp', data: { email, otp }, action: goReplace as (arg?: string) => void });
    }
 
    useEffect(() => {

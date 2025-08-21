@@ -6,14 +6,22 @@ import { Pet } from "@/type/type";
 import PetsSkeleton from "./PetsSkeleton";
 import usePets from "@/hooks/usePets";
 
-export default function Pets({ selectedFilter }: { selectedFilter: string }) {
+export default function Pets({ searchTerm, selectedFilter }: { searchTerm: string, selectedFilter: string }) {
    const { pets, isLoading, error } = usePets();
 
    const filteredPets: Pet[] = useMemo(() => {
-      const petsRaw = pets ?? [];
-      if (selectedFilter === 'All') return petsRaw;
-      return petsRaw.filter((pet: Pet) => pet.type === selectedFilter);
-   }, [selectedFilter, pets])
+      let result = pets ?? [];
+
+      if (selectedFilter !== 'All') {
+         result = result.filter((pet: Pet) => pet.type === selectedFilter);
+      };
+
+      if (searchTerm !== '') {
+         result = result.filter((pet: Pet) => pet.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      }
+      
+      return result
+   }, [searchTerm, selectedFilter, pets])
 
 
    if (isLoading) {

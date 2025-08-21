@@ -12,6 +12,7 @@ import { useState } from 'react';
 
 export default function AppointmentsPage() {
    const [selectedFilter, setSelectedFilter] = useState('ALL');
+   const [searchTerm, setSearchTerm] = useState('');
 
    return (
       <DashboardContent type='user' subtitle='Book and manage your veterinary visits with ease.'>
@@ -25,7 +26,7 @@ export default function AppointmentsPage() {
                            <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
                         </svg>
                      </label>
-                     <input id="search" type="text" className="w-full px-3 py-2 pl-13 outline-0 bg-[var(--color-foreground)]/10 rounded-4xl focus:rounded-none transition-all duration-400 ease-in-out peer"/>
+                     <input id="search" type="text" className="w-full px-3 py-2 pl-13 outline-0 bg-[var(--color-foreground)]/10 rounded-4xl focus:rounded-none transition-all duration-400 ease-in-out peer font-extralight" placeholder='Search pet`s name' onChange={(e) => setSearchTerm(e.target.value)}/>
                      <div className="peer-focus:w-full w-0 h-0 border-t-2 border-[var(--color-accent)] absolute bottom-0 origin-center transition-all duration-400 ease-in-out"></div>
                   </div>
 
@@ -66,7 +67,7 @@ export default function AppointmentsPage() {
                </ToggleGroup>
 
                {/* list */}
-               <AppointmentsList selectedFilter={selectedFilter}/>
+               <AppointmentsList searchTerm={searchTerm} selectedFilter={selectedFilter}/>
 
                {/* Appointment Sheet */}
                <PetSheet />
