@@ -82,7 +82,7 @@ export default function PetEditDialog() {
                      <Input label="Race" type="text" id="race" placeholder="Enter your pet race" {...register('race')} error={errors.race?.message} />
                      <Input label="Color" type="text" id="color" placeholder="Enter your pet color" {...register('color')} error={errors.color?.message} />
                      <CalendarInput label="Birth Date" name="birthDate" control={control} error={errors.birthDate?.message} optional/>
-                     <Input label="Age" type="number" id="age" placeholder="Enter your pet age" {...register('age', { valueAsNumber: true })} error={errors.age?.message} />
+                     <Input label="Age (years)" type="number" id="age" placeholder="Enter your pet age" {...register('age', { valueAsNumber: true })} error={errors.age?.message} />
                   </div>
                </div>
             )}

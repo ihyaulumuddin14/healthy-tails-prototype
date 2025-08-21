@@ -55,8 +55,8 @@ export default function PetCard({ pet }: PetCardProps) {
       <div className="w-full h-[300px] sm:h-[400px] rounded-xl overflow-hidden relative border-2 border-border flex flex-col justify-end bg-linear-to-br from-[var(--color-muted)] to-[var(--color-tertiary)] to-300%">
          <DropdownMenu>
             <DropdownMenuTrigger asChild>
-               <button className="absolute top-3 right-3 z-1 p-2 bg-transparent backdrop-blur-xs rounded-2xl cursor-pointer border border-border/30">
-                  <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+               <button className="absolute top-3 right-3 z-1 p-2 bg-foreground/10 hover:bg-foreground/20 transition-all outline-0 duration-200 ease-in-out backdrop-blur-xs rounded-2xl cursor-pointer">
+                  <svg className="w-6 h-6 text-[var(--color-foreground)]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                      <path stroke="currentColor" strokeLinecap="round" strokeWidth="3" d="M6 12h.01m6 0h.01m5.99 0h.01" />
                   </svg>
                </button>
@@ -83,7 +83,7 @@ export default function PetCard({ pet }: PetCardProps) {
             </DropdownMenuContent>
          </DropdownMenu>
 
-         <Image src={pet.type === 'Dog' ? '/images/flat_dog.webp' : '/images/flat_cat.webp'} loading="eager" alt="Hero" width={300} height={300} className="w-full h-full object-cover absolute top-0 left-0 mask-b-from-80% brightness-50 hover:scale-110 hover:brightness-100 ease-in-out duration-300 cursor-pointer sm:cursor-default" />
+         <Image src={pet.type === 'Dog' ? '/images/flat_dog.webp' : '/images/flat_cat.webp'} loading="eager" alt="Hero" width={300} height={300} className="w-full h-full object-cover absolute top-0 left-0 mask-b-from-80% brightness-50 hover:blur-xl blur-xs hover:scale-110 ease-in-out duration-300 transition-all" />   
 
          <h1 className="relative z-1 flex-text-1 font-bold text-white text-center mb-5">{pet?.name}</h1>
          <div className={`details relative z-1 w-full h-fit grid ${detailsOpen ? "grid-rows-[50px_1fr]" : "grid-rows-[50px_0fr]"} bg-[var(--color-muted)] gap-5 rounded-xl transition-all duration-400 ease-in-out`}>

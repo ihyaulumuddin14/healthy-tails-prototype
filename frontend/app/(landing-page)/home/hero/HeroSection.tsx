@@ -9,7 +9,7 @@ import AnimatedText from '../../components/AnimatedText'
 const Hero = () => {
    return (
       <section id='home' className='w-full min-h-[110vh] h-fit flex justify-center bg-transparent overflow-hidden relative mask-b-from-90%'>
-         <div className='bg-container w-[100vw] h-[110vh] absolute z-0 top-0 left-0'>
+         <div className='bg-container w-[100vw] min-h-[110vh] h-full absolute z-0 top-0 left-0'>
             <Image src={HeroImage} loading='eager' alt="Hero" className='text-[var(--color-foreground)] w-full h-full object-cover brightness-50' />
          </div>
 

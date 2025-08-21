@@ -35,6 +35,11 @@
 }
 
 @layer utilities {
+   @media screen and (max-height: 450px) {
+      .progress-bar-container {
+         @apply hidden
+      }
+   }
 
    @media screen and (max-width: 450px) {
       .edit-photo-badge {
