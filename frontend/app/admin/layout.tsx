@@ -36,7 +36,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   </nav>
                </aside>
 
-               <div className={`w-full h-full ${isSidebarOpen ? "blur-3xl md:blur-none" : ""} transition-all duration-400 ease-in-out rounded-l-4xl bg-[var(--color-background)] overflow-y-auto`}>
+               <div className={`w-full h-full ${isSidebarOpen ? "blur-3xl md:blur-none" : ""} transition-all duration-400 ease-in-out rounded-l-4xl bg-[var(--color-background)] overflow-y-auto p-[min(5vw,30px)]`}>
                   {children}
                </div>
             </section>

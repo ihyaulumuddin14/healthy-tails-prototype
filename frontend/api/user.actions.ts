@@ -106,8 +106,8 @@ export async function getAllUsers() {
 
 export async function deleteUserById(credentials: { _id: string }) {
    try {
-      const { data } = await api.delete(`/users/${credentials._id}`)
-      return { success: true, message: data.message }
+      await api.delete(`/users/${credentials._id}`)
+      return { success: true, message: "User deleted" }
    } catch (error) {
       let errorMessage = 'An error occurred while delete user. Please try again.';
 

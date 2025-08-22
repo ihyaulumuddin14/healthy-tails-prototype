@@ -20,11 +20,7 @@ export default function useUser() {
 
       const fetchUser = async () => {
          try {
-            const { data } = await api.get('/users/me', {
-               headers: {
-
-               }
-            });
+            const { data } = await api.get('/users/me');
             setUser(data.user);
          } catch {
             setIsError(true);

@@ -53,7 +53,7 @@ export default function ChangePasswordPage() {
 
    return (
       <DashboardContent type="user" subtitle="Secure your account by updating your password regularly.">
-         <div className="w-full bg-[var(--color-muted)] p-4 sm:p-8 rounded-2xl">
+         <div className="w-full bg-muted p-4 sm:p-8 rounded-xl border-2 border-border">
             <form action="" className="flex flex-col items-end" onSubmit={handleSubmit(handleResponseChangePassword)}>
                <Input
                   type="password"

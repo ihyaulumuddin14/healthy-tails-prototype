@@ -68,7 +68,7 @@ export default function AccountInfoPage() {
          <AlertDialog>
             <div className="w-full grid grid-cols-1 xl:grid-cols-2 gap-5">
                {/* Photo */}
-               <div className="w-full bg-[var(--color-muted)] p-5 sm:p-8 flex flex-col justify-center items-center rounded-2xl gap-5 border-3 border-border">
+               <div className="w-full bg-muted p-5 sm:p-8 flex flex-col justify-center items-center rounded-xl gap-5 border-2 border-border">
                   <h1 className="w-full flex justify-start text-[var(--color-foreground)] text-2xl">Profile Photo</h1>
 
                   <div className="w-full h-full flex edit-photo-wrapper items-center">
@@ -88,7 +88,7 @@ export default function AccountInfoPage() {
                   </div>
                </div>
 
-               <div className="w-full bg-[var(--color-muted)] p-3 sm:p-8 rounded-2xl border-3 border-border">
+               <div className="w-full bg-muted p-3 sm:p-8 rounded-xl border-2 border-border">
                   <h1 className="w-full flex justify-start text-[var(--color-foreground)] text-2xl mb-7 ml-2">Your Details</h1>
                   <form className="flex flex-col items-end" onSubmit={handleSubmit(handleResponseUpdateUser)}>
                      <Input

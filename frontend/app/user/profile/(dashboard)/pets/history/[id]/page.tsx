@@ -64,10 +64,15 @@ export default function HistoryPage({
                         <tr className='text-xs text-[var(--color-muted-foreground)] border-b-2 border-border bg-muted'>
                            <th scope='col' className='px-6 py-4 whitespace-nowrap flex gap-1 items-center cursor-pointer' onClick={() => setSortByDesc(!sortByDesc)}>
                               Date
-                              <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 20V7m0 13-4-4m4 4 4-4m4-12v13m0-13 4 4m-4-4-4 4"/>
-                              </svg>
-                              {sortByDesc ? "Newest" : "Oldest"}
+                              {sortByDesc ? (
+                                 <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v13m0-13 4 4m-4-4-4 4"/>
+                                 </svg>
+                              ) : (
+                                 <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v13m0-13 4 4m-4-4-4 4"/>
+                                 </svg>
+                              )}
                            </th>
                            <th scope='col' className='px-6 py-4 whitespace-nowrap'>Pet</th>
                            <th scope='col' className='px-6 py-4 whitespace-nowrap'>Weight (kg)</th>

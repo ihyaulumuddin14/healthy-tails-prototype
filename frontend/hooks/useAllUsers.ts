@@ -1,8 +1,8 @@
-import { showErrorToast } from "@/helpers/toastHelper";
-import api from "@/lib/axiosInstance";
-import { Pet } from "@/type/type";
-import axios, { AxiosError } from "axios";
 import useSWR from "swr";
+import api from "@/lib/axiosInstance";
+import { User } from "@/type/type";
+import { showErrorToast } from "@/helpers/toastHelper";
+import axios, { AxiosError } from "axios";
 
 const fetcher = async (url: string) =>
    api.get(url)
@@ -18,15 +18,14 @@ const fetcher = async (url: string) =>
          throw new Error(errorMessage);
       })
 
-export default function usePets() {
+export const useAllUsers = () => {
    const { data, error, isLoading, mutate } = useSWR(
-      '/pets/',
+      '/users/',
       fetcher,
       {
          revalidateOnFocus: false,
          revalidateOnReconnect: true,
          revalidateOnMount: true,
-         dedupingInterval: 1000 * 60 * 5,
          shouldRetryOnError: false,
          onError: (err) => {
             showErrorToast(err.message);
@@ -39,9 +38,9 @@ export default function usePets() {
    )
 
    return {
-      pets: data?.pets as Pet[],
+      users: data?.users as User[],
       error,
       isLoading,
-      mutatePets: mutate
+      mutateUsers: mutate
    }
 }

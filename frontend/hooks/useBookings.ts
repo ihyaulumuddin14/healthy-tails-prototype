@@ -3,7 +3,7 @@ import api from "@/lib/axiosInstance";
 import { Booking } from "@/type/type";
 import useSWR from "swr";
 
-const fetcher = (url: string) => api.get(url).then(res => res.data);
+const fetcher = async (url: string) => api.get(url).then(res => res.data);
 
 export default function useBookings() {
    const { data, error, isLoading, mutate } = useSWR(
