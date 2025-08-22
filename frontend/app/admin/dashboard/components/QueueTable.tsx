@@ -1,7 +1,15 @@
+'use client'
+
+import { AlertDialog } from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuCheckboxItem } from "@/components/ui/dropdown-menu";
-import { useReducer } from "react";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "@/components/ui/dropdown-menu";
+import { showErrorToast, showSuccessToast } from "@/helpers/toastHelper";
+import { useAdminBookings } from "@/hooks/useAdminBookings";
+import api from "@/lib/axiosInstance";
+import { Booking } from "@/type/type";
+import { useEffect, useReducer, useState } from "react";
 
 type FilterState = {
    petKinds: string[]
@@ -15,6 +23,9 @@ type Action =
    { type: "TOGGLE_STATUS", payload: string }
 
 export default function QueueTable() {
+   const { bookingsAdmin, isLoading, mutateBookingsAdmin } = useAdminBookings();
+   const [isFetching, setIsFetching] = useState<boolean>(false);
+
    const filterReducer = (state: FilterState, action: Action) => {
       switch (action.type) {
          case "TOGGLE_PET_KIND":
@@ -39,6 +50,30 @@ export default function QueueTable() {
       date: null,
       statuses: ["waiting", "in_progress", "completed", "cancelled"]
    })
+
+   useEffect(() => {
+      setIsFetching(true)
+      const fetchBookingsByDate = async () => {
+         const response = await api.get(`/bookings?date=${filters.date?.toISOString()}`);
+
+         if (response.status === 200) {
+            mutateBookingsAdmin(
+               (prev: { message: string, bookings: Booking[] }) => ({
+                  ...prev,
+                  bookings: response.data.bookings
+            
+               }),
+               false
+            );
+            showSuccessToast(response.data.message);
+         } else {
+            showErrorToast(response.data.message);
+         }
+      }
+      
+      fetchBookingsByDate();
+      setIsFetching(false)
+   }, [filters.date, mutateBookingsAdmin])
 
    return (
       <div className="w-full h-fit flex flex-col">
@@ -110,57 +145,90 @@ export default function QueueTable() {
          </nav>
 
          <h1 className="text-lg font-semibold mb-3">Today`s Queue</h1>
-         <Table />
+         {isFetching && <div>Fetching data...</div>}
+         {isLoading && <div>Loading...</div>}
+         {!isFetching && !isLoading && <Table bookings={bookingsAdmin} />}
       </div>
    )
 }
 
-function Table () {
+function Table ({ bookings }: { bookings: Booking[] }) {
+   const { mutateBookingsAdmin } = useAdminBookings();
+
+   const handleStatusChange = async ({ _id, value }: { _id: string, value: string }) => {
+      const response = await api.patch(`/bookings/${_id}/status`, { status: value.toUpperCase() });
+
+      if (response.status === 200) {
+         showSuccessToast(response.data.message);
+         mutateBookingsAdmin(
+            (prev: { message: string, bookings: Booking[] }) => ({
+               ...prev,
+               bookings: bookings.map(booking => booking._id === response.data.booking._id ?
+                  response.data.booking : booking
+               )
+            }),
+            false
+         )
+      } else {
+         showErrorToast("Failed to update status booking");
+      }
+   }
+
    return (
       <div className='w-full h-fit relative overflow-x-auto'>
-         <table className='w-full text-sm text-left rounded-xl overflow-hidden'>
-            <thead>
-               <tr className='text-xs text-[var(--color-muted-foreground)] border-b-2 border-border bg-muted'>
-                  <th scope='col' className='px-6 py-4 whitespace-nowrap'>Queue</th>
-                  <th scope='col' className='px-6 py-4 whitespace-nowrap'>Pet`s Name</th>
-                  <th scope='col' className='px-6 py-4 whitespace-nowrap'>Pet`s Type</th>
-                  <th scope='col' className='px-6 py-4 whitespace-nowrap'>Date</th>
-                  <th scope='col' className='px-6 py-4 whitespace-nowrap'>Status</th>
-                  <th scope='col' className='px-6 py-4 whitespace-nowrap'>Service Type</th>
-                  <th></th>
-               </tr>
-            </thead>
-            {/* <tbody>
-               {bookings.map((booking, index) => (
-                  <tr key={index} className='hover:bg-[var(--color-muted)]'>
-                     <td className='px-6 py-4 whitespace-nowrap'>{booking.queueNumber}</td>
-                     <td className='px-6 py-4 whitespace-nowrap'>{booking.pet.name}</td>
-                     <td className='px-6 py-4 whitespace-nowrap'>
-                        {booking.bookingDate ? new Date(booking.bookingDate).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "N/A"}<br />
-                     </td>
-                     <td className='px-6 py-4 whitespace-nowrap'>
-                        <Badge
-                           variant={
-                              booking.status === "CANCELLED" ? "destructive" :
-                              booking.status === "COMPLETED" ? "default" :
-                              booking.status === "WAITING" ? "waiting" :
-                              booking.status === "IN_PROGRESS" ? "inProgress" : null
-                           }
-                           className="self-end">
-                              {booking.status}
-                        </Badge>
-                     </td>
-                     <td className='px-6 py-4 whitespace-nowrap'>{booking.service.name}</td>
-                     <td className='px-6 py-4 flex gap-3'>
-                        <Button variant={"secondary"} onClick={() => {
-                           goPush(`/user/profile/appointments/booking/${booking._id}`)
-                        }}>Details</Button>
-                        <Button variant={"default"} disabled={booking.status !== "COMPLETED"}>Visit Result</Button>
-                     </td>
+         <AlertDialog>
+            <table className='w-full text-sm text-left rounded-xl overflow-hidden'>
+               <thead>
+                  <tr className='text-xs text-[var(--color-muted-foreground)] border-b-2 border-border bg-muted'>
+                     <th scope='col' className='px-6 py-4 whitespace-nowrap'>Queue</th>
+                     <th scope='col' className='px-6 py-4 whitespace-nowrap'>Pet`s Name</th>
+                     <th scope='col' className='px-6 py-4 whitespace-nowrap'>Pet`s Type</th>
+                     <th scope='col' className='px-6 py-4 whitespace-nowrap'>Date</th>
+                     <th scope='col' className='px-6 py-4 whitespace-nowrap'>Status</th>
+                     <th scope='col' className='px-6 py-4 whitespace-nowrap'>Service Type</th>
+                     <th></th>
                   </tr>
-               ))}
-            </tbody> */}
-         </table>
+               </thead>
+               <tbody>
+                  {bookings?.map((booking, index) => (
+                     <tr key={index} className='hover:bg-[var(--color-muted)]'>
+                        <td className='px-6 py-4 whitespace-nowrap'>{booking.queueNumber}</td>
+                        <td className='px-6 py-4 whitespace-nowrap'>{booking.pet.name}</td>
+                        <td className='px-6 py-4 whitespace-nowrap'>{booking.pet.type}</td>
+                        <td className='px-6 py-4 whitespace-nowrap'>
+                           {booking.bookingDate ? new Date(booking.bookingDate).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "N/A"}<br />
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                           <DropdownMenu>
+                              <DropdownMenuTrigger className="cursor-pointer">
+                                 <Badge
+                                    variant={
+                                       booking.status === "CANCELLED" ? "destructive" :
+                                       booking.status === "COMPLETED" ? "default" :
+                                       booking.status === "WAITING" ? "waiting" :
+                                       booking.status === "IN_PROGRESS" ? "inProgress" : null
+                                    }
+                                    className="self-end">
+                                       {booking.status}
+                                 </Badge>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent>
+                                 <DropdownMenuRadioGroup value={booking.status} onValueChange={(value) => handleStatusChange({ _id: booking._id, value })}>
+                                    <DropdownMenuRadioItem value="cancelled"><Badge variant='destructive'>CANCELLED</Badge></DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="in_progress"><Badge variant='inProgress' >IN_PROGRESS</Badge></DropdownMenuRadioItem>
+                                 </DropdownMenuRadioGroup>
+                              </DropdownMenuContent>
+                           </DropdownMenu>
+                        </td>
+                        <td className='px-6 py-4 whitespace-nowrap'>{booking.service.name}</td>
+                        <td className='px-6 py-4 whitespace-nowrap'>
+                           <Button variant="default">Done</Button>
+                        </td>
+                     </tr>
+                  ))}
+               </tbody>
+            </table>
+         </AlertDialog>
       </div>
 
    )

@@ -30,10 +30,6 @@ export default function usePets() {
          shouldRetryOnError: false,
          onError: (err) => {
             showErrorToast(err.message);
-         },
-         onSuccess: () => {
-            console.log('success')
-            console.log(data)
          }
       }
    )

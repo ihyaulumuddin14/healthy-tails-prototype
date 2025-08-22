@@ -27,7 +27,7 @@ export function AlertConfirmation({ heading, description, submitLabel, onSubmit 
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className=" cursor-pointer gap-2 rounded-md py-3 px-5 text-md shadow-sm active:scale-95 active:shadow-none transition-all duration-100 ease-in-out">Cancel</AlertDialogCancel>
-          <AlertDialogAction className=" cursor-pointer gap-2 rounded-md py-3 px-5 text-md shadow-sm active:scale-95 active:shadow-none transition-all duration-100 ease-in-out" onClick={() => onSubmit()}>{submitLabel}</AlertDialogAction>
+          <AlertDialogAction className="bg-destructive hover:bg-destructive/90 cursor-pointer gap-2 rounded-md py-3 px-5 text-md shadow-sm active:scale-95 active:shadow-none transition-all duration-100 ease-in-out" onClick={() => onSubmit()}>{submitLabel}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
   )
