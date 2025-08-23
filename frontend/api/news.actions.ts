@@ -1,4 +1,4 @@
-import { NewsCredentials } from '../schema/NewsSchema';
+import { NewsCredentials } from '../request_schema/NewsSchema';
 import axios, { AxiosError } from "axios";
 import api from '../lib/axiosInstance';
 

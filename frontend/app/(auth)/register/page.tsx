@@ -3,7 +3,7 @@
 import AuthLayout from '../AuthLayout'
 import Input from '../components/Input'
 import SubmitButton from '@/components/ui/AnimateFillButton'
-import { RegisterSchema, RegisterCredentials } from '../../../schema/AuthSchema'
+import { RegisterSchema, RegisterCredentials } from '../../../request_schema/AuthSchema'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'

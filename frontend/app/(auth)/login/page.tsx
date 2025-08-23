@@ -5,7 +5,7 @@ import Input from '../components/Input';
 import SubmitButton from '@/components/ui/AnimateFillButton';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginCredentials, LoginSchema } from '../../../schema/AuthSchema';
+import { LoginCredentials, LoginSchema } from '../../../request_schema/AuthSchema';
 import { handleAuthResponse } from '../../../helpers/handleAuthResponse'
 import RememberMe from './components/RememberMe';
 import { useNavigation } from '@/hooks/useNavigation';

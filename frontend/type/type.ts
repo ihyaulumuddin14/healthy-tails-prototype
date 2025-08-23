@@ -28,32 +28,6 @@ export interface Pet {
    birthDate?: string | undefined;
 }
 
-export interface Booking {
-   _id: string;
-   bookingDate: Date;
-   queueNumber: number;
-   status: "WAITING" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
-   pet: {
-      _id: string;
-      name: string;
-      type: "Dog" | "Cat";
-      race: string;
-      color: string;
-      age: number;
-      gender: "Male" | "Female";
-      birthDate?: string | undefined;
-   };
-   service: {
-      _id: string;
-      name: string;
-      estimatedDurationMinutes: number;
-      isActive: boolean;
-   };
-   createdAt: string;
-   updatedAt: string;
-   notes?: string | undefined;
-}
-
 export interface Service {
    _id: string;
    name: string;
@@ -98,3 +72,42 @@ export interface History {
    injectionSite?: string | undefined;
    notes?: string | undefined;
 }
+
+export interface Booking {
+   _id: string;
+   bookingDate: string;
+   queueNumber: number;
+   status: "WAITING" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
+   pet: {
+      type: "Dog" | "Cat";
+      _id: string;
+      name: string;
+      race: string;
+      color: string;
+      age: number;
+      gender: "Male" | "Female";
+      createdAt: string;
+      updatedAt: string;
+      birthDate?: string | undefined;
+   };
+   service: {
+      _id: string;
+      name: string;
+      estimatedDurationMinutes: number;
+      isActive: boolean;
+   };
+   owner: {
+      _id: string;
+      name: string;
+      email: string;
+      role: "USER" | "ADMIN";
+      verified: boolean;
+      photoUrl: string;
+      createdAt: string;
+      updatedAt: string;
+   };
+   createdAt: string;
+   updatedAt: string;
+   notes?: string | undefined;
+}
+

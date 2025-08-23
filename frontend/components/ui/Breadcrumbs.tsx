@@ -27,7 +27,7 @@ export default function Breadcrumbs() {
                               </BreadcrumbLink>
                            </Fragment>
                         )
-                     } else if (breadcrumb === 'booking' || breadcrumb === 'history') {
+                     } else if (breadcrumb === 'booking' || breadcrumb === 'history' || breadcrumb === "report") {
                         return (
                            <Fragment key={index}>
                               <BreadcrumbLink>

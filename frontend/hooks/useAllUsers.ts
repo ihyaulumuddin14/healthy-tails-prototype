@@ -4,7 +4,7 @@ import { User } from "@/type/type";
 import { showErrorToast } from "@/helpers/toastHelper";
 import axios, { AxiosError } from "axios";
 
-const fetcher = async (url: string) =>
+const fetcher = (url: string) =>
    api.get(url)
       .then(res => res.data)
       .catch(error => {

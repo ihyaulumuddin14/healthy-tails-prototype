@@ -1,7 +1,7 @@
 'use client'
 
 import { createNews, deleteNews, editNews, getNewsById } from "@/api/news.actions";
-import { NewsCredentials } from "@/schema/NewsSchema";
+import { NewsCredentials } from "@/request_schema/NewsSchema";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { showErrorToast, showSuccessToast } from "./toastHelper";
 

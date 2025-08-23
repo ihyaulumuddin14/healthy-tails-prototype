@@ -12,7 +12,7 @@ type LoadingState = {
    setManualLoading: (loading: boolean) => void;
 }
 
-const useGlobalLoading = create<LoadingState>((set, get) => ({
+const useGlobalLoading = create<LoadingState>((set) => ({
   isTransitioning: false,
   isPageLoading: false,
   isFetching: false,

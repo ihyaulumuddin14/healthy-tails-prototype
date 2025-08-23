@@ -24,22 +24,14 @@ export const DisableBookingUISchema = z.object({
    gender: z.enum(['Male', 'Female'], 'Pet gender is required'),
 })
 
-export const BookingUISchema = z.object({
+export const BookingSchema = z.object({
    petId: z.string('Pet is required'),
    serviceId: z.string('Service is required'),
    bookingDate: z.date('Date is required'),
    notes: z.string().max(500).optional(),
 })
 
-export const BookingSchema = z.object({
-   petId: z.string(),
-   serviceId: z.string(),
-   bookingDate: z.iso.datetime(),
-   notes: z.string().max(500).optional(),
-})
-
 export type DisableBookingUICredentials = z.infer<typeof DisableBookingUISchema>
 export type CreatePetCredentials = z.infer<typeof CreatePetSchema>
 export type EditPetCredentials = z.infer<typeof EditPetSchema>
-export type BookingUICredentials = z.infer<typeof BookingUISchema>
 export type BookingCredentials = z.infer<typeof BookingSchema>

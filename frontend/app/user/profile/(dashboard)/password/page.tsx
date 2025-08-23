@@ -1,7 +1,7 @@
 'use client'
 
 import Input from "@/app/(auth)/components/Input"
-import { UpdatePasswordUserCredentials, UpdatePasswordUserSchema } from "@/schema/UserSchema"
+import { UpdatePasswordUserCredentials, UpdatePasswordUserSchema } from "@/request_schema/UserSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useEffect, useState } from "react"

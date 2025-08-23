@@ -1,6 +1,6 @@
 import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { showSuccessToast, showErrorToast } from "@/helpers/toastHelper";
-import { EditPetCredentials, EditPetSchema } from "@/schema/PetSchema";
+import { EditPetCredentials, EditPetSchema } from "@/request_schema/PetSchema";
 import { Pet } from "@/type/type";
 import { useEffect } from "react";
 import { dialogStore } from "@/stores/dialogStore";

@@ -11,7 +11,7 @@ import {
    SheetHeader,
    SheetTitle,
 } from "@/components/ui/sheet"
-import { BookingCredentials, BookingUICredentials, BookingUISchema, DisableBookingUICredentials, DisableBookingUISchema } from "@/schema/PetSchema"
+import { BookingCredentials, BookingUICredentials, BookingUISchema, DisableBookingUICredentials, DisableBookingUISchema } from "@/request_schema/PetSchema"
 import { dialogStore } from "@/stores/dialogStore"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useNavigation } from "@/hooks/useNavigation"
@@ -91,9 +91,7 @@ export function AppointmentSheet() {
    }, [user, petId, pets, disableForm, pet])
 
    const handleSubmitData = async (data: BookingUICredentials) => {
-      const newData: BookingCredentials = { ...data, bookingDate: data.bookingDate.toISOString() };
-      
-      const response = await createBooking(newData);
+      const response = await createBooking(data);
 
       if (response.success) {
          showSuccessToast(response.message)

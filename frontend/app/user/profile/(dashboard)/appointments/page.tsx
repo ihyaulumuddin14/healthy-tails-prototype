@@ -6,7 +6,7 @@ import { Sheet} from '@/components/ui/sheet';
 import { ToggleGroup, ToggleGroupItem} from "@/components/ui/toggle-group"
 import PetSheet from './components/PetSheet';
 import { AlertDialog } from '@/components/ui/alert-dialog';
-import PetAlert from './components/PetAlert';
+import AppointmentAlert from './components/AppointmentAlert';
 import AppointmentsList from './components/AppointmentsList';
 import { useState } from 'react';
 
@@ -16,8 +16,6 @@ export default function AppointmentsPage() {
 
    return (
       <DashboardContent type='user' subtitle='Book and manage your veterinary visits with ease.'>
-         <AlertDialog>
-            <Sheet>
                <div className="w-full flex items-start gap-5 self-start justify-between mb-3 md:mb-10">
                   {/* search input */}
                   <div className="relative w-full max-w-[300px]">
@@ -71,11 +69,8 @@ export default function AppointmentsPage() {
 
                {/* Appointment Sheet */}
                <PetSheet />
-            </Sheet>
 
-            <PetAlert />
-         </AlertDialog>
-
+            <AppointmentAlert />
       </DashboardContent>
    )
 }

@@ -29,26 +29,24 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
          enter={(next) => {
             const main = document.getElementById('main');
             const loading = document.getElementById('loading');
-            if (main) {
-               main.style.opacity= '0';
-               
-               setTimeout(() => {
+
+            if (main) main.style.opacity= '0';
+
+            setTimeout(() => {
+               if (main) {
                   main.style.transition = 'all 500ms ease-in-out';
                   main.style.opacity= '1';
-                  loading!.style.transform = 'translateY(100%)';
-                  
-                  setTimeout(() => {
-                     setTransitioning(false);
-                     loading!.style.transition = 'none';
-                     loading!.style.transform = 'translateY(0%)';
-                     loading!.style.opacity= '0';
-                     next();
-                  }, 500);
-               }, 50);
-            } else {
-               setTransitioning(false);
-               next();
-            }
+               }
+               loading!.style.transform = 'translateY(100%)';
+               
+               setTimeout(() => {
+                  setTransitioning(false);
+                  loading!.style.transition = 'none';
+                  loading!.style.transform = 'translateY(0%)';
+                  loading!.style.opacity= '0';
+                  next();
+               }, 500);
+            }, 50);
          }}
          >
          <section id="loading" className={`fixed z-2 top-0 left-0 w-full h-screen flex flex-col justify-center items-center bg-[var(--color-background)] opacity-0 pointer-events-none`}>

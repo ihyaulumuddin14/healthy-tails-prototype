@@ -20,17 +20,11 @@ export default function AuthGuard({ fallback, skeleton, children, useToast = fal
       )
    }
 
-   if (error) {
+   if (!isLoading) {
       return (
          <>
-            {fallback}
+            {(user?.role === role || role === 'BOTH') ? children : fallback }
          </>
       )
    }
-
-   return (
-      <>
-         {(user?.role === role || role === 'BOTH') && children}
-      </>
-   )
 }

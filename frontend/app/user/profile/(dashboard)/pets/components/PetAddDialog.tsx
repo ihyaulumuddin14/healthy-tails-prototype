@@ -1,7 +1,7 @@
 import Input from "@/app/(auth)/components/Input";
 import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
-import { CreatePetCredentials, CreatePetSchema } from "@/schema/PetSchema";
+import { CreatePetCredentials, CreatePetSchema } from "@/request_schema/PetSchema";
 import { zodResolver } from "@hookform/resolvers/zod"
 import DropdownInput from "@/components/ui/DropdownInput";
 import CalendarInput from "@/components/ui/CalendarInput";

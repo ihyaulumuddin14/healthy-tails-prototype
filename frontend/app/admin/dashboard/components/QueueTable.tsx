@@ -1,6 +1,5 @@
 'use client'
 
-import { AlertDialog } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -9,7 +8,11 @@ import { showErrorToast, showSuccessToast } from "@/helpers/toastHelper";
 import { useAdminBookings } from "@/hooks/useAdminBookings";
 import api from "@/lib/axiosInstance";
 import { Booking } from "@/type/type";
-import { useEffect, useReducer, useState } from "react";
+import { useMemo, useReducer, useState } from "react";
+import SkeletonTableDashboard from "./SkeletonTableDashboard";
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { AlertConfirmation } from "@/components/ui/AlertConfirmation";
+import { useNavigation } from "@/hooks/useNavigation";
 
 type FilterState = {
    petKinds: string[]
@@ -23,9 +26,7 @@ type Action =
    { type: "TOGGLE_STATUS", payload: string }
 
 export default function QueueTable() {
-   const { bookingsAdmin, isLoading, mutateBookingsAdmin } = useAdminBookings();
-   const [isFetching, setIsFetching] = useState<boolean>(false);
-
+   const [searchTerm, setSearchTerm] = useState('');
    const filterReducer = (state: FilterState, action: Action) => {
       switch (action.type) {
          case "TOGGLE_PET_KIND":
@@ -47,33 +48,11 @@ export default function QueueTable() {
 
    const [filters, dispatch] = useReducer(filterReducer, {
       petKinds: ["dog", "cat"],
-      date: null,
+      date: new Date(),
       statuses: ["waiting", "in_progress", "completed", "cancelled"]
    })
 
-   useEffect(() => {
-      setIsFetching(true)
-      const fetchBookingsByDate = async () => {
-         const response = await api.get(`/bookings?date=${filters.date?.toISOString()}`);
-
-         if (response.status === 200) {
-            mutateBookingsAdmin(
-               (prev: { message: string, bookings: Booking[] }) => ({
-                  ...prev,
-                  bookings: response.data.bookings
-            
-               }),
-               false
-            );
-            showSuccessToast(response.data.message);
-         } else {
-            showErrorToast(response.data.message);
-         }
-      }
-      
-      fetchBookingsByDate();
-      setIsFetching(false)
-   }, [filters.date, mutateBookingsAdmin])
+   const { bookingsAdmin, error, isLoading, mutateBookingsAdmin } = useAdminBookings(filters.date);
 
    return (
       <div className="w-full h-fit flex flex-col">
@@ -86,10 +65,11 @@ export default function QueueTable() {
                         <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
                      </svg>
                   </label>
-                  <input id="search" type="text" className="w-full px-3 py-2 pl-13 outline-0 bg-[var(--color-foreground)]/10 rounded-4xl focus:rounded-none transition-all duration-400 ease-in-out peer font-extralight" placeholder="Pet's name"/>
+                  <input id="search" type="text" className="w-full px-3 py-2 pl-13 outline-0 bg-[var(--color-foreground)]/10 rounded-4xl focus:rounded-none transition-all duration-400 ease-in-out peer font-extralight" placeholder="Pet or owner name" onChange={(e) => setSearchTerm(e.target.value)}/>
                   <div className="peer-focus:w-full w-0 h-0 border-t-2 border-[var(--color-accent)] absolute bottom-0 origin-center transition-all duration-400 ease-in-out"></div>
                </div>
 
+               {/* dropdown filter */}
                <div className="w-full flex flex-wrap items-center gap-2">
                   {/* pet type filter */}
                   <DropdownMenu>
@@ -136,6 +116,7 @@ export default function QueueTable() {
                            captionLayout="dropdown"
                            onSelect={(date) => {
                               dispatch({type: "SET_DATE", payload: date as Date})
+                              console.log("in calendar", date)
                            }}
                         />
                      </DropdownMenuContent>
@@ -143,18 +124,21 @@ export default function QueueTable() {
                </div>
             </div>
          </nav>
-
-         <h1 className="text-lg font-semibold mb-3">Today`s Queue</h1>
-         {isFetching && <div>Fetching data...</div>}
-         {isLoading && <div>Loading...</div>}
-         {!isFetching && !isLoading && <Table bookings={bookingsAdmin} />}
+         {isLoading && <SkeletonTableDashboard/>}
+         {error && <div className="text-center text-2xl font-bold text-gray-600">Failed to load</div>}
+         {!isLoading && bookingsAdmin && <Table searchTerm={searchTerm} filters={filters} bookings={bookingsAdmin} mutateBookingsAdmin={mutateBookingsAdmin} />}
       </div>
    )
 }
 
-function Table ({ bookings }: { bookings: Booking[] }) {
-   const { mutateBookingsAdmin } = useAdminBookings();
-
+function Table ({ bookings, mutateBookingsAdmin, filters, searchTerm }: { 
+   bookings: Booking[], 
+   mutateBookingsAdmin: (data?: (prev: { message: string, bookings: Booking[] }) => { message: string, bookings: Booking[] }, shouldRevalidate?: boolean) => Promise<{ message: string, bookings: Booking[] }>,
+   filters: FilterState,
+   searchTerm: string
+}) {
+   const { goPush } = useNavigation();
+   const [finishedBooking, setFinishedBooking] = useState<Booking | null>(null);
    const handleStatusChange = async ({ _id, value }: { _id: string, value: string }) => {
       const response = await api.patch(`/bookings/${_id}/status`, { status: value.toUpperCase() });
 
@@ -174,15 +158,25 @@ function Table ({ bookings }: { bookings: Booking[] }) {
       }
    }
 
+   const filteredBookings = useMemo(() => {
+      return bookings
+         .filter(booking => filters.statuses.includes(booking.status.toLowerCase()))
+         .filter(booking => filters.petKinds.includes(booking.pet.type.toLowerCase()))
+         .filter(booking => searchTerm ?
+            (booking.owner.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+             booking.pet.name.toLowerCase().includes(searchTerm.toLowerCase()) ) : booking
+         )
+   }, [bookings, filters.petKinds, filters.statuses, searchTerm])
+
    return (
-      <div className='w-full h-fit relative overflow-x-auto'>
+      <div className='w-full h-fit relative rounded-xl overflow-x-auto shadow-sm'>
          <AlertDialog>
-            <table className='w-full text-sm text-left rounded-xl overflow-hidden'>
+            <table className='w-full text-sm text-left overflow-hidden'>
                <thead>
                   <tr className='text-xs text-[var(--color-muted-foreground)] border-b-2 border-border bg-muted'>
                      <th scope='col' className='px-6 py-4 whitespace-nowrap'>Queue</th>
-                     <th scope='col' className='px-6 py-4 whitespace-nowrap'>Pet`s Name</th>
-                     <th scope='col' className='px-6 py-4 whitespace-nowrap'>Pet`s Type</th>
+                     <th scope='col' className='px-6 py-4 whitespace-nowrap'>Owner</th>
+                     <th scope='col' className='px-6 py-4 whitespace-nowrap'>Pet</th>
                      <th scope='col' className='px-6 py-4 whitespace-nowrap'>Date</th>
                      <th scope='col' className='px-6 py-4 whitespace-nowrap'>Status</th>
                      <th scope='col' className='px-6 py-4 whitespace-nowrap'>Service Type</th>
@@ -190,17 +184,17 @@ function Table ({ bookings }: { bookings: Booking[] }) {
                   </tr>
                </thead>
                <tbody>
-                  {bookings?.map((booking, index) => (
+                  {filteredBookings?.map((booking, index) => (
                      <tr key={index} className='hover:bg-[var(--color-muted)]'>
                         <td className='px-6 py-4 whitespace-nowrap'>{booking.queueNumber}</td>
-                        <td className='px-6 py-4 whitespace-nowrap'>{booking.pet.name}</td>
-                        <td className='px-6 py-4 whitespace-nowrap'>{booking.pet.type}</td>
+                        <td className='px-6 py-4 whitespace-nowrap'>{booking.owner.name}</td>
+                        <td className='px-6 py-4 whitespace-nowrap'>{booking.pet.name} - {booking.pet.type}</td>
                         <td className='px-6 py-4 whitespace-nowrap'>
-                           {booking.bookingDate ? new Date(booking.bookingDate).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "N/A"}<br />
+                           {booking.bookingDate ? new Date(booking.bookingDate).toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" }) : "N/A"}<br />
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                            <DropdownMenu>
-                              <DropdownMenuTrigger className="cursor-pointer">
+                              <DropdownMenuTrigger className="cursor-pointer flex gap-1 items-center border-2 border-border p-2 rounded-md">
                                  <Badge
                                     variant={
                                        booking.status === "CANCELLED" ? "destructive" :
@@ -211,23 +205,28 @@ function Table ({ bookings }: { bookings: Booking[] }) {
                                     className="self-end">
                                        {booking.status}
                                  </Badge>
+                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style={{fill: "var(--color-foreground)"}}><path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z"></path></svg>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent>
                                  <DropdownMenuRadioGroup value={booking.status} onValueChange={(value) => handleStatusChange({ _id: booking._id, value })}>
                                     <DropdownMenuRadioItem value="cancelled"><Badge variant='destructive'>CANCELLED</Badge></DropdownMenuRadioItem>
                                     <DropdownMenuRadioItem value="in_progress"><Badge variant='inProgress' >IN_PROGRESS</Badge></DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="waiting"><Badge variant='waiting' >WAITING</Badge></DropdownMenuRadioItem>
                                  </DropdownMenuRadioGroup>
                               </DropdownMenuContent>
                            </DropdownMenu>
                         </td>
                         <td className='px-6 py-4 whitespace-nowrap'>{booking.service.name}</td>
                         <td className='px-6 py-4 whitespace-nowrap'>
-                           <Button variant="default">Done</Button>
+                           <AlertDialogTrigger className={`${booking.status !== "IN_PROGRESS" ? "pointer-events-none" : ""}`}>
+                              <Button disabled={booking.status !== "IN_PROGRESS"} variant="default" onClick={() => setFinishedBooking(booking as Booking)}>Done</Button>
+                           </AlertDialogTrigger>
                         </td>
                      </tr>
                   ))}
                </tbody>
             </table>
+            <AlertConfirmation heading="Pet Checkup Completed" description={`The booking status from ${finishedBooking?.owner.name} will update to Completed. Please enter the checkup results to finalize the record.`} submitLabel="Next" onSubmit={() => goPush(`/admin/dashboard/report/${finishedBooking?.pet._id}`)}/>
          </AlertDialog>
       </div>
 

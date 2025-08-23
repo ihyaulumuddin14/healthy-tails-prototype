@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ResetPasswordUISchema, ResetPasswordUICredentials, ResetPasswordCredentials } from '../../../../schema/AuthSchema'
+import { ResetPasswordUISchema, ResetPasswordUICredentials, ResetPasswordCredentials } from '../../../../request_schema/AuthSchema'
 import { handleAuthResponse } from '../../../../helpers/handleAuthResponse'
 import { useNavigation } from '@/hooks/useNavigation'
 

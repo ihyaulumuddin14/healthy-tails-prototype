@@ -1,5 +1,5 @@
 import api from "@/lib/axiosInstance";
-import { BookingCredentials } from "@/schema/PetSchema";
+import { BookingCredentials } from "@/request_schema/PetSchema";
 import axios, { AxiosError } from "axios";
 
 export async function createBooking(data: BookingCredentials) {

@@ -5,7 +5,7 @@ import {
    RegisterCredentials,
    ResetPasswordCredentials,
    VerifyOTPCredentials,
-} from '../schema/AuthSchema'
+} from '../request_schema/AuthSchema'
 import {
    onSubmitLogin,
    onSubmitRegister,

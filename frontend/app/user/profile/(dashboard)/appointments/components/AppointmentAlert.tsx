@@ -4,7 +4,7 @@ import { AlertInfo } from "@/components/ui/AlertInfo";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
-export default function PetAlert() {
+export default function AppointmentAlert() {
    const dialogPetMode = dialogStore((state) => state.dialogPetMode)
    const setDialogPetMode = dialogStore((state) => state.setDialogPetMode)
    const booking = dialogStore((state) => state.booking)
@@ -50,7 +50,7 @@ export default function PetAlert() {
                               </p>
                               <p className="text-xs flex gap-2 items-center">
                                  <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style={{ fill: 'var(--color-foreground)' }}><path d="M19 4h-3V2h-2v2h-4V2H8v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zM5 20V7h14V6l.002 14H5z"></path><path d="M7 9h10v2H7zm0 4h5v2H7z"></path></svg>
-                                 {booking.bookingDate.toLocaleString().split("T")[0]}
+                                 {new Date(booking.bookingDate).toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" })}
                               </p>
                            </div>
                         </div>

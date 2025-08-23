@@ -1,5 +1,5 @@
 import api from "@/lib/axiosInstance";
-import { EditPetCredentials, CreatePetCredentials } from "@/schema/PetSchema";
+import { EditPetCredentials, CreatePetCredentials } from "@/request_schema/PetSchema";
 import axios, { AxiosError } from "axios";
 
 export async function getPetById(credentials: { id: string }) {

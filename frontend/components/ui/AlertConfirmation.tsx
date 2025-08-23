@@ -14,9 +14,10 @@ type Props = {
    description: string
    submitLabel: string
    onSubmit: (arg?: string) => void
+   isDanger?: boolean
 }
 
-export function AlertConfirmation({ heading, description, submitLabel, onSubmit }: Props) {
+export function AlertConfirmation({ heading, description, submitLabel, onSubmit, isDanger = false }: Props) {
   return (
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -27,7 +28,7 @@ export function AlertConfirmation({ heading, description, submitLabel, onSubmit 
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className=" cursor-pointer gap-2 rounded-md py-3 px-5 text-md shadow-sm active:scale-95 active:shadow-none transition-all duration-100 ease-in-out">Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-destructive hover:bg-destructive/90 cursor-pointer gap-2 rounded-md py-3 px-5 text-md shadow-sm active:scale-95 active:shadow-none transition-all duration-100 ease-in-out" onClick={() => onSubmit()}>{submitLabel}</AlertDialogAction>
+          <AlertDialogAction className={`${isDanger ? "bg-destructive hover:bg-destructive/90" : ""} cursor-pointer gap-2 rounded-md py-3 px-5 text-md shadow-sm active:scale-95 active:shadow-none transition-all duration-100 ease-in-out`} onClick={() => onSubmit()}>{submitLabel}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
   )

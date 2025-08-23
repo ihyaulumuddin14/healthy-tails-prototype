@@ -2,7 +2,7 @@
 
 import { DialogTrigger } from "@/components/ui/dialog"
 import PhotoDialog from "@/app/user/profile/components/PhotoDialog"
-import { UpdateUserCredentials, UpdateUserSchema } from "@/schema/UserSchema"
+import { UpdateUserCredentials, UpdateUserSchema } from "@/request_schema/UserSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from 'react-hook-form';
 import Image from "next/image"
@@ -125,7 +125,7 @@ export default function AccountInfoPage() {
             </div>
 
             <PhotoDialog/>
-            <AlertConfirmation heading="Delete Account" description="Are you sure you want to delete your account?" submitLabel="Delete" onSubmit={handleResponseDeleteUser} />
+            <AlertConfirmation heading="Delete Account" description="Are you sure you want to delete your account?" submitLabel="Delete" isDanger={true} onSubmit={handleResponseDeleteUser} />
          </AlertDialog>
       </DashboardContent>
    )

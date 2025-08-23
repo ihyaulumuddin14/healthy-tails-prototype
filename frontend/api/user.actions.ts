@@ -1,4 +1,4 @@
-import { UpdatePasswordUserCredentials, UpdateUserCredentials } from '@/schema/UserSchema';
+import { UpdatePasswordUserCredentials, UpdateUserCredentials } from '@/request_schema/UserSchema';
 import api from '../lib/axiosInstance';
 import axios, { AxiosError } from 'axios';
 

@@ -5,7 +5,7 @@ import Input from "../components/Input"
 import SubmitButton from "@/components/ui/AnimateFillButton"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ForgotPasswordCredentials, ForgotPasswordSchema } from "../../../schema/AuthSchema"
+import { ForgotPasswordCredentials, ForgotPasswordSchema } from "../../../request_schema/AuthSchema"
 import { handleAuthResponse } from "../../../helpers/handleAuthResponse"
 
 const RequestReset = () => {

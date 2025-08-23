@@ -59,7 +59,7 @@ export default function AdminClientPage() {
             {error && <div className="text-center text-2xl font-bold text-gray-600">Failed to load</div>}
             {users && <Table clients={filteredUsers} setUserIdToDelete={setUserIdToDelete}/>}
 
-            <AlertConfirmation heading="Delete User" description="Are you sure you want to delete this user?" submitLabel="Delete" onSubmit={handleDeleteUser}/>
+            <AlertConfirmation heading="Delete User" description="Are you sure you want to delete this user?" submitLabel="Delete" isDanger={true} onSubmit={handleDeleteUser}/>
          </AlertDialog>
       </div>
    )
