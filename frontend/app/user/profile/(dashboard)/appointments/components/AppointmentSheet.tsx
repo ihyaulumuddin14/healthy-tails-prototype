@@ -11,7 +11,7 @@ import {
    SheetHeader,
    SheetTitle,
 } from "@/components/ui/sheet"
-import { BookingCredentials, BookingUICredentials, BookingUISchema, DisableBookingUICredentials, DisableBookingUISchema } from "@/request_schema/PetSchema"
+import { BookingCredentials, BookingSchema, DisableBookingUICredentials, DisableBookingUISchema } from "@/request_schema/PetSchema"
 import { dialogStore } from "@/stores/dialogStore"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useNavigation } from "@/hooks/useNavigation"
@@ -60,8 +60,8 @@ export function AppointmentSheet() {
       control,
       watch,
       formState: { errors, isSubmitting },
-   } = useForm<BookingUICredentials>({
-      resolver: zodResolver(BookingUISchema)
+   } = useForm<BookingCredentials>({
+      resolver: zodResolver(BookingSchema)
    })
 
    const disableForm = useForm<DisableBookingUICredentials>({
@@ -90,7 +90,7 @@ export function AppointmentSheet() {
       }
    }, [user, petId, pets, disableForm, pet])
 
-   const handleSubmitData = async (data: BookingUICredentials) => {
+   const handleSubmitData = async (data: BookingCredentials) => {
       const response = await createBooking(data);
 
       if (response.success) {

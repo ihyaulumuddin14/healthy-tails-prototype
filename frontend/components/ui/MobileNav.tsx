@@ -29,8 +29,8 @@ const MobileNav = () => {
          showSuccessToast(response.message as string);
 
          delete api.defaults.headers.common['Authorization'];
-         setUser(null);
          goReplace('/home');
+         setUser(null);
       } else {
          showErrorToast(response.error as string);
       }

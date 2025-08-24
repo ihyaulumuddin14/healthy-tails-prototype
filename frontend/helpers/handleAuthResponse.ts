@@ -35,8 +35,8 @@ async function replaceBaseOnRole(accessToken: string, action: (arg?: string) => 
 
       const user = response.data.user;
       userStore.getState().setUser(user);
-      showSuccessToast(`Welcome to Healthy Tails, ${user.name}!!`);
       action(user.role === 'ADMIN' ? '/admin/dashboard' : '/user/profile');
+      showSuccessToast(`Welcome to Healthy Tails, ${user.name}!!`);
    } catch (error) {
       let errorMessage = 'An error occurred while redirecting. Please try again.';
 

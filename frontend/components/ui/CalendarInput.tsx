@@ -36,6 +36,7 @@ export default function CalendarInput<T extends FieldValues>({ name, control, la
                         mode="single"
                         captionLayout="dropdown"
                         onSelect={(date) => {
+                           date?.setHours(7)
                            field.onChange(date);
                         }}
                      />
