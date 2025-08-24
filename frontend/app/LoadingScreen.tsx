@@ -5,14 +5,11 @@ import { useEffect } from "react";
 
 export default function LoadingScreen() {
    const setPageLoading = useGlobalLoading((state) => state.setPageLoading);
-   const isTransitioning = useGlobalLoading((state) => state.isTransitioning);
    
    useEffect(() => {
       setPageLoading(true);
       return () => setPageLoading(false);
    }, [])
-
-   if (isTransitioning) return null
 
    return (
       <section id="loading" className='w-full h-screen flex flex-col justify-center items-center bg-[var(--color-background)] transition-all duration-1000 ease-in-out'>

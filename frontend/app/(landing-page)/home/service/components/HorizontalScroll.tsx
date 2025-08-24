@@ -47,7 +47,6 @@ export function Container({ children, id }: Props) {
       )
 
       scrollControls.current = [scrollAnim, progressBarAnim];
-      console.log('test')
    }, [width])
    
 

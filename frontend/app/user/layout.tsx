@@ -14,16 +14,18 @@ import { Metadata } from "next";
 export default function UserLayout({ children }: { children: React.ReactNode }) {
 
    return (
-      <AuthGuard
-         skeleton={<LoadingScreen />}
-         fallback={<UnauthorizedPage />}
-         role="USER"
-      >
+      <>
          <Navbar />
          <Main>
-            <Breadcrumbs />
-            {children}
+            <AuthGuard
+               skeleton={<LoadingScreen />}
+               fallback={<UnauthorizedPage />}
+               role="USER"
+            >
+               <Breadcrumbs />
+               {children}
+            </AuthGuard>
          </Main>
-      </AuthGuard>
+      </>
    )
 }
