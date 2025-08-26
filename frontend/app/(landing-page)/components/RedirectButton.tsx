@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/providers/nprogress/Link";
 
 type Props = {
    transition?: boolean;

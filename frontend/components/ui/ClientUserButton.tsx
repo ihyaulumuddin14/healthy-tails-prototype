@@ -1,7 +1,7 @@
 'use client'
 
 import AnimateFillButton from './AnimateFillButton'
-import Link from "next/link";
+import { Link } from '@/providers/nprogress/Link'
 import { useEffect, useRef, useState } from "react";
 import { useNavigation } from '@/hooks/useNavigation';
 import useUser from '@/hooks/useUser';
@@ -91,6 +91,7 @@ function ProfileDropdown() {
                         </div>
                      </li>
                      <Link
+                        isAnimated={true}
                         href={`${user?.role === 'ADMIN' ? '/admin/dashboard' : '/user/profile'}`}
                         className="py-2 px-4 w-full flex justify-center hover:text-[var(--color-foreground)]/70 font-semibold cursor-pointer ease-in-out duration-150">
                         My Profile

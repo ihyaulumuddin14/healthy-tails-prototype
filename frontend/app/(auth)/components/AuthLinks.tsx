@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import { Link } from '@/providers/nprogress/Link';
 import { handleAuthResponse } from '../../../helpers/handleAuthResponse';
 import verifyStore from '@/stores/verifyStore';
 

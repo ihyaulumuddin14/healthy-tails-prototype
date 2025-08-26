@@ -7,7 +7,7 @@ import { animate } from "motion/mini"
 import { spring } from "motion"
 import { sidebarUserLink, sidebarAdminLink } from "@/app/constant"
 import { useNavigation } from "@/hooks/useNavigation"
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { Link } from "@/providers/nprogress/Link"
 
 type Props = {
    type: 'user' | 'admin'
@@ -51,31 +51,17 @@ export default function LinkSidebar({ type }: Props) {
          <div className="mark absolute top-0 right-0 h-12 w-1 bg-[var(--color-tertiary)]"></div>
 
          {type === 'user' && sidebarUserLink.map((link, index) => (
-            <Tooltip key={index}>
-               <TooltipTrigger asChild>
-                  <button key={index} onClick={() => goReplace(link.path)} className={`w-full flex justify-between items-center px-4 py-3 rounded-l-2xl relative hover:bg-[var(--color-tertiary)]/20 active:bg-[var(--color-tertiary)]/50 cursor-pointer`}>
-                     {link.icons}
-                     <span className={`text-sm text-[var(--color-foreground)] ${isSidebarOpen ? "opacity-100" : "opacity-0"} transition-all duration-200 ease-in-out absolute top-1/2 -translate-y-1/2 left-18 pointer-events-none whitespace-nowrap`}>{link.name}</span>
-                  </button>
-               </TooltipTrigger>
-               <TooltipContent>
-                  {link.name}
-               </TooltipContent>
-            </Tooltip>
+            <Link key={index} onClick={() => goReplace(link.path)} className={`w-full flex justify-between items-center px-4 py-3 rounded-l-2xl relative hover:bg-[var(--color-tertiary)]/20 active:bg-[var(--color-tertiary)]/50 cursor-pointer`}>
+               {link.icons}
+               <span className={`text-sm text-[var(--color-foreground)] ${isSidebarOpen ? "opacity-100" : "opacity-0"} transition-all duration-200 ease-in-out absolute top-1/2 -translate-y-1/2 left-18 pointer-events-none whitespace-nowrap`}>{link.name}</span>
+            </Link>
          ))}
 
          {type === 'admin' && sidebarAdminLink.map((link, index) => (
-            <Tooltip key={index}>
-               <TooltipTrigger asChild>
-                  <button onClick={() => goReplace(link.path)} className={`w-full flex justify-between items-center px-4 py-3 rounded-l-2xl relative hover:bg-[var(--color-tertiary)]/20 active:bg-[var(--color-tertiary)]/50 cursor-pointer`}>
-                     {link.icons}
-                     <span className={`text-sm text-[var(--color-foreground)] ${isSidebarOpen ? "opacity-100" : "opacity-0"} transition-all duration-200 ease-in-out absolute top-1/2 -translate-y-1/2 left-18 pointer-events-none whitespace-nowrap`}>{link.name}</span>
-                  </button>
-               </TooltipTrigger>
-               <TooltipContent>
-                  {link.name}
-               </TooltipContent>
-            </Tooltip>
+            <Link key={index} href={link.path} className={`w-full flex justify-between items-center px-4 py-3 rounded-l-2xl relative hover:bg-[var(--color-tertiary)]/20 active:bg-[var(--color-tertiary)]/50 cursor-pointer`}>
+               {link.icons}
+               <span className={`text-sm text-[var(--color-foreground)] ${isSidebarOpen ? "opacity-100" : "opacity-0"} transition-all duration-200 ease-in-out absolute top-1/2 -translate-y-1/2 left-18 pointer-events-none whitespace-nowrap`}>{link.name}</span>
+            </Link>
          ))}
       </ul>
    )

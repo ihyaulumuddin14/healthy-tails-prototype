@@ -2,7 +2,7 @@
 
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import { dialogStore } from "@/stores/dialogStore";
-import Link from "next/link";
+import { Link } from "@/providers/nprogress/Link";
 
 type Props = {
    name: string;

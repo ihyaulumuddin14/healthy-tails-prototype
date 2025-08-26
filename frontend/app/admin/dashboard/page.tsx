@@ -19,7 +19,7 @@ export default function AdminDasboard() {
          {/* toggle show overview */}
          <span className="w-full flex justify-end">
             <label htmlFor="show-overview" className="p-2 border border-border rounded-lg bg-muted flex items-center gap-2 cursor-pointer hover:brightness-90 shadow-sm">
-               <Switch id="show-overview" checked={isShowSummary} onCheckedChange={setIsShowSummary} />
+               <Switch className="cursor-pointer" id="show-overview" checked={isShowSummary} onCheckedChange={setIsShowSummary} />
                <p className="text-sm">Show Overview</p>
             </label>
          </span>

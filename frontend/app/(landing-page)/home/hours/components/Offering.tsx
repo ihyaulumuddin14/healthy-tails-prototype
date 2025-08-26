@@ -2,7 +2,7 @@
 
 import AnimateFillButton from '@/components/ui/AnimateFillButton'
 import { dialogStore } from '@/stores/dialogStore';
-import Link from 'next/link';
+import { Link } from "@/providers/nprogress/Link";
 
 export default function Offering() {
    const setDialogPetMode = dialogStore((state) => state.setDialogPetMode);
@@ -18,7 +18,7 @@ export default function Offering() {
             <AnimateFillButton model="fill" width='full' type="button" onClick={() => {
                setDialogPetMode('book')
             }}>
-               <Link href={'/user/profile/appointments'}>
+               <Link isAnimated={true} href={'/user/profile/appointments'}>
                   Schedule an Appointment
                </Link>
             </AnimateFillButton>

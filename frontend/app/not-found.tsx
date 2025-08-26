@@ -1,7 +1,7 @@
 'use client'
 
 import AnimateFillButton from "@/components/ui/AnimateFillButton";
-import Link from "next/link";
+import { Link } from "@/providers/nprogress/Link";
 
 export default function PageNotFound() {
 
@@ -10,7 +10,7 @@ export default function PageNotFound() {
          <h1 className='text-9xl font-bold flex items-center gap-1 mask-b-from-30% text-stroke'>404</h1>
          <p className='text-md sm:text-xl text-center text-[var(--color-foreground)]'>Ooopss! The page you are looking for does not exist!</p>
          <AnimateFillButton model='outline'>
-            <Link href={'/'}>
+            <Link isAnimated={true} href={'/'}>
                Back to Home
             </Link>
          </AnimateFillButton>

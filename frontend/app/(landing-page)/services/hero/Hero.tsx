@@ -1,5 +1,5 @@
-import AnimateFillButton from "@/components/ui/AnimateFillButton"
 import AnimatedText from "../../components/AnimatedText"
+import AppointmentButton from "./AppointmentButton"
 
 const Hero = () => {
    return (
@@ -19,7 +19,7 @@ const Hero = () => {
             </div>
             <div className={`w-full h-full flex flex-col sm:flex-row md:flex-col items-center md:items-start gap-10 justify-start md:justify-center`}>
                <p className='paragraph text-[clamp(1rem,1.5vw,2rem)] font-inter text-center sm:text-left'>Whether it`s routine checkups or complex procedures, our services are thoughtfully designed to support your feline friend’s health and happiness—at every whiskered milestone.</p>
-               <AnimateFillButton model='fill' type="button" >Get an Appointment</AnimateFillButton>
+               <AppointmentButton />
             </div>
          </div>
       </section>

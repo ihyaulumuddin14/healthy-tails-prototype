@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
+@import 'nprogress/nprogress.css';
 @custom-variant dark (&:is(.dark *));
 
 
@@ -35,6 +35,20 @@
 }
 
 @layer utilities {
+   #nprogress .bar {
+      background: var(--color-accent) !important;
+      height: 3px !important;
+   }
+
+   #nprogress .peg {
+      box-shadow: 0 0 10px var(--color-accent), 0 0 5px var(--color-accent) !important;
+   }
+
+   /* #nprogress .spinner-icon {
+      border-top-color: #3b82f6 !important;
+      border-left-color: #3b82f6 !important;
+   } */
+
    @media screen and (max-height: 450px) {
       .progress-bar-container {
          @apply hidden

@@ -1,7 +1,7 @@
 'use client'
 
 import Image from "next/image";
-import Link from "next/link"
+import { Link } from "@/providers/nprogress/Link";
 import LogoImage from '@/public/images/logo.webp'
 import ContrastButton from "./ContrastButton";
 import { navbarLink } from "@/app/constant";
@@ -29,7 +29,7 @@ export default function Footer () {
 
                   <div className='flex justify-start items-center w-full max-w-[300px] h-fit gap-5'>
                      <ContrastButton model='fill' onClick={() => setDialogPetMode('book')}>
-                        <Link href={'/user/profile/appointments'}>
+                        <Link isAnimated={true} href={'/user/profile/appointments'}>
                            Book a Visit
                         </Link>
                      </ContrastButton>
@@ -46,6 +46,7 @@ export default function Footer () {
                      <ul className='w-full h-fit flex flex-col gap-2'>
                         {navbarLink.map((link, index) => (
                            <Link
+                              isAnimated={true}
                               href={link.path}
                               className='font-inter text-slate-700 text-[clamp(0.8rem,1.5vw,1rem)] cursor-pointer hover:scale-110 ease-in-out duration-200 flex gap-2 font-semibold'
                               key={index}>

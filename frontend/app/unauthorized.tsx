@@ -1,8 +1,7 @@
 'use client'
 
 import AnimateFillButton from "@/components/ui/AnimateFillButton";
-import Link from "next/link";
-
+import { Link } from "@/providers/nprogress/Link";
 
 export default function UnauthorizedPage() {
    return (
@@ -14,12 +13,12 @@ export default function UnauthorizedPage() {
          <p className="text-md sm:text-xl text-[var(--color-muted-foreground)]">Access Denied, What you want to do next?</p>
          <div className="flex gap-5">
             <AnimateFillButton model='outline'>
-               <Link href={"/"}>
+               <Link isAnimated={true} href={"/home"}>
                   Back to Home
                </Link>
             </AnimateFillButton>
             <AnimateFillButton model='fill'>
-               <Link href="/login">
+               <Link isAnimated={true} href="/login">
                   Login
                </Link>
             </AnimateFillButton>

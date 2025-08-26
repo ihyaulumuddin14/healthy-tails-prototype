@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
-import Link from "next/link";
+import { Link } from "@/providers/nprogress/Link";
 import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 
 

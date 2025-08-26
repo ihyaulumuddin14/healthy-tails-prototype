@@ -31,6 +31,7 @@ export default function RootLayout({
       >
          <div className="w-full h-screen gradient-background top-0 fixed -z-1"></div>
          <AppThemeProvider>
+
             <TransitionProvider>
                <Toaster position="top-center" />
                   {children}

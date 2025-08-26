@@ -1,13 +1,13 @@
 'use client'
 
 import { dialogStore } from "@/stores/dialogStore";
-import { Link } from "next-transition-router";
+import { Link } from "@/providers/nprogress/Link";
 
 export default function MainButton ({ label }: { label: string }) {
    const setDialogPetMode = dialogStore((state) => state.setDialogPetMode);
 
    return (
-      <Link href={'/user/profile/appointments'}>
+      <Link isAnimated={true} href={'/user/profile/appointments'}>
          <button className="animated-button" onClick={() => {
             setDialogPetMode('book')
          }}>

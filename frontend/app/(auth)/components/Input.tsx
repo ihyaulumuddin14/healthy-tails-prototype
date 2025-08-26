@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef, useState } from 'react';
-import Link from 'next/link';
+import { Link } from "@/providers/nprogress/Link";
 import Countdown from './Countdown';
 
 type InputProps = {
