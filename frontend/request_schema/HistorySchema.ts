@@ -1,6 +1,6 @@
 import z from "zod";
 
-const vaccineEnum = [
+export const vaccineEnum = [
    "FeLV",
    "Panleucopenia",
    "Rhinotracheitis",
@@ -16,7 +16,7 @@ const vaccineEnum = [
  ] as const;
 
 export const HistorySchema = z.object({
-   visitDate: z.coerce.date().optional(),
+   visitDate: z.coerce.date(),
    nextVisitDate: z.coerce.date().optional(),
    bodyWeight: z.number().min(0, "Body weight must be a positive number"),
    temperature: z.number().min(0, "Temperature must be a positive number"),

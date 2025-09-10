@@ -20,7 +20,7 @@ const Hero = () => {
                      triggerWrapper='#home'
                      type='h1'
                      splitBy='lines'
-                     className='xl:text-8xl md:text-6xl text-5xl font-bold text-white whitespace-nowrap'
+                     className='xl:text-7xl md:text-6xl text-5xl font-bold text-white whitespace-nowrap'
                      addLineHeight
                      >
                         Healthy Tails

@@ -18,7 +18,7 @@ export default function ServicesList() {
    return (
       <ul className='hidden w-full sm:flex flex-col gap-5 font-inter font-extralight'>
          {serviceLists.map((service, index) => (
-            <li key={index} className={`md:text-2xl text-xl ${indexOfService === index ? "scale-150" : ""} text-white z-1 ease-in-out duration-500 origin-left`}>
+            <li key={index} className={`text-xl ${indexOfService === index ? "scale-150" : ""} text-white z-1 ease-in-out duration-500 origin-left`}>
                {service.name}
             </li>
          ))}

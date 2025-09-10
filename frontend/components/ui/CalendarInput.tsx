@@ -21,7 +21,7 @@ export default function CalendarInput<T extends FieldValues>({ name, control, la
          render={({ field }) => (
             <div className="w-full flex flex-col gap-1">
                <DropdownMenu>
-                  <label htmlFor="date" className="w-full flex justify-start font-bold gap-1">
+                  <label htmlFor={name} className="w-full flex justify-start font-bold gap-1">
                      {label}
                      {optional ? (<span className="font-light">(optional)</span>) : (<span className='text-red-600'>*</span>)}
                   </label>
@@ -49,6 +49,6 @@ export default function CalendarInput<T extends FieldValues>({ name, control, la
                </footer>
             </div>
          )}
-         />
+      />
    )
 }
