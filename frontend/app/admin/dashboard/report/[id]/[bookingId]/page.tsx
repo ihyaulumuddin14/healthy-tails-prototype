@@ -3,7 +3,7 @@
 import Input from '@/app/(auth)/components/Input';
 import CalendarInput from '@/components/ui/CalendarInput';
 import DashboardContent from '@/components/ui/DashboardContent';
-import { showErrorToast } from '@/helpers/toastHelper'
+import { showErrorToast, showSuccessToast } from '@/helpers/toastHelper'
 import { HistoryCredentials, HistorySchema } from '@/request_schema/HistorySchema';
 import React, { useEffect, useState } from 'react'
 import { useForm, Resolver } from 'react-hook-form';
@@ -11,14 +11,25 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import DropdownInput from '@/components/ui/DropdownInput';
 import { vaccineEnum } from '@/request_schema/HistorySchema';
 import AnimateFillButton from '@/components/ui/AnimateFillButton';
+import { createHistoryOfCat } from '@/api/pet.actions';
+import api from '@/lib/axiosInstance';
+import { Booking } from '@/type/type';
+import { changeStatusBooking } from '@/api/booking.actions';
+import { useNavigation } from '@/hooks/useNavigation';
+
+type BookingStatusType = {
+    status: "WAITING" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
+}
 
 export default function ReportPage({
    params
 }: {
-   params: Promise<{ id: string }>
+   params: Promise<{ id: string, bookingId: string }>
 }) {
+   const { goReplace } = useNavigation();
    const [isLoading, setIsLoading] = useState(true);
    const [petId, setPetId] = useState<string | null>(null)
+   const [bookingId, setBookingId] = useState<string | null>(null)
    const {
       register,
       handleSubmit,
@@ -31,9 +42,10 @@ export default function ReportPage({
 
    useEffect(() => {
       const fetchData = async () => {
-         const { id } = await params;
+         const { id, bookingId } = await params;
 
          setPetId(id);
+         setBookingId(bookingId);
          setIsLoading(false)
       }
 
@@ -41,7 +53,24 @@ export default function ReportPage({
    }, [params])
 
    const handleResponseCreateHistory = async (data: HistoryCredentials) => {
-      console.log(data)
+      if (petId) {
+         const response = await createHistoryOfCat(data, petId);
+         if (response.success) {
+            const responseStatusChange = await changeStatusBooking({ _id: bookingId as string, value: { status: "COMPLETED" } as BookingStatusType });
+
+            if (responseStatusChange.success) {
+               showSuccessToast(response.message);
+
+               goReplace('/admin/dashboard');
+            } else {
+               showErrorToast(responseStatusChange.error as string);
+            }
+         } else {
+            showErrorToast(response.error as string);
+         }
+      } else {
+         showErrorToast("Pet not found");
+      }
    }
 
    return (
@@ -57,11 +86,16 @@ export default function ReportPage({
                   <Input label="Body Weight (kg)" type="number" id="bodyWeight" placeholder="Enter your pet body weight" {...register('bodyWeight', { valueAsNumber: true })} error={errors.bodyWeight?.message} />
                   <Input label="Temperature (°C)" type="number" id="temperature" placeholder="Enter your pet temperature" {...register('temperature', { valueAsNumber: true })} error={errors.temperature?.message} />
                </div>
+               
                <label htmlFor="symptoms" className="w-full flex justify-start font-bold gap-1 mt-4 mb-1">
                   Symptoms
                   <span className='text-red-600'>*</span>
                </label>
-               <textarea id="symptoms" className="w-full border border-border rounded-md py-2 px-4 outline-0 backdrop-blur-3xl focus:shadow-md focus:shadow-green-200/50 shadow-sm shadow-border" {...register('symptoms')}></textarea>
+               <textarea id="symptoms" className={`w-full border border-border rounded-md py-2 px-4 outline-0 backdrop-blur-3xl focus:shadow-md focus:shadow-green-200/50 shadow-sm shadow-border ${errors.symptoms ? 'border-pink-500' : 'border-border'}`} {...register('symptoms')}></textarea>
+               <p className={`text-pink-600 text-xs ml-2 ${errors.symptoms ? 'visible' : 'invisible'}`}>
+                  {errors.symptoms?.message ?? 'placeholder'}
+               </p>
+
                <label htmlFor="diagnosis" className="w-full flex justify-start font-bold gap-1 mt-4 mb-1">
                   Diagnosis
                   <span className="font-light">(optional)</span>

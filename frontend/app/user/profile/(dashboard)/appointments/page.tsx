@@ -2,10 +2,8 @@
 
 import AddButton from '@/components/ui/AddButton';
 import DashboardContent from '@/components/ui/DashboardContent'
-import { Sheet} from '@/components/ui/sheet';
 import { ToggleGroup, ToggleGroupItem} from "@/components/ui/toggle-group"
 import PetSheet from './components/PetSheet';
-import { AlertDialog } from '@/components/ui/alert-dialog';
 import AppointmentAlert from './components/AppointmentAlert';
 import AppointmentsList from './components/AppointmentsList';
 import { useState } from 'react';

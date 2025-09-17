@@ -36,7 +36,7 @@ export default function DropdownInput<T extends FieldValues>({ control, name, la
                   <DropdownMenu>
                      <label htmlFor={name} className="w-full flex justify-start font-bold gap-1">
                         {label}
-                        {optional ? (<span className="font-light">(optional)</span>) : (<span className='text-red-600'>*</span>)}
+                        {optional ? <span className="font-light">(optional)</span> : <span className='text-red-600'>*</span>}
                      </label>
                      <DropdownMenuTrigger id={name} asChild className={`w-full ${disabled ? 'cursor-not-allowed opacity-60' : ''}`} disabled={disabled}>
                         <button className={`w-full justify-between text-[var(--color-foreground)] border py-2 px-4 rounded-md border-border flex items-center hover:bg-border shadow-sm shadow-border`}>

@@ -34,7 +34,7 @@ export const useAllUsers = () => {
    )
 
    return {
-      users: data?.users as User[],
+      users: data?.users.filter((user: User) => user.role !== 'ADMIN') as User[],
       error,
       isLoading,
       mutateUsers: mutate

@@ -13,11 +13,16 @@ import SkeletonTableDashboard from "./SkeletonTableDashboard";
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { AlertConfirmation } from "@/components/ui/AlertConfirmation";
 import { useNavigation } from "@/hooks/useNavigation";
+import { changeStatusBooking } from "@/api/booking.actions";
 
 type FilterState = {
    petKinds: string[]
    date: Date | null
    statuses: string[]
+}
+
+type BookingStatusType = {
+    status: "WAITING" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
 }
 
 type Action = 
@@ -139,22 +144,22 @@ function Table ({ bookings, mutateBookingsAdmin, filters, searchTerm }: {
 }) {
    const { goPush } = useNavigation();
    const [finishedBooking, setFinishedBooking] = useState<Booking | null>(null);
-   const handleStatusChange = async ({ _id, value }: { _id: string, value: string }) => {
-      const response = await api.patch(`/bookings/${_id}/status`, { status: value.toUpperCase() });
+   const handleStatusChange = async ({ _id, value }: { _id: string, value: BookingStatusType }) => {
+      const response = await changeStatusBooking({ _id, value });
 
-      if (response.status === 200) {
-         showSuccessToast(response.data.message);
+      if (response.success) {
+         showSuccessToast(response.message);
          mutateBookingsAdmin(
             (prev: { message: string, bookings: Booking[] }) => ({
                ...prev,
-               bookings: bookings.map(booking => booking._id === response.data.booking._id ?
-                  response.data.booking : booking
+               bookings: bookings.map(booking => booking._id === response.booking._id ?
+                  response.booking : booking
                )
             }),
             false
          )
       } else {
-         showErrorToast("Failed to update status booking");
+         showErrorToast(response.error as string);
       }
    }
 
@@ -194,7 +199,7 @@ function Table ({ bookings, mutateBookingsAdmin, filters, searchTerm }: {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                            <DropdownMenu>
-                              <DropdownMenuTrigger className="cursor-pointer flex gap-1 items-center border-2 border-border p-2 rounded-md">
+                              <DropdownMenuTrigger className={`${booking.status === "COMPLETED" ? "bg-[var(--color-muted)] cursor-not-allowed opacity-80" : "cursor-pointer"} flex gap-1 items-center border-2 border-border p-2 rounded-md`}>
                                  <Badge
                                     variant={
                                        booking.status === "CANCELLED" ? "destructive" :
@@ -208,10 +213,10 @@ function Table ({ bookings, mutateBookingsAdmin, filters, searchTerm }: {
                                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style={{fill: "var(--color-foreground)"}}><path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z"></path></svg>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent>
-                                 <DropdownMenuRadioGroup value={booking.status} onValueChange={(value) => handleStatusChange({ _id: booking._id, value })}>
-                                    <DropdownMenuRadioItem value="cancelled"><Badge variant='destructive'>CANCELLED</Badge></DropdownMenuRadioItem>
-                                    <DropdownMenuRadioItem value="in_progress"><Badge variant='inProgress' >IN_PROGRESS</Badge></DropdownMenuRadioItem>
-                                    <DropdownMenuRadioItem value="waiting"><Badge variant='waiting' >WAITING</Badge></DropdownMenuRadioItem>
+                                 <DropdownMenuRadioGroup value={booking.status} onValueChange={(value) => handleStatusChange({ _id: booking._id, value: { status: value } as BookingStatusType })}>
+                                    <DropdownMenuRadioItem value="CANCELLED"><Badge variant='destructive'>CANCELLED</Badge></DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="IN_PROGRESS"><Badge variant='inProgress' >IN_PROGRESS</Badge></DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="WAITING"><Badge variant='waiting' >WAITING</Badge></DropdownMenuRadioItem>
                                  </DropdownMenuRadioGroup>
                               </DropdownMenuContent>
                            </DropdownMenu>
@@ -226,7 +231,7 @@ function Table ({ bookings, mutateBookingsAdmin, filters, searchTerm }: {
                   ))}
                </tbody>
             </table>
-            <AlertConfirmation heading="Pet Checkup Completed" description={`The booking status from ${finishedBooking?.owner.name} will update to Completed. Please enter the checkup results to finalize the record.`} submitLabel="Next" onSubmit={() => goPush(`/admin/dashboard/report/${finishedBooking?.pet._id}`)}/>
+            <AlertConfirmation heading="Pet Checkup Completed" description={`The booking status from ${finishedBooking?.owner.name} will update to Completed. Please enter the checkup results to finalize the record.`} submitLabel="Next" onSubmit={() => goPush(`/admin/dashboard/report/${finishedBooking?.pet._id}/${finishedBooking?._id}`)}/>
          </AlertDialog>
       </div>
 

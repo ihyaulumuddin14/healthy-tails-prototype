@@ -73,8 +73,14 @@ export default function AppointmentsList({ searchTerm, selectedFilter }: { searc
                         <td className='px-6 py-4 flex gap-3'>
                            <Button variant={"secondary"} onClick={() => {
                               goPush(`/user/profile/appointments/booking/${booking._id}`)
-                           }}>Details</Button>
-                           <Button variant={"default"} disabled={booking.status !== "COMPLETED"}>Visit Result</Button>
+                           }}>
+                              Details
+                           </Button>
+                           <Button variant={"default"} disabled={booking.status !== "COMPLETED"} onClick={() => {
+                              goPush(`/user/profile/pets/history/${booking.pet._id}`)
+                           }}>
+                              Visit Result
+                           </Button>
                         </td>
                      </tr>
                   ))}

@@ -1,5 +1,6 @@
 import api from "@/lib/axiosInstance";
 import { EditPetCredentials, CreatePetCredentials } from "@/request_schema/PetSchema";
+import { HistoryCredentials } from '@/request_schema/HistorySchema';
 import axios, { AxiosError } from "axios";
 
 export async function getPetById(credentials: { id: string }) {
@@ -81,9 +82,29 @@ export async function deletePet(credentials: { _id: string }) {
 export async function getHistoryOfPet(data: { id: string }) {
    try {
       const response = await api.get(`/pets/${data.id}/history`);
-      return { success: true, histories: response.data.history };
+      return { success: true, histories: response.data.histories };
    } catch (error) {
       let errorMessage = 'An error occurred while get history of pet. Please try again.';
+
+      if (axios.isAxiosError(error)) {
+         const axiosError = error as AxiosError<{ message: string }>;
+
+         errorMessage =
+            axiosError.response?.data.message ||
+            axiosError.message ||
+            errorMessage
+      }
+
+      return { success: false, error: errorMessage }
+   }
+}
+
+export async function createHistoryOfCat(data: HistoryCredentials, id: string) {
+   try {
+      const response = await api.post(`/pets/${id}/history`, data);
+      return { success: true, message: response.data.message };
+   } catch (error) {
+      let errorMessage = 'An error occurred while create history of pet. Please try again.';
 
       if (axios.isAxiosError(error)) {
          const axiosError = error as AxiosError<{ message: string }>;
