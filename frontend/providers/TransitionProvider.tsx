@@ -27,10 +27,6 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
       const main = document.getElementById('main');
       const loading = document.getElementById('loading');
 
-      console.log(main)
-      console.log(loading)
-
-
       if (main && loading) {
          setTransitioning(true);
 

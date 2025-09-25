@@ -10,7 +10,6 @@ export default function useUser() {
    const [isLoading, setIsLoading] = useState(user ? false : true);
    const [isError, setIsError] = useState(false);
    const setFetching = useGlobalLoading((state) => state.setFetching);
-   // const 
 
    useEffect(() => {
       setFetching(isLoading)

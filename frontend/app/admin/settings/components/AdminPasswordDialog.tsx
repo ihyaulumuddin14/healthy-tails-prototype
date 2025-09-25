@@ -1,18 +1,15 @@
-'use client'
+import { changeUserPassword } from "@/api/user.actions";
+import Input from "@/app/(auth)/components/Input";
+import AnimateFillButton from "@/components/ui/AnimateFillButton";
+import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { showSuccessToast, showErrorToast } from "@/helpers/toastHelper";
+import { UpdatePasswordUserCredentials, UpdatePasswordUserSchema } from "@/request_schema/UserSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect, useState } from 'react'
+import { useForm } from "react-hook-form";
 
-import Input from "@/app/(auth)/components/Input"
-import { UpdatePasswordUserCredentials, UpdatePasswordUserSchema } from "@/request_schema/UserSchema"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { useEffect, useState } from "react"
-import DashboardContent from "@/components/ui/DashboardContent"
-import { changeUserPassword } from "@/api/user.actions"
-import { showErrorToast, showSuccessToast } from "@/helpers/toastHelper"
-import AnimateFillButton from "@/components/ui/AnimateFillButton"
-
-
-export default function ChangePasswordPage() {
-   const {
+export default function AdminPasswordDialog() {
+      const {
       register,
       handleSubmit,
       watch,
@@ -51,7 +48,11 @@ export default function ChangePasswordPage() {
    }
 
    return (
-      <DashboardContent type="user" subtitle="Secure your account by updating your password regularly.">
+      <DialogContent>
+         <DialogHeader>
+            <DialogTitle>Change Password</DialogTitle>
+         </DialogHeader>
+         
          <div className="w-full bg-muted p-4 sm:p-8 rounded-xl border-2 border-border">
             <form action="" className="flex flex-col items-end" onSubmit={handleSubmit(handleResponseChangePassword)}>
                <Input
@@ -84,6 +85,6 @@ export default function ChangePasswordPage() {
                <AnimateFillButton isLoading={isSubmitting} type="submit" model="fill" width='auto'>Change</AnimateFillButton>
             </form>
          </div>
-      </DashboardContent>
+      </DialogContent>
    )
 }

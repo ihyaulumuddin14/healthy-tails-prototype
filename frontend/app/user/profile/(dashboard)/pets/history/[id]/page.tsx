@@ -45,6 +45,11 @@ export default function HistoryPage({
 
       return () => setHistories(null);
    }, [])
+   
+   useEffect(() => {
+      console.log(historyAlert);
+      console.log(isAlertOpen)
+   }, [historyAlert, isAlertOpen])
 
    const sortedHistories: History[] = useMemo(() => {
       const historiesRaw = (histories as History[]) ?? [];
@@ -58,7 +63,7 @@ export default function HistoryPage({
       return sortedHistories
    }, [sortByDesc, histories]);
 
-   return (
+   return ( 
       <DashboardContent title={`Visit History of ${petName}`} subtitle='Here you can view a complete record of your pet’s veterinary visits, including diagnoses, treatments, and follow-up care.'>
          {isLoading && <SkeletonHistory></SkeletonHistory>}
          {isError && <div className="text-center text-2xl font-bold text-gray-600">Failed to load</div>}
@@ -72,11 +77,11 @@ export default function HistoryPage({
                               Date
                               {sortByDesc ? (
                                  <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v13m0-13 4 4m-4-4-4 4"/>
+                                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v13m0-13 4 4m-4-4-4 4"/>
                                  </svg>
                               ) : (
                                  <svg className="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v13m0-13 4 4m-4-4-4 4"/>
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v13m0-13 4 4m-4-4-4 4"/>
                                  </svg>
                               )}
                            </th>

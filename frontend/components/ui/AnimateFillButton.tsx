@@ -20,7 +20,7 @@ export default function AnimateFillButton({ disabled, model, children, type, isL
          type={type}
          className={`
             shrink-0 relative z-0 flex items-center gap-2 py-3 px-5 rounded-4xl hover:rounded-sm font-semibold transition-all duration-400 ease-in-out ${disabled ? "cursor-not-allowed" : "cursor-pointer" } group overflow-hidden
-            hover:text-[var(--color-background)] justify-center
+            hover:text-[var(--color-background)] justify-center h-fit
             ${width === 'full' ? 'w-full' : 'w-fit'} ${className}
             ${model === 'fill' ? 'bg-[var(--color-accent)] text-[var(--color-accent-foreground)]' : model === 'danger' ? 'bg-red-500 text-[var(--color-background)]' : 'border border-[var(--color-tertiary)] text-[var(--color-tertiary)]'}`
          }
