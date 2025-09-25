@@ -29,7 +29,7 @@ export const verifyOTP = async (req: Request, res: Response, next: NextFunction)
     res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: 30 * 24 * 60 * 60 * 1000,
       path: "/api/v1/auth",
     });
@@ -63,7 +63,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: cookieMaxAge,
       path: "/api/v1/auth",
     });
@@ -92,7 +92,7 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
     res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: cookieMaxAge,
       path: "/api/v1/auth",
     });
@@ -116,7 +116,7 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
     res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "none",
       path: "/api/v1/auth",
     });
 
