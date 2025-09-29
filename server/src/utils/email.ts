@@ -1,10 +1,11 @@
 import nodemailer from "nodemailer";
-
 import { HttpError } from "./http-error.js";
 import logger from "./logger.js";
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.GOOGLE_APP_EMAIL,
     pass: process.env.GOOGLE_APP_PASSWORD,
