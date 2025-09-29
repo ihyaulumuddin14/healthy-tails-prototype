@@ -10,6 +10,9 @@ const transporter = nodemailer.createTransport({
     user: "apikey",
     pass: process.env.SENDGRID_API_KEY,
   },
+  connectionTimeout: 30000,
+  greetingTimeout: 30000,
+  socketTimeout: 600000
 });
 
 export const sendOTPEmail = async (email: string, otp: string) => {
