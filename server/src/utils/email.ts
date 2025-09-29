@@ -3,18 +3,18 @@ import { HttpError } from "./http-error.js";
 import logger from "./logger.js";
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+  host: "smtp.sendgrid.net",
   port: 587,
   secure: false,
   auth: {
-    user: process.env.GOOGLE_APP_EMAIL,
-    pass: process.env.GOOGLE_APP_PASSWORD,
+    user: "apikey",
+    pass: process.env.SENDGRID_API_KEY,
   },
 });
 
 export const sendOTPEmail = async (email: string, otp: string) => {
   const mailOptions = {
-    from: process.env.GOOGLE_APP_EMAIL,
+    from: process.env.SENDGRID_EMAIL,
     to: email,
     subject: "Healthy Tails - Account Verification OTP",
     text: `Your OTP code is: ${otp}. This code is valid for 5 minutes`,
@@ -32,7 +32,7 @@ export const sendResetLinkEmail = async (email: string, resetToken: string) => {
   const resetLink = `${process.env.RESET_PASSWORD_URL}/${resetToken}`;
 
   const mailOptions = {
-    from: process.env.GOOGLE_APP_EMAIL,
+    from: process.env.SENDGRID_EMAIL,
     to: email,
     subject: "Healthy Tails - Reset Your Password",
     text: `You requested a password reset.\n\nClick the link below to reset it:\n\n${resetLink}\n\nIf you did not request this, ignore this email.`,
