@@ -19,8 +19,7 @@ export async function onSubmitLogin(credential: LoginCredentials): Promise<{
    try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, credential, {
          withCredentials: true,
-         headers: { 'Content-Type': 'application/json' },
-         signal: AbortSignal.timeout(5000)
+         headers: { 'Content-Type': 'application/json' }
       })
 
       return {
@@ -51,8 +50,7 @@ export async function onSubmitRegister(credential: RegisterCredentials): Promise
 
    try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, credential, {
-         headers: { 'Content-Type': 'application/json' },
-         signal: AbortSignal.timeout(5000)
+         headers: { 'Content-Type': 'application/json' }
       })
 
       return { success: true, message: response.data.message }
@@ -76,8 +74,7 @@ export async function onSubmitForgotPassword(credential: ForgotPasswordCredentia
 
    try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`, credential, {
-         headers: { 'Content-Type': 'application/json' },
-         signal: AbortSignal.timeout(5000)
+         headers: { 'Content-Type': 'application/json' }
       })
 
       return { success: true, message: response.data.message }
@@ -100,8 +97,7 @@ export async function onSubmitResendOTP(credential: { email: string }): Promise<
 }> {
    try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/resend-otp`, credential, {
-         headers: { 'Content-Type': 'application/json' },
-         signal: AbortSignal.timeout(5000)
+         headers: { 'Content-Type': 'application/json' }
       })
 
       return { success: true, message: response.data.message }
@@ -127,8 +123,7 @@ export async function onSubmitVerifyOTP(credential: VerifyOTPCredentials): Promi
    try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/verify-otp`, credential, {
          withCredentials: true,
-         headers: { 'Content-Type': 'application/json' },
-         signal: AbortSignal.timeout(5000)
+         headers: { 'Content-Type': 'application/json' }
       })
 
       return { success: true, message: response.data.message, accessToken: response.data.accessToken }
@@ -153,8 +148,7 @@ export async function onSubmitResetPassword(credential: ResetPasswordCredentials
 
    try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`, credential, {
-         headers: { 'Content-Type': 'application/json' },
-         signal: AbortSignal.timeout(5000)
+         headers: { 'Content-Type': 'application/json' }
       })
 
       return { success: true, message: response.data.message }
@@ -179,8 +173,7 @@ export async function onSubmitLogout(): Promise<{
    try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {}, {
          withCredentials: true,
-         headers: { 'Content-Type': 'application/json' },
-         signal: AbortSignal.timeout(5000)
+         headers: { 'Content-Type': 'application/json' }
       })
 
       return { success: true, message: response.data.message }

@@ -30,7 +30,6 @@ async function replaceBaseOnRole(accessToken: string, action: (arg?: string) => 
    showLoadingToast('Redirecting...');
    try {
       api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      console.log(accessToken)
       const response = await api.get('/users/me');
 
       const user = response.data.user;
